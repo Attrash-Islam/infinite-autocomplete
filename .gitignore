@@ -1,0 +1,4 @@
+dist
+.tsDist
+node_modules
+.history

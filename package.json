@@ -2,8 +2,11 @@
   "name": "infinite-autocomplete",
   "version": "1.0.0",
   "description": "lightweight-infinite-autocomplete",
-  "main": "index.js",
+  "main": "./.tsDist/infiniteAutocomplete",
   "scripts": {
+    "build": "rm -rf ./dist && tsc && npm run build:browser",
+    "build:browser": "webpack ./.tsDist/infiniteAutocomplete.js ./dist/index.js --output-library-target=\"umd\"",
+    "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,5 +26,9 @@
   "bugs": {
     "url": "https://github.com/Attrash-Islam/infinite-autocomplete/issues"
   },
-  "homepage": "https://github.com/Attrash-Islam/infinite-autocomplete#readme"
+  "homepage": "https://github.com/Attrash-Islam/infinite-autocomplete#readme",
+  "devDependencies": {
+    "typescript": "2.1.4",
+    "webpack": "1.14.0"
+  }
 }
