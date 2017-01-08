@@ -1,0 +1,27 @@
+{
+  "name": "infinite-autocomplete",
+  "version": "1.0.0",
+  "description": "lightweight-infinite-autocomplete",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Attrash-Islam/infinite-autocomplete.git"
+  },
+  "keywords": [
+    "infinite-autocomplete",
+    "javascript",
+    "autocompelete",
+    "es5",
+    "es6",
+    "typescript"
+  ],
+  "author": "Islam Attrash",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Attrash-Islam/infinite-autocomplete/issues"
+  },
+  "homepage": "https://github.com/Attrash-Islam/infinite-autocomplete#readme"
+}
