@@ -2,10 +2,10 @@
   "name": "infinite-autocomplete",
   "version": "1.0.0",
   "description": "lightweight-infinite-autocomplete",
-  "main": "./.tsDist/infiniteAutocomplete",
+  "main": "./.tsDist/InfiniteAutocomplete",
   "scripts": {
-    "build": "rm -rf ./dist && tsc && npm run build:browser",
-    "build:browser": "webpack ./.tsDist/infiniteAutocomplete.js ./dist/index.js --output-library-target=\"umd\"",
+    "build": "rm -rf ./dist && rm -rf ./.tsDist && tsc && npm run build:browser",
+    "build:browser": "webpack ./.tsDist/InfiniteAutocomplete.js ./dist/index.js --output-library-target=\"umd\"",
     "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
