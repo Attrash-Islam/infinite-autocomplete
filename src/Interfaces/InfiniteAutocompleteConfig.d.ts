@@ -5,6 +5,8 @@ import { InfiniteAutocompleteOption } from './InfiniteAutocompleteOption';
  * @author Islam Attrash
  */
 export interface InfiniteAutocompleteConfig {
-    data:Array<InfiniteAutocompleteOption>;
-    onSelect:Function;
+    data?:Array<InfiniteAutocompleteOption>;
+    onSelect?:Function;
+    onInputChange?:Function;
+    fetchSize?:number;
 }

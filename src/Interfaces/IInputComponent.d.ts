@@ -4,6 +4,10 @@
  * @author Islam Attrash
  */
 export interface IInputComponent {
+    /**
+     * Input component template string
+     * @default `<input />`
+     */
     render():string;
 }
 
@@ -12,5 +16,5 @@ export interface IInputComponent {
  * @author Islam Attrash
  */
 export interface IInputCompoenentConstructor {
-    new ():IInputComponent;
+    new():IInputComponent;
 }

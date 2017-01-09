@@ -7,7 +7,7 @@
         <script src="../dist/index.js"></script>
         <script>
 
-            //This code is the ES6 Class written in ES5 code
+            //This code is the ES6 `class` written in ES5 code
             var CustomizedInput = (function () {
                 function CustomizedInput() {
                 }
@@ -21,7 +21,11 @@
         <script>
             var iniElm = new InfiniteAutocomplete(
                 document.getElementById('test'),
-                {},
+                {
+                    onInputChange: function(value) {
+                        console.log('input changed to: ' + value);
+                    }
+                },
                 CustomizedInput
             );
         </script>
