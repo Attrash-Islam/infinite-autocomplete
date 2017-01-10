@@ -4,8 +4,11 @@
   "description": "lightweight-infinite-autocomplete",
   "main": "./.tsDist/InfiniteAutocomplete",
   "scripts": {
-    "build": "rm -rf ./dist && rm -rf ./.tsDist && tsc && npm run build:browser",
+    "clean": "rm -rf ./dist && rm -rf ./.tsDist",
+    "build": "npm run clean && tsc && npm run build:browser",
+    "build:debug": "npm run clean && tsc && npm run build:browser:debug",
     "build:browser": "webpack ./.tsDist/InfiniteAutocomplete.js ./dist/index.js --output-library-target=\"umd\" -p",
+    "build:browser:debug": "webpack ./.tsDist/InfiniteAutocomplete.js ./dist/index.js --output-library-target=\"umd\" -d",
     "prepublish": "npm run build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

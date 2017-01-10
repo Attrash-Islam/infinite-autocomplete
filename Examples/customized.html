@@ -14,20 +14,40 @@
                 CustomizedInput.prototype.render = function () {
                     return '<input type="text" style="background:red;"/>';
                 };
+                CustomizedInput.prototype.onInputChange = function (inputDOMElement, value) {
+                    console.log(value);
+                };
                 return CustomizedInput;
+            }());
+
+            var OptionComponent = (function () {
+                function OptionComponent(option) {
+                    this.option = option;
+                }
+                OptionComponent.prototype.getText = function () {
+                    return this.option.text;
+                };
+                OptionComponent.prototype.getValue = function () {
+                    return this.option.value;
+                };
+                return OptionComponent;
             }());
             
         </script>
         <script>
             var iniElm = new InfiniteAutocomplete(
                 document.getElementById('test'),
-                {
-                    onInputChange: function(value) {
-                        console.log('input changed to: ' + value);
-                    }
-                },
+                {},
+                OptionComponent,
                 CustomizedInput
             );
+            iniElm.setConfigData([
+                { text: 'first', value: 1},
+                { text: 'second', value: 2},
+                { text: 'theird', value: 3},
+                { text: 'fourth', value: 4},
+                { text: 'fivth', value: 5}
+            ]);
         </script>
     </body>
 </html>

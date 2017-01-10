@@ -1,4 +1,4 @@
-import { InfiniteAutocompleteOption } from './InfiniteAutocompleteOption';
+import { IOptionObject } from './IOption';
 
 /**
  * Results component interface
@@ -6,10 +6,13 @@ import { InfiniteAutocompleteOption } from './InfiniteAutocompleteOption';
  */
 export interface IResultsComponent {
     /**
-     * The list element tag
+     * The list element tag selector
+     * This value can be a tag string `ul` `div` `ol` that indicates tag name,
+     * or it can be a class selector (or id selector) `.myClass`/`#myClass` which is 
+     * returned in @render method template
      * @default `ul`
      */
-    listElementTag:string;
+    listElementSelector:string;
     /**
      * Results component template string
      * @default `<ul></ul>` base list tag
@@ -18,8 +21,9 @@ export interface IResultsComponent {
     /**
      * Option row template string in results component
      * @default `<li> ${value} </li>`
+     * @requires one base HTML Element
      */
-    renderOption(option:InfiniteAutocompleteOption):HTMLElement;
+    renderOption(option:IOptionObject):string;
 }
 
 

@@ -1,0 +1,22 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="test"></div>
+        <script src="../dist/index.js"></script>
+        <script>
+            var iniElm = new InfiniteAutocomplete(
+                document.getElementById('test'),
+                {}
+            );
+            iniElm.setConfigData([
+                { text: 'first', value: 1},
+                { text: 'second', value: 2},
+                { text: 'theird', value: 3},
+                { text: 'fourth', value: 4},
+                { text: 'fivth', value: 5}
+            ]);
+        </script>
+    </body>
+</html>

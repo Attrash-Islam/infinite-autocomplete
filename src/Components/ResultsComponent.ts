@@ -1,5 +1,5 @@
 import { IResultsComponent } from '../Interfaces/IResultsComponent';
-import { InfiniteAutocompleteOption } from '../Interfaces/InfiniteAutocompleteOption';
+import { IOptionObject } from '../Interfaces/IOption';
 
 /**
  * Results component default implementation
@@ -7,7 +7,7 @@ import { InfiniteAutocompleteOption } from '../Interfaces/InfiniteAutocompleteOp
  */
 export class ResultsComponent implements IResultsComponent {
     
-    listElementTag:string = `ul`;
+    listElementSelector:string = `ul`;
 
     constructor() {
 
@@ -15,14 +15,16 @@ export class ResultsComponent implements IResultsComponent {
 
 
     render() {
-        //You can inject code before
-        return `<${this.listElementTag}></${this.listElementTag}>`;
-        //You can inject code after
+        //You can inject template code before
+        return `<${this.listElementSelector}></${this.listElementSelector}>`;
+        //You can inject template code after
     }
 
 
-    renderOption(option:InfiniteAutocompleteOption):HTMLElement {
-        return document.createElement(`li`);
+    renderOption(option:IOptionObject):string {
+        return `<li>
+                    ${option.getText()}
+                </li>`;
     }
     
 }
