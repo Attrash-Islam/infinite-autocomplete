@@ -136,6 +136,28 @@ export class InfiniteAutocomplete {
      */
     onOptionClickEvent(clickEvent:MouseEvent) {
         this.config.onSelect(clickEvent.currentTarget, (clickEvent.currentTarget as any).data);
+        this.clearResultsOptions();
+        this.setInput((clickEvent.currentTarget as any).data.text);
+    }
+
+    /**
+     * Get input HTML element below infinite-autocomplete-input-wrapper
+     * @returns HTMLInputElement
+     */
+    getInputElement():HTMLInputElement {
+        return <HTMLInputElement> this.element
+            .querySelector(`.infinite-autocomplete-input-wrapper`)
+            .querySelector(`input`);
+    }
+
+
+    /**
+     * Set input shown text
+     * @param text
+     */
+    setInput(text:string) {
+        this.getInputElement()
+            .value = text;
     }
 
 
@@ -158,7 +180,7 @@ export class InfiniteAutocomplete {
                 let tempElement = document.createElement(`div`);
                 tempElement.innerHTML = optionElementTemplate;
                 let optionElement = tempElement.childNodes[0];
-                (optionElement as any).data = option.getValue();
+                (optionElement as any).data = { text: option.getText(), value: option.getValue() };
                 (<HTMLElement> optionElement).setAttribute('infinite-clickable', '');
                 optionElement.addEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
                 optionListElement.appendChild(optionElement);
