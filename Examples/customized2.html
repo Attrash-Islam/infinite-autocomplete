@@ -1,0 +1,74 @@
+<html>
+    <head>
+
+    </head>
+    <body>
+        <div id="test"></div>
+        <script src="../dist/index.debug.js"></script>
+        <script>
+
+            //This code is the ES6 `class` written in ES5 code
+            var CustomizedInput = (function () {
+                function CustomizedInput() {
+                }
+                CustomizedInput.prototype.render = function () {
+                    return '<div>Start typing!</div><input type="text" style="background:red;"/>';
+                };
+                CustomizedInput.prototype.onInputChange = function (inputDOMElement, value) {
+                    console.log(value);
+                };
+                return CustomizedInput;
+            }());
+
+            var OptionComponent = (function () {
+                function OptionComponent(option) {
+                    this.option = option;
+                }
+                OptionComponent.prototype.getText = function () {
+                    return this.option.myText;
+                };
+                OptionComponent.prototype.getValue = function () {
+                    return this.option.myValue;
+                };
+                return OptionComponent;
+            }());
+
+            var ResultsComponent = (function () {
+                function ResultsComponent() {
+                    this.listElementSelector = ".myList";
+                }
+                ResultsComponent.prototype.render = function () {
+                    //You can inject template code before
+                    return "<div>Options:</div><div class='myList'></div>";
+                    //You can inject template code after
+                };
+                ResultsComponent.prototype.renderOption = function (option) {
+                    return "<li style='font-weight:bold;'>" + option.getText() + "</li>";
+                };
+                return ResultsComponent;
+            }());
+
+            
+        </script>
+        <script>
+            var iniElm = new InfiniteAutocomplete(
+                document.getElementById('test'),
+                {
+                    onSelect: function() {
+                        console.log(arguments);
+                    }
+                },
+                OptionComponent,
+                CustomizedInput,
+                ResultsComponent
+            );
+            iniElm.setConfigData([
+                { myText: 'first', myValue: 1},
+                { myText: 'second', myValue: 2},
+                { myText: 'theird', myValue: 3},
+                { myText: 'fourth', myValue: 4},
+                { myText: 'fivth', myValue: 5}
+            ]);
+        </script>
+    </body>
+</html>
