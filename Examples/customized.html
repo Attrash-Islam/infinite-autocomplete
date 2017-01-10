@@ -4,7 +4,7 @@
     </head>
     <body>
         <div id="test"></div>
-        <script src="../dist/index.js"></script>
+        <script src="../dist/index.debug.js"></script>
         <script>
 
             //This code is the ES6 `class` written in ES5 code
@@ -25,10 +25,10 @@
                     this.option = option;
                 }
                 OptionComponent.prototype.getText = function () {
-                    return this.option.text;
+                    return this.option.myText;
                 };
                 OptionComponent.prototype.getValue = function () {
-                    return this.option.value;
+                    return this.option.myValue;
                 };
                 return OptionComponent;
             }());
@@ -42,11 +42,11 @@
                 CustomizedInput
             );
             iniElm.setConfigData([
-                { text: 'first', value: 1},
-                { text: 'second', value: 2},
-                { text: 'theird', value: 3},
-                { text: 'fourth', value: 4},
-                { text: 'fivth', value: 5}
+                { myText: 'first', myValue: 1},
+                { myText: 'second', myValue: 2},
+                { myText: 'theird', myValue: 3},
+                { myText: 'fourth', myValue: 4},
+                { myText: 'fivth', myValue: 5}
             ]);
         </script>
     </body>

@@ -103,13 +103,14 @@ export class InfiniteAutocomplete {
     /**
      * Clears the options list tag
      */
-    clearResultsOptions() {
+    clearResultsOptions():HTMLElement {
         let optionListElement = <HTMLElement> this.element
             .querySelector(`.infinite-autocomplete-results-wrapper`)
             .querySelector(this.resultsComponent.listElementSelector);
         
         optionListElement.style.display = `none`;
         optionListElement.innerHTML = ``;
+        return optionListElement;
     }
 
 
@@ -118,11 +119,7 @@ export class InfiniteAutocomplete {
      * @param text - Text to search on in the autocomplete
      */
     buildResultsOptions(text:string) {
-        let optionListElement = <HTMLElement> this.element
-            .querySelector(`.infinite-autocomplete-results-wrapper`)
-            .querySelector(this.resultsComponent.listElementSelector);
-
-        optionListElement.innerHTML = ``;
+        let optionListElement = this.clearResultsOptions();
 
         this.config.data
             .map(option => new this.optionComponent(option))
