@@ -122,10 +122,22 @@ export class InfiniteAutocomplete {
      * @returns HTMLElement
      */
     getResultsOptionsBaseElement():HTMLElement {
-        return <HTMLElement> this.element
-            .querySelector(`.infinite-autocomplete-results-wrapper`)
-            .querySelector(this.resultsComponent.listElementSelector);
+        const resultsWrapperErrorMsg = `Couldn't get the results options base element. Issue a bug @ https://github.com/Attrash-Islam/infinite-autocomplete`;
+        if(this.element) {
+            let resultsWrapper = this.element
+                .querySelector(`.infinite-autocomplete-results-wrapper`);
+            if(resultsWrapper) {
+                    return <HTMLElement> resultsWrapper
+                         .querySelector(this.resultsComponent.listElementSelector);
+                } else {
+                    throw resultsWrapperErrorMsg;
+                }
+        } else {
+            throw resultsWrapperErrorMsg;
+        }
+        
     }
+
 
     /**
      * Detaching the event handler over the option elements
@@ -141,7 +153,9 @@ export class InfiniteAutocomplete {
      * @param clickEvent
      */
     onOptionClickEvent(clickEvent:MouseEvent) {
-        this.config.onSelect(clickEvent.currentTarget, (clickEvent.currentTarget as any).data);
+        if(this.config.onSelect) {
+            this.config.onSelect(clickEvent.currentTarget, (clickEvent.currentTarget as any).data);
+        }
         this.clearResultsOptions();
         this.setInput((clickEvent.currentTarget as any).data.text);
     }
@@ -151,9 +165,19 @@ export class InfiniteAutocomplete {
      * @returns HTMLInputElement
      */
     getInputElement():HTMLInputElement {
-        return <HTMLInputElement> this.element
-            .querySelector(`.infinite-autocomplete-input-wrapper`)
-            .querySelector(`input`);
+        const inputElementErrorMsg = `Couldn't get the input element. Issue a bug @ https://github.com/Attrash-Islam/infinite-autocomplete`;
+        if(this.element) {
+            let inputWrapper = this.element
+                .querySelector(`.infinite-autocomplete-input-wrapper`);
+            if(inputWrapper) {
+                return <HTMLInputElement> inputWrapper
+                    .querySelector(`input`);
+            } else {
+                throw inputElementErrorMsg;
+            }
+        } else {
+            throw inputElementErrorMsg;
+        }
     }
 
 
@@ -176,21 +200,25 @@ export class InfiniteAutocomplete {
             this.getResultsOptionsBaseElement()
                 .querySelectorAll(`[infinite-clickable]`)
         );
+
         let optionListElement = this.clearResultsOptions();
 
-        this.config.data
-            .map(option => new this.optionComponent(option))
-            .filter(option => option.getText().toLowerCase().indexOf(text.toLowerCase()) !== -1)
-            .forEach((option) => {
-                let optionElementTemplate = this.resultsComponent.renderOption(option);
-                let tempElement = document.createElement(`div`);
-                tempElement.innerHTML = optionElementTemplate;
-                let optionElement = tempElement.childNodes[0];
-                (optionElement as any).data = { text: option.getText(), value: option.getValue() };
-                (<HTMLElement> optionElement).setAttribute('infinite-clickable', '');
-                optionElement.addEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
-                optionListElement.appendChild(optionElement);
-        });
+        if(this.config.data) {
+            this.config.data
+                .map(option => new this.optionComponent(option))
+                .filter(option => option.getText().toLowerCase().indexOf(text.toLowerCase()) !== -1)
+                .forEach((option) => {
+                    let optionElementTemplate = this.resultsComponent.renderOption(option);
+                    let tempElement = document.createElement(`div`);
+                    tempElement.innerHTML = optionElementTemplate;
+                    let optionElement = tempElement.childNodes[0];
+                    (optionElement as any).data = { text: option.getText(), value: option.getValue() };
+                    (<HTMLElement> optionElement).setAttribute('infinite-clickable', '');
+                    optionElement.addEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
+                    optionListElement.appendChild(optionElement);
+            });
+        }
+        
         
         if(optionListElement.innerHTML !== ``) {
             optionListElement.style.display = ``;
