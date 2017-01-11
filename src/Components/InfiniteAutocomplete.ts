@@ -46,6 +46,12 @@ export class InfiniteAutocomplete {
      * Initialize hook that get executed immediatly after using the infinite-autocomplete component
      */
     init() {
+        this.element.className = this.element
+            .className
+            .split(` `)
+            .concat([`infinite-autocomplete-wrapper`])
+            .filter(c => c)
+            .join(` `);
         this.linkInputComponent();
         this.linkResultsComponent();
     }
