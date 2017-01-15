@@ -3,8 +3,8 @@
  * infinite-autocomplete option object interface
  * @author Islam Attrash
  */
-export interface IOptionObject extends Object {
-    option:Object;
+export interface IOptionObject {
+    option:any;
     getText():string;
     getValue():any;
 }
@@ -14,5 +14,5 @@ export interface IOptionObject extends Object {
  * @author Islam Attrash
  */
 export interface IOptionObjectConstructor {
-    new(option:Object):IOptionObject
+    new(option:any):IOptionObject
 }

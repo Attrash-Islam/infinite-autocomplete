@@ -5,18 +5,21 @@ import { InfiniteAutocompleteConfig } from '../Interfaces/InfiniteAutocompleteCo
 import { IInputComponent, IInputCompoenentConstructor } from '../Interfaces/IInputComponent';
 import { IResultsComponent, IResultsComponentConstructor } from '../Interfaces/IResultsComponent';
 import { IOptionObjectConstructor, IOptionObject } from '../Interfaces/IOption';
+import { IInfiniteAutocomplete } from '../Interfaces/IInfiniteAutocomplete';
 
 /**
  * infinite-autocomplete component implementation
  * @author Islam Attrash
  */
-export class InfiniteAutocomplete {
+export class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
     private element:HTMLElement;
     private inputComponent:IInputComponent;
     private resultsComponent:IResultsComponent;
     private optionComponent:IOptionObjectConstructor;
-    private config:InfiniteAutocompleteConfig = {
+    private page:number = 1;
+    private config:InfiniteAutocompleteConfig;
+    private defaultConfig:InfiniteAutocompleteConfig = {
         data: [],
         fetchSize: 10
     };
@@ -35,7 +38,7 @@ export class InfiniteAutocomplete {
                 inputComponent:IInputCompoenentConstructor = defaultInput,
                 resultsComponent:IResultsComponentConstructor = defaultResults) {
         this.element = element;
-        this.config = config;
+        this.config = { ...this.defaultConfig , ...config };
         this.optionComponent = optionComponent;
         this.inputComponent = new inputComponent();
         this.resultsComponent = new resultsComponent();
@@ -46,14 +49,26 @@ export class InfiniteAutocomplete {
      * Initialize hook that get executed immediatly after using the infinite-autocomplete component
      */
     init() {
+        this.appendInfiniteAutocompleteWrapperClass();
+        this.linkInputComponent();
+        this.linkResultsComponent();
+    }
+
+
+    appendInfiniteAutocompleteWrapperClass() {
         this.element.className = this.element
             .className
             .split(` `)
             .concat([`infinite-autocomplete-wrapper`])
             .filter(c => c)
             .join(` `);
-        this.linkInputComponent();
-        this.linkResultsComponent();
+    }
+
+    /**
+     * Reset current page
+     */
+    resetCurrentPage() {
+        this.page = 1;
     }
 
     /**
@@ -72,9 +87,11 @@ export class InfiniteAutocomplete {
 
     /**
      * Input component `change` event handler
+     * @param inputChangeEvent - Input change event handler
      */
     onInputChange(inputChangeEvent:Event) {
         let target = <HTMLInputElement> inputChangeEvent.currentTarget;
+        this.resetCurrentPage();
         if(this.inputComponent.onInputChange) {
             this.inputComponent.onInputChange(target, target.value);
         }
@@ -85,12 +102,13 @@ export class InfiniteAutocomplete {
         }
     }
 
+
     /**
-     * Set the config data array
-     * @param data - infinite-autocomplete result options list
+     * Set the config object with extending
+     * @param config - infinite-autocomplete configuration object
      */
-    setConfigData(data:Array<IOptionObject>) {
-        this.config.data = data;
+    setConfig(config:InfiniteAutocompleteConfig) {
+        this.config = {...this.config, ...config};
     }
 
 
@@ -107,14 +125,18 @@ export class InfiniteAutocomplete {
     }
 
     /**
-     * Clears the options list tag
+     * Clears the options list tag with removing the click event handlers (Garbage collecting)
      */
-    clearResultsOptions():HTMLElement {
+    clearResultsOptions() {
+        this.detachClickEventHandlers(
+            this.getResultsOptionsBaseElement()
+                .querySelectorAll(`[infinite-clickable]`)
+        );
+
         let optionListElement = this.getResultsOptionsBaseElement();
         
         optionListElement.style.display = `none`;
         optionListElement.innerHTML = ``;
-        return optionListElement;
     }
 
     /**
@@ -190,42 +212,70 @@ export class InfiniteAutocomplete {
             .value = text;
     }
 
+    /**
+     * Get data based on text, page and fetchSize
+     * @param text
+     * @param page
+     * @param fetchSize
+     */
+    async getData(text:string, page:number, fetchSize:number):Promise<IOptionObject[]> {
+        const dataSourceMissingException = `You must pass data or getDataFromApi function via config`;
+        if(this.config.data) {
+            let from = (page - 1) * fetchSize;
+            let to = (fetchSize * (page - 1)) + fetchSize;
+
+            return this.config.data
+                .map(option => new this.optionComponent(option))
+                .filter(option => option.getText().toLowerCase().indexOf(text.toLowerCase()) !== -1)
+                .slice(from, to);
+        } else if(this.config.getDataFromApi) {
+            let apiData = await this.config.getDataFromApi(text, page, fetchSize);
+            return apiData.map(option => new this.optionComponent(option));
+        } else {
+            throw dataSourceMissingException;
+        }
+    }
+
 
     /**
      * Build the options inner tags in options list tag based on the text passed and the data in config
      * @param text - Text to search on in the autocomplete
+     * @param clearPreviousData - Flag to clear previous results and override with the new one
      */
-    buildResultsOptions(text:string) {
-        this.detachClickEventHandlers(
-            this.getResultsOptionsBaseElement()
-                .querySelectorAll(`[infinite-clickable]`)
-        );
+    async buildResultsOptions(text:string, clearPreviousData:boolean = true) {
+        const fetchSizeException:string = `fetchSize must be overriden with correct numeric value`;
 
-        let optionListElement = this.clearResultsOptions();
+        let optionListElement = this.getResultsOptionsBaseElement();
+        if(clearPreviousData) {
+            this.clearResultsOptions();
+        }
 
-        if(this.config.data) {
-            this.config.data
-                .map(option => new this.optionComponent(option))
-                .filter(option => option.getText().toLowerCase().indexOf(text.toLowerCase()) !== -1)
+
+        if(this.config.fetchSize) {
+
+            let filteredResults = await this.getData(text, this.page, this.config.fetchSize);
+
+            filteredResults
                 .forEach((option) => {
-                    let optionElementTemplate = this.resultsComponent.renderOption(option);
-                    let tempElement = document.createElement(`div`);
-                    tempElement.innerHTML = optionElementTemplate;
-                    let optionElement = tempElement.childNodes[0];
-                    (optionElement as any).data = { text: option.getText(), value: option.getValue() };
-                    (<HTMLElement> optionElement).setAttribute('infinite-clickable', '');
-                    optionElement.addEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
-                    optionListElement.appendChild(optionElement);
-            });
-        }
-        
-        
-        if(optionListElement.innerHTML !== ``) {
-            optionListElement.style.display = ``;
-        } else {
-            optionListElement.style.display = `none`;
-        }
+                        let optionElementTemplate = this.resultsComponent.renderOption(option);
+                        let tempElement = document.createElement(`div`);
+                        tempElement.innerHTML = optionElementTemplate;
+                        let optionElement = tempElement.childNodes[0];
+                        (optionElement as any).data = { text: option.getText(), value: option.getValue() };
+                        (<HTMLElement> optionElement).setAttribute('infinite-clickable', '');
+                        optionElement.addEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
+                        optionListElement.appendChild(optionElement);
+                });
 
+            if(optionListElement.innerHTML !== ``) {
+                optionListElement.style.display = ``;
+            } else {
+                optionListElement.style.display = `none`;
+            }
+
+        } else {
+            throw fetchSizeException;
+        }
     }
 
 }

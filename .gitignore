@@ -1,5 +1,5 @@
 dist
-.tsDist
 node_modules
 .history
 .vscode
+coverage

@@ -7,11 +7,11 @@ import { IOptionObject } from '../Interfaces/IOption';
  */
 export class OptionComponent implements IOptionObject {
     
-    option:Object;
+    option:any;
     private text:string;
     private value:any;
 
-    constructor(option:Object) {
+    constructor(option:any) {
         this.option = option;
     }
 
