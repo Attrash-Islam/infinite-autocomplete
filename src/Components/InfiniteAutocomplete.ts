@@ -29,6 +29,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Enabling pluggable system linked with Interfaces only
      * @param element - HTMLElement to append the infinite-autocomplete in it
      * @param config - InfiniteAutocomplete config options
+     * @param optionComponent - Option component implementation to be injected (or default)
      * @param inputComponent - Input component implementation to be injected (or default)
      * @param resultsComponent - Results component implementation to be injected (or default)
      */
@@ -55,6 +56,9 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     }
 
 
+    /**
+     * Append infinite autocomplete main wrapper className
+     */
     appendInfiniteAutocompleteWrapperClass() {
         this.element.className = this.element
             .className
@@ -63,6 +67,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             .filter(c => c)
             .join(` `);
     }
+
 
     /**
      * Reset current page
