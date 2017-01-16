@@ -6,6 +6,8 @@
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "npm run clean && npm run build:umd && npm run build:umd:debug",
+    "watch": "npm run clean && npm run build:watch",
+    "build:watch": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.debug.js --output-library-target=\"umd\" -d --watch",
     "build:umd": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.js --output-library-target=\"umd\" -p --config webpack.production.config.js",
     "build:umd:debug": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.debug.js --output-library-target=\"umd\" -d",
     "prepublish": "npm run build",
