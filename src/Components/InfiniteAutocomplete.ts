@@ -21,7 +21,8 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private config:InfiniteAutocompleteConfig;
     private defaultConfig:InfiniteAutocompleteConfig = {
         data: [],
-        fetchSize: 10
+        fetchSize: 10,
+        maxHeight: '160px'
     };
 
     /**
@@ -86,6 +87,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         let inputEle = <HTMLElement> inputWrapperEle.querySelector(`input`);
         inputEle
             .addEventListener(`input`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
+        inputEle.style.width = '100%';
         this.element.appendChild(inputWrapperEle);
     }
     
@@ -126,6 +128,8 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         resultsWrapperEle.innerHTML = this.resultsComponent.render();
         let resultsEle = <HTMLElement> resultsWrapperEle.querySelector(this.resultsComponent.listElementSelector);
         resultsEle.style.display = `none`;
+        resultsEle.style.overflow = `scroll`;
+        resultsEle.style.maxHeight = this.config.maxHeight || null;
         this.element.appendChild(resultsWrapperEle);
     }
 
