@@ -134,28 +134,38 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         this.element.appendChild(resultsWrapperEle);
     }
 
-
+    
     /**
      * Binds a scroll event handler on the results options
      */
     bindScrollReachBottomEvent() {
         let resultsEle = this.getResultsOptionsBaseElement();
-        resultsEle.addEventListener(`scroll`, (e) => {
-            if(!this.fetchingData && !this.preventMoreRequests) {
-                if(resultsEle.scrollTop + resultsEle.clientHeight >= resultsEle.scrollHeight) {
-                    this.page++;
-                    this.buildResultsOptions(
-                        this.getInputElement().value, 
-                        false
-                    );
-                }
-            }
-        });
+        resultsEle.addEventListener(`scroll`, this.scrollReachedBottomHandler.bind(this));
     }
 
 
     /**
-     * Clears the options list tag with removing the click event handlers (Garbage collecting)
+     * Scroll reached bottom handler
+     * @param e - Scroll event object
+     */
+    scrollReachedBottomHandler(e:Event) {
+        let resultsEle = <HTMLElement> e.currentTarget;
+        if(!this.fetchingData && !this.preventMoreRequests) {
+            if(resultsEle.scrollTop + resultsEle.clientHeight >= resultsEle.scrollHeight) {
+                this.page++;
+                this.buildResultsOptions(
+                    this.getInputElement().value, 
+                    false
+                );
+            }
+        }
+    }
+
+
+    /**
+     * Clears the options list tag with removing the click event handlers 
+     * unbind the `scroll` event from the results options
+     * (Garbage collecting)
      */
     clearResultsOptions() {
         this.detachClickEventHandlers(
@@ -163,6 +173,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                 .querySelectorAll(`[infinite-clickable]`)
         );
         this.resetCurrentPage();
+        this.preventMoreRequests = false;
 
         let optionListElement = this.getResultsOptionsBaseElement();
         
@@ -250,12 +261,11 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param fetchSize
      */
     async getData(text:string, page:number, fetchSize:number):Promise<IOptionObject[]> {
-        this.fetchingData = true;
         const dataSourceMissingException = `You must pass data or getDataFromApi function via config`;
         if(this.config.data) {
+            this.fetchingData = true;
             let from = (page - 1) * fetchSize;
             let to = (fetchSize * (page - 1)) + fetchSize;
-
             this.fetchingData = false;
 
             return this.config.data
@@ -263,11 +273,11 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                 .filter(option => option.getText().toLowerCase().indexOf(text.toLowerCase()) !== -1)
                 .slice(from, to);
         } else if(this.config.getDataFromApi) {
+            this.fetchingData = true;
             let apiData = await this.config.getDataFromApi(text, page, fetchSize);
             this.fetchingData = false;
             return apiData.map(option => new this.optionComponent(option));
         } else {
-            this.fetchingData = false;
             throw dataSourceMissingException;
         }
     }
@@ -293,7 +303,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             let filteredResults = await this.getData(text, this.page, this.config.fetchSize);
 
             if(filteredResults.length < this.config.fetchSize) {
-                //Stop fetching whenever you get less than the chunk fetch size
+                //Stop fetching more chunks whenever you get less than the chunk fetch size
                 this.preventMoreRequests = true;
             }
 
