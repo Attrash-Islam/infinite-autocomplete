@@ -75,6 +75,7 @@
             var iniElm = new InfiniteAutocomplete(
                 document.getElementById('test'),
                 {
+                    fetchSize: 6,
                     onSelect: function() {
                         console.log(arguments);
                     }

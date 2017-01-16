@@ -19,6 +19,8 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private optionComponent:IOptionObjectConstructor;
     private page:number = 1;
     private config:InfiniteAutocompleteConfig;
+    private preventMoreRequests:boolean = false;
+    private fetchingData:boolean = false;
     private defaultConfig:InfiniteAutocompleteConfig = {
         data: [],
         fetchSize: 10,
@@ -54,6 +56,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         this.appendInfiniteAutocompleteWrapperClass();
         this.linkInputComponent();
         this.linkResultsComponent();
+        this.bindScrollReachBottomEvent();
     }
 
 
@@ -98,13 +101,11 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     onInputChange(inputChangeEvent:Event) {
         let target = <HTMLInputElement> inputChangeEvent.currentTarget;
-        this.resetCurrentPage();
         if(this.inputComponent.onInputChange) {
             this.inputComponent.onInputChange(target, target.value);
         }
-        if(!target.value) {
-            this.clearResultsOptions();
-        } else {
+        this.clearResultsOptions();
+        if(target.value) {
             this.buildResultsOptions(target.value);
         }
     }
@@ -133,6 +134,26 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         this.element.appendChild(resultsWrapperEle);
     }
 
+
+    /**
+     * Binds a scroll event handler on the results options
+     */
+    bindScrollReachBottomEvent() {
+        let resultsEle = this.getResultsOptionsBaseElement();
+        resultsEle.addEventListener(`scroll`, (e) => {
+            if(!this.fetchingData && !this.preventMoreRequests) {
+                if(resultsEle.scrollTop + resultsEle.clientHeight >= resultsEle.scrollHeight) {
+                    this.page++;
+                    this.buildResultsOptions(
+                        this.getInputElement().value, 
+                        false
+                    );
+                }
+            }
+        });
+    }
+
+
     /**
      * Clears the options list tag with removing the click event handlers (Garbage collecting)
      */
@@ -141,6 +162,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             this.getResultsOptionsBaseElement()
                 .querySelectorAll(`[infinite-clickable]`)
         );
+        this.resetCurrentPage();
 
         let optionListElement = this.getResultsOptionsBaseElement();
         
@@ -228,10 +250,13 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param fetchSize
      */
     async getData(text:string, page:number, fetchSize:number):Promise<IOptionObject[]> {
+        this.fetchingData = true;
         const dataSourceMissingException = `You must pass data or getDataFromApi function via config`;
         if(this.config.data) {
             let from = (page - 1) * fetchSize;
             let to = (fetchSize * (page - 1)) + fetchSize;
+
+            this.fetchingData = false;
 
             return this.config.data
                 .map(option => new this.optionComponent(option))
@@ -239,8 +264,10 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                 .slice(from, to);
         } else if(this.config.getDataFromApi) {
             let apiData = await this.config.getDataFromApi(text, page, fetchSize);
+            this.fetchingData = false;
             return apiData.map(option => new this.optionComponent(option));
         } else {
+            this.fetchingData = false;
             throw dataSourceMissingException;
         }
     }
@@ -252,6 +279,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param clearPreviousData - Flag to clear previous results and override with the new one
      */
     async buildResultsOptions(text:string, clearPreviousData:boolean = true) {
+        console.log(`called build with${clearPreviousData ? '' : 'out'} clearing, with text: ${text}, and page: ${this.page}`);
         const fetchSizeException:string = `fetchSize must be overriden with correct numeric value`;
 
         let optionListElement = this.getResultsOptionsBaseElement();
@@ -263,6 +291,11 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         if(this.config.fetchSize) {
 
             let filteredResults = await this.getData(text, this.page, this.config.fetchSize);
+
+            if(filteredResults.length < this.config.fetchSize) {
+                //Stop fetching whenever you get less than the chunk fetch size
+                this.preventMoreRequests = true;
+            }
 
             filteredResults
                 .forEach((option) => {

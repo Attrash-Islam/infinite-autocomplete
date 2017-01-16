@@ -9,6 +9,11 @@ export interface IInputComponent {
      * @default `<input />`
      */
     render():string;
+    /**
+     * onInputChange event handler
+     * @param inputElement - HTMLInputElement
+     * @param value - input text value
+     */
     onInputChange?(inputElement:HTMLInputElement, value:string);
 }
 
