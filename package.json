@@ -15,6 +15,9 @@
     "type": "git",
     "url": "git+https://github.com/Attrash-Islam/infinite-autocomplete.git"
   },
+  "files": [
+    "dist/"
+  ],
   "keywords": [
     "infinite-autocomplete",
     "javascript",
