@@ -1,6 +1,27 @@
 <html>
     <head>
-
+        <style>
+            .infinite-autocomplete-input-wrapper input {
+                height: 38px;
+                border-radius: 8px;
+                box-shadow: inset 0px 0px 15px -4px transparent;
+            }
+            .infinite-autocomplete-results-wrapper ul {
+                list-style-type: none;
+                margin-top: 0;
+                padding-left: 0;
+            }
+            .infinite-autocomplete-results-wrapper ul li {
+                padding-bottom: 10px;
+                padding-left: 10px;
+            }
+            .infinite-autocomplete-results-wrapper ul li:hover {
+                font-weight: bold;
+                background: black;
+                color: white;
+                cursor: pointer;
+            }
+        </style>
     </head>
     <body>
         <div id="test" class="my-own-class"></div>
@@ -39,7 +60,7 @@
                 }
                 ResultsComponent.prototype.render = function () {
                     //You can inject template code before
-                    return "<div>Options:</div><div class='myList'></div>";
+                    return "<ul class='myList'></ul>";
                     //You can inject template code after
                 };
                 ResultsComponent.prototype.renderOption = function (option) {
