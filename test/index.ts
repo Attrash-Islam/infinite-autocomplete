@@ -1,6 +1,2 @@
-
-describe(`inital test configuration`, function() {
-    it(`true`, function() {
-        expect(true).toBe(true);
-    })
-});
+import './Input/input.test';
+import './Options/options.test';

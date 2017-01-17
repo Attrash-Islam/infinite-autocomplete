@@ -36,7 +36,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param resultsComponent - Results component implementation to be injected (or default)
      */
     constructor(element:HTMLElement, 
-                config:InfiniteAutocompleteConfig,
+                config?:InfiniteAutocompleteConfig,
                 optionComponent:IOptionObjectConstructor = defaultOption,
                 inputComponent:IInputCompoenentConstructor = defaultInput,
                 resultsComponent:IResultsComponentConstructor = defaultResults) {
@@ -185,7 +185,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @returns HTMLElement
      */
     getResultsOptionsBaseElement():HTMLElement {
-        const resultsWrapperErrorMsg = `Couldn't get the results options base element. Issue a bug @ https://github.com/Attrash-Islam/infinite-autocomplete`;
+        const resultsWrapperExceptionMsg = `Couldn't get the results options base element.`;
         if(this.element) {
             let resultsWrapper = this.element
                 .querySelector(`.infinite-autocomplete-results-wrapper`);
@@ -193,10 +193,10 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                     return <HTMLElement> resultsWrapper
                          .querySelector(this.resultsComponent.listElementSelector);
                 } else {
-                    throw resultsWrapperErrorMsg;
+                    throw resultsWrapperExceptionMsg;
                 }
         } else {
-            throw resultsWrapperErrorMsg;
+            throw resultsWrapperExceptionMsg;
         }
         
     }
@@ -228,7 +228,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @returns HTMLInputElement
      */
     getInputElement():HTMLInputElement {
-        const inputElementErrorMsg = `Couldn't get the input element. Issue a bug @ https://github.com/Attrash-Islam/infinite-autocomplete`;
+        const inputElementExceptionMsg = `Couldn't get the input element.`;
         if(this.element) {
             let inputWrapper = this.element
                 .querySelector(`.infinite-autocomplete-input-wrapper`);
@@ -236,10 +236,10 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                 return <HTMLInputElement> inputWrapper
                     .querySelector(`input`);
             } else {
-                throw inputElementErrorMsg;
+                throw inputElementExceptionMsg;
             }
         } else {
-            throw inputElementErrorMsg;
+            throw inputElementExceptionMsg;
         }
     }
 
@@ -260,7 +260,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param fetchSize
      */
     async getData(text:string, page:number, fetchSize:number):Promise<IOptionObject[]> {
-        const dataSourceMissingException = `You must pass data or getDataFromApi function via config`;
+        const dataSourceMissingExceptionMsg = `You must pass data or getDataFromApi function via config`;
         if(this.config.data) {
             this.fetchingData = true;
             let from = (page - 1) * fetchSize;
@@ -277,7 +277,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             this.fetchingData = false;
             return apiData.map(option => new this.optionComponent(option));
         } else {
-            throw dataSourceMissingException;
+            throw dataSourceMissingExceptionMsg;
         }
     }
 
@@ -289,7 +289,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     async buildResultsOptions(text:string, clearPreviousData:boolean = true) {
         console.log(`called build with${clearPreviousData ? '' : 'out'} clearing, with text: ${text}, and page: ${this.page}`);
-        const fetchSizeException:string = `fetchSize must be overriden with correct numeric value`;
+        const fetchSizeExceptionMsg:string = `fetchSize must be overriden with correct numeric value`;
 
         let optionListElement = this.getResultsOptionsBaseElement();
         if(clearPreviousData) {
@@ -325,7 +325,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             }
 
         } else {
-            throw fetchSizeException;
+            throw fetchSizeExceptionMsg;
         }
     }
 
