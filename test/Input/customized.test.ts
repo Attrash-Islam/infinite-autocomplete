@@ -1,6 +1,7 @@
 import { InfiniteAutocomplete } from '../../src/Components/InfiniteAutocomplete';
 import { template } from './Customization/template';
 import { inputHandlers } from './Customization/inputHandlers';
+import { TestUtils } from '../Utils/index';
 
 describe(`Customized Input implementation: `, function() {
 
@@ -42,15 +43,11 @@ describe(`Customized Input implementation: `, function() {
             var input = <HTMLInputElement> infinite.querySelector(`input`);
 
             //Simulate typing into the input element
-            input.value = 'T';
-            var typingT = new Event('input');
-            input.dispatchEvent(typingT);
+            TestUtils.typeLetter(input, 'T');
             expect(inputHandlers.prototype.onInputChange)
                 .toHaveBeenCalledWith(input, 'T');
 
-            input.value = 'Tf';
-            var typingF = new Event('input');
-            input.dispatchEvent(typingF);
+            TestUtils.typeLetter(input, 'f');
             expect(inputHandlers.prototype.onInputChange)
                 .toHaveBeenCalledWith(input, 'Tf');
         });

@@ -296,9 +296,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             this.clearResultsOptions();
         }
 
-
         if(this.config.fetchSize) {
-
             let filteredResults = await this.getData(text, this.page, this.config.fetchSize);
 
             if(filteredResults.length < this.config.fetchSize) {
