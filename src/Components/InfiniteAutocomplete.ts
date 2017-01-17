@@ -22,7 +22,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private preventMoreRequests:boolean = false;
     private fetchingData:boolean = false;
     private defaultConfig:InfiniteAutocompleteConfig = {
-        data: [],
         fetchSize: 10,
         maxHeight: '160px'
     };

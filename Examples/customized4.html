@@ -1,0 +1,103 @@
+<html>
+    <head>
+        <style>
+            .infinite-autocomplete-input-wrapper input {
+                height: 38px;
+                border-radius: 8px;
+                box-shadow: inset 0px 0px 15px -4px transparent;
+            }
+            .infinite-autocomplete-results-wrapper ul {
+                list-style-type: none;
+                margin-top: 0;
+                padding-left: 0;
+            }
+            .infinite-autocomplete-results-wrapper ul li {
+                padding-bottom: 10px;
+                padding-left: 10px;
+            }
+            .infinite-autocomplete-results-wrapper ul li:hover {
+                font-weight: bold;
+                background: black;
+                color: white;
+                cursor: pointer;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="test" class="my-own-class"></div>
+        <script src="../dist/index.debug.js"></script>
+        <script>
+
+            //This code is the ES6 `class` written in ES5 code
+            var CustomizedInput = (function () {
+                function CustomizedInput() {
+                }
+                CustomizedInput.prototype.render = function () {
+                    return '<div>Start typing!</div><input type="text" />';
+                };
+                CustomizedInput.prototype.onInputChange = function (inputDOMElement, value) {
+                    console.log(value);
+                };
+                return CustomizedInput;
+            }());
+
+            var OptionComponent = (function () {
+                function OptionComponent(option) {
+                    this.option = option;
+                }
+                OptionComponent.prototype.getText = function () {
+                    return this.option.text;
+                };
+                OptionComponent.prototype.getValue = function () {
+                    return this.option.value;
+                };
+                return OptionComponent;
+            }());
+
+            var ResultsComponent = (function () {
+                function ResultsComponent() {
+                    this.listElementSelector = ".myList";
+                }
+                ResultsComponent.prototype.render = function () {
+                    //You can inject template code before
+                    return "<ul class='myList'></ul>";
+                    //You can inject template code after
+                };
+                ResultsComponent.prototype.renderOption = function (option) {
+                    return "<li style='font-weight:bold;'>" + option.getText() + "</li>";
+                };
+                return ResultsComponent;
+            }());
+
+            
+        </script>
+        <script>
+            var iniElm = new InfiniteAutocomplete(
+                document.getElementById('test'),
+                {
+                    fetchSize: 6,
+                    onSelect: function() {
+                        console.log(arguments);
+                    }
+                },
+                OptionComponent,
+                CustomizedInput,
+                ResultsComponent
+            );
+            iniElm.setConfig({
+                getDataFromApi: function(text, page, fetchSize) {
+                    return new Promise(function(resolve, reject) {
+                        function reqListener () {
+                            resolve(JSON.parse(this.responseText));
+                        }
+
+                        var oReq = new XMLHttpRequest();
+                        oReq.addEventListener("load", reqListener);
+                        oReq.open("GET", "http://localhost:5000/data?text="+ text + "&page=" + page + "&fetchSize=" + fetchSize);
+                        oReq.send();
+                    });
+                }
+            });
+        </script>
+    </body>
+</html>
