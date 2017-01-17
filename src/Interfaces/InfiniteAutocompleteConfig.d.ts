@@ -1,4 +1,5 @@
 import { IOptionObject } from './IOption';
+import { Promise as es6Promise } from 'es6-promise';
 
 /**
  * infinite-autocomplete config interface
@@ -24,5 +25,5 @@ export interface InfiniteAutocompleteConfig {
     /**
      * data dynamic api source
      */
-    getDataFromApi?(text:string, page:number, fetchSize:number):Promise<Array<any>>;
+    getDataFromApi?(text:string, page:number, fetchSize:number):es6Promise<Array<any>>;
 }

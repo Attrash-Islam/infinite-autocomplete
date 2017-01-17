@@ -5,9 +5,6 @@ module.exports = function (config) {
 		basePath: '',
 		frameworks: ['jasmine'],
 		logLevel: config.LOG_INFO,
-		client: {
-    		captureConsole: true
-		},
 		browsers: ['PhantomJS'],
 		singleRun: true,
 		reporters: ['dots'], 

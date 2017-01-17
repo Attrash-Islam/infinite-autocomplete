@@ -35,7 +35,6 @@
   },
   "homepage": "https://github.com/Attrash-Islam/infinite-autocomplete#readme",
   "devDependencies": {
-    "@types/es6-promise": "0.0.32",
     "@types/jasmine": "2.5.40",
     "jasmine": "2.5.3",
     "karma": "1.3.0",
@@ -47,5 +46,7 @@
     "typescript": "2.1.5",
     "webpack": "1.14.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "es6-promise": "4.0.5"
+  }
 }

@@ -6,6 +6,7 @@ import { IInputComponent, IInputCompoenentConstructor } from '../Interfaces/IInp
 import { IResultsComponent, IResultsComponentConstructor } from '../Interfaces/IResultsComponent';
 import { IOptionObjectConstructor, IOptionObject } from '../Interfaces/IOption';
 import { IInfiniteAutocomplete } from '../Interfaces/IInfiniteAutocomplete';
+import { Promise as es6Promise } from 'es6-promise';
 
 /**
  * infinite-autocomplete component implementation
@@ -259,7 +260,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param page
      * @param fetchSize
      */
-    async getData(text:string, page:number, fetchSize:number):Promise<IOptionObject[]> {
+    async getData(text:string, page:number, fetchSize:number):es6Promise<IOptionObject[]> {
         const dataSourceMissingExceptionMsg = `You must pass data or getDataFromApi function via config`;
         if(this.config.data) {
             this.fetchingData = true;
@@ -287,8 +288,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param text - Text to search on in the autocomplete
      * @param clearPreviousData - Flag to clear previous results and override with the new one
      */
-    async buildResultsOptions(text:string, clearPreviousData:boolean = true) {
-        console.log(`called build with${clearPreviousData ? '' : 'out'} clearing, with text: ${text}, and page: ${this.page}`);
+    async buildResultsOptions(text:string, clearPreviousData:boolean = true):es6Promise<void> {
         const fetchSizeExceptionMsg:string = `fetchSize must be overriden with correct numeric value`;
 
         let optionListElement = this.getResultsOptionsBaseElement();
