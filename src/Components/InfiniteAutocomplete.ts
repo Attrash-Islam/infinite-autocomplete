@@ -7,6 +7,7 @@ import { IResultsComponent, IResultsComponentConstructor } from '../Interfaces/I
 import { IOptionObjectConstructor, IOptionObject } from '../Interfaces/IOption';
 import { IInfiniteAutocomplete } from '../Interfaces/IInfiniteAutocomplete';
 import { Promise as es6Promise } from 'es6-promise';
+import { Utils } from '../Utils/index';
 
 /**
  * infinite-autocomplete component implementation
@@ -186,7 +187,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @returns HTMLElement
      */
     getResultsOptionsBaseElement():HTMLElement {
-        const resultsWrapperExceptionMsg = `Couldn't get the results options base element.`;
+        const resultsWrapperExceptionMsg = new Error(`Couldn't get the results options base element.`);
         if(this.element) {
             let resultsWrapper = this.element
                 .querySelector(`.infinite-autocomplete-results-wrapper`);
@@ -194,9 +195,11 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                     return <HTMLElement> resultsWrapper
                          .querySelector(this.resultsComponent.listElementSelector);
                 } else {
+                    Utils.throwErrorInConsole(resultsWrapperExceptionMsg);
                     throw resultsWrapperExceptionMsg;
                 }
         } else {
+            Utils.throwErrorInConsole(resultsWrapperExceptionMsg);
             throw resultsWrapperExceptionMsg;
         }
         
@@ -229,7 +232,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @returns HTMLInputElement
      */
     getInputElement():HTMLInputElement {
-        const inputElementExceptionMsg = `Couldn't get the input element.`;
+        const inputElementExceptionMsg = new Error(`Couldn't get the input element.`);
         if(this.element) {
             let inputWrapper = this.element
                 .querySelector(`.infinite-autocomplete-input-wrapper`);
@@ -237,9 +240,11 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                 return <HTMLInputElement> inputWrapper
                     .querySelector(`input`);
             } else {
+                Utils.throwErrorInConsole(inputElementExceptionMsg);
                 throw inputElementExceptionMsg;
             }
         } else {
+            Utils.throwErrorInConsole(inputElementExceptionMsg);
             throw inputElementExceptionMsg;
         }
     }
@@ -261,7 +266,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param fetchSize
      */
     async getData(text:string, page:number, fetchSize:number):es6Promise<IOptionObject[]> {
-        const dataSourceMissingExceptionMsg = `You must pass data or getDataFromApi function via config`;
+        const dataSourceMissingExceptionMsg = new Error (`You must pass data or getDataFromApi function via config`);
         if(this.config.data) {
             this.fetchingData = true;
             let from = (page - 1) * fetchSize;
@@ -278,6 +283,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             this.fetchingData = false;
             return apiData.map(option => new this.optionComponent(option));
         } else {
+            Utils.throwErrorInConsole(dataSourceMissingExceptionMsg);
             throw dataSourceMissingExceptionMsg;
         }
     }
@@ -289,7 +295,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param clearPreviousData - Flag to clear previous results and override with the new one
      */
     async buildResultsOptions(text:string, clearPreviousData:boolean = true):es6Promise<void> {
-        const fetchSizeExceptionMsg:string = `fetchSize must be overriden with correct numeric value`;
+        const fetchSizeExceptionMsg = new Error(`fetchSize must be overriden with correct numeric value`);
 
         let optionListElement = this.getResultsOptionsBaseElement();
         if(clearPreviousData) {
@@ -323,6 +329,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             }
 
         } else {
+            Utils.throwErrorInConsole(fetchSizeExceptionMsg);
             throw fetchSizeExceptionMsg;
         }
     }
