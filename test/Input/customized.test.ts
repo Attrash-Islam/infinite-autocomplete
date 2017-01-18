@@ -14,7 +14,9 @@ describe(`Customized Input implementation: `, function() {
 
         it(`The rendered input should be replaced with the custom red input`, function() {
             var infinite = document.createElement('div');
-            new InfiniteAutocomplete(infinite, undefined, template);
+            new InfiniteAutocomplete(infinite, {
+                customizedInput: template
+            });
             var redInput = <HTMLElement> infinite.querySelector(`input`);
             if(redInput) {
                 expect(redInput.style.background)
@@ -26,7 +28,9 @@ describe(`Customized Input implementation: `, function() {
 
         it(`The rendered input should and 'before-input' and 'after-input' elements`, function() {
             var infinite = document.createElement('div');
-            new InfiniteAutocomplete(infinite, undefined, template);
+            new InfiniteAutocomplete(infinite, {
+                customizedInput: template
+            });
             var inputWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-input-wrapper`);
             if(inputWrapper) {
                 expect(inputWrapper.children[0].id)
@@ -45,7 +49,7 @@ describe(`Customized Input implementation: `, function() {
         it(`onInputChange method should be executed in customized input if supplied`, function() {
             var infinite = document.createElement('div');
             spyOn(inputHandlers.prototype, 'onInputChange').and.returnValue('');
-            new InfiniteAutocomplete(infinite, undefined, inputHandlers);
+            new InfiniteAutocomplete(infinite, { customizedInput: inputHandlers });
             var input = <HTMLInputElement> infinite.querySelector(`input`);
 
             //Simulate typing into the input element

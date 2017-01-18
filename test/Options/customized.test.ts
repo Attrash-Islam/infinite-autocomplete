@@ -53,7 +53,9 @@ describe(`Customized options results template: `, function() {
     it(`The rendered results options template must be replaced 
             with the customized one`, function() {
         var infinite = document.createElement('div');
-        var iniElm = new InfiniteAutocomplete(infinite, undefined, undefined, template);
+        var iniElm = new InfiniteAutocomplete(infinite, {
+            customizedOptions: template
+        });
         var resultsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-results-wrapper`);
         var titleBeforeList = <HTMLElement> resultsWrapper.querySelectorAll(`div`)[0];
         expect(titleBeforeList.innerText)
@@ -73,8 +75,9 @@ describe(`Customized options results template: `, function() {
                 { text: 'theird', value: 3 },
                 { text: 'fourth', value: 4 },
                 { text: 'fivth', value: 5 }
-            ]
-        }, undefined, template);
+            ],
+            customizedOptions: template
+        });
         var resultsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-results-wrapper`);
         var myList = resultsWrapper.querySelectorAll(`div`)[1];
         TestUtils.typeLetter(<HTMLInputElement> infinite.querySelector(`input`), 'i');

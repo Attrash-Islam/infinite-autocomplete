@@ -6,6 +6,7 @@ import { IResultsComponent, IResultsComponentConstructor } from '../Interfaces/I
 import { IInfiniteAutocomplete } from '../Interfaces/IInfiniteAutocomplete';
 import { Promise as es6Promise } from 'es6-promise';
 import { Utils } from '../Utils/index';
+import { InfiniteAutocompleteConfigParams } from '../Interfaces/InfiniteAutocompleteConfigParams';
 
 /**
  * infinite-autocomplete component implementation
@@ -20,11 +21,17 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private config:InfiniteAutocompleteConfig;
     private preventMoreRequests:boolean = false;
     private fetchingData:boolean = false;
+
+    /**
+     * Default configuration object
+     */
     private defaultConfig:InfiniteAutocompleteConfig = {
         fetchSize: 10,
-        maxHeight: '160px'
+        maxHeight: '160px',
+        customizedInput: defaultInput,
+        customizedOptions: defaultResults
     };
-
+    
     /**
      * constructor for InfiniteAutocomplete class
      * Enabling pluggable system linked with Interfaces only
@@ -34,16 +41,14 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param inputComponent - Input component implementation to be injected (or default)
      * @param resultsComponent - Results component implementation to be injected (or default)
      */
-    constructor(element:HTMLElement, 
-                config?:InfiniteAutocompleteConfig,
-                inputComponent:IInputCompoenentConstructor = defaultInput,
-                resultsComponent:IResultsComponentConstructor = defaultResults) {
+    constructor(element:HTMLElement, config?:InfiniteAutocompleteConfigParams) {
         this.element = element;
-        this.config = { ...this.defaultConfig , ...config };
-        this.inputComponent = new inputComponent();
-        this.resultsComponent = new resultsComponent();
+        this.config = { ...this.defaultConfig, ...config };
+        this.inputComponent = new this.config.customizedInput();
+        this.resultsComponent = new this.config.customizedOptions();
         this.init();
     }
+
 
     /**
      * Initialize hook that get executed immediatly after using the infinite-autocomplete component
@@ -111,7 +116,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Set the config object with extending
      * @param config - infinite-autocomplete configuration object
      */
-    setConfig(config:InfiniteAutocompleteConfig) {
+    setConfig(config:InfiniteAutocompleteConfigParams) {
         this.config = {...this.config, ...config};
     }
 

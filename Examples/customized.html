@@ -25,8 +25,9 @@
         <script>
             var iniElm = new InfiniteAutocomplete(
                 document.getElementById('test'),
-                {},
-                CustomizedInput
+                {
+                    CustomizedInput: CustomizedInput
+                }
             );
             iniElm.setConfig({data:[
                 { text: 'first', value: 1},

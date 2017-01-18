@@ -4,20 +4,20 @@ import { IResultsComponentConstructor } from './IResultsComponent';
 import { InfiniteAutocompleteConfigBase } from './InfiniteAutocompleteConfigBase';
 
 /**
- * infinite-autocomplete config interface
+ * infinite-autocomplete config params interface
  * @author Islam Attrash
  */
-export interface InfiniteAutocompleteConfig extends InfiniteAutocompleteConfigBase {
+export interface InfiniteAutocompleteConfigParams extends InfiniteAutocompleteConfigBase {
     /**
      * Chunk fetch size
      */
-    fetchSize:number;
+    fetchSize?:number,
     /**
      * Customized input class to override the default input
      */
-    customizedInput:IInputCompoenentConstructor;
+    customizedInput?:IInputCompoenentConstructor;
     /**
      * Customized options (results) class to override the default input
      */
-    customizedOptions:IResultsComponentConstructor;
+    customizedOptions?:IResultsComponentConstructor;
 }

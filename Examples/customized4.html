@@ -65,10 +65,10 @@
                     fetchSize: 6,
                     onSelect: function() {
                         console.log(arguments);
-                    }
-                },
-                CustomizedInput,
-                ResultsComponent
+                    },
+                    customizedInput: CustomizedInput,
+                    customizedOptions: ResultsComponent
+                }
             );
             iniElm.setConfig({
                 getDataFromApi: function(text, page, fetchSize) {
