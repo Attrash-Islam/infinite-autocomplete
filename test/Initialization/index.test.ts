@@ -1,6 +1,9 @@
 import { InfiniteAutocomplete } from '../../src/Components/InfiniteAutocomplete';
 import { TestUtils } from '../Utils/index';
 import { Promise as es6Promise } from 'es6-promise';
+import { InputComponent as defaultInput } from '../../src/Components/InputComponent';
+import { OptionsComponent as defaultOptions } from '../../src/Components/OptionsComponent';
+import {template} from '../Input/Customization/template';
 
 describe(`Initialization: `, function() {
 
@@ -34,6 +37,36 @@ describe(`Initialization: `, function() {
             data: [{ text: 'text', value: 'value '}]
         });
         expect((iniEle as any).page).toBe(1);
+    });
+
+
+    it(`passing only data configuration should extend the defaults not override them`, function() {
+        var infinite = document.createElement('div');
+        var iniEle = new InfiniteAutocomplete(infinite, {
+            data: [{ text: 'text', value: 'value '}]
+        });
+        //Passing config shouldn't override the fetchSize default configuration
+        expect((iniEle as any).config).toEqual(jasmine.objectContaining({
+            fetchSize: 10
+        }));
+        //Passing config shouldn't empty the default input configuration
+        expect((iniEle as any).config.customizedInput)
+            .toEqual(defaultInput);
+        //Passing config shouldn't empty the default options configuration
+        expect((iniEle as any).config.customizedOptions)
+            .toEqual(defaultOptions);
+    });
+
+    it(`passing customized input should override the default input implementation`, function() {
+        var infinite = document.createElement('div');
+        
+        var iniEle = new InfiniteAutocomplete(infinite, {
+            customizedInput: template
+        });
+        
+        //Passing custom input implementation should override the default input configuration
+        expect((iniEle as any).config.customizedInput)
+            .not.toEqual(defaultInput);
     });
 
 });

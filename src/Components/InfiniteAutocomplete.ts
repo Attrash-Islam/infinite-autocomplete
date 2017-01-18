@@ -1,5 +1,5 @@
 import { InputComponent as defaultInput } from './InputComponent';
-import { OptionsComponent as defaultResults } from './OptionsComponent';
+import { OptionsComponent as defaultOptions } from './OptionsComponent';
 import { InfiniteAutocompleteConfig } from '../Interfaces/InfiniteAutocompleteConfig';
 import { IInputComponent, IInputCompoenentConstructor } from '../Interfaces/IInputComponent';
 import { IResultsComponent, IResultsComponentConstructor } from '../Interfaces/IResultsComponent';
@@ -29,7 +29,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         fetchSize: 10,
         maxHeight: '160px',
         customizedInput: defaultInput,
-        customizedOptions: defaultResults
+        customizedOptions: defaultOptions
     };
     
     /**
