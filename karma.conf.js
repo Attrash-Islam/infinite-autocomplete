@@ -28,8 +28,10 @@ module.exports = function (config) {
 			'test/index.ts': ['webpack']
 		},
 		coverageReporter: {
-			type: 'lcovonly',
-			dir: 'coverage/'
+			reporters: [
+				{ type: 'lcovonly', dir: 'coverage/' },
+				{ type: 'text-summary' }
+			]
 		},
 		mime: {
 			'text/x-typescript': ['ts']
