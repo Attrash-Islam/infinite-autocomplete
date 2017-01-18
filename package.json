@@ -19,7 +19,8 @@
     "url": "git+https://github.com/Attrash-Islam/infinite-autocomplete.git"
   },
   "files": [
-    "dist/"
+    "dist/",
+    "src/Interfaces"
   ],
   "keywords": [
     "infinite-autocomplete",
