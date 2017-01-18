@@ -64,4 +64,32 @@ describe(`Customized options results template: `, function() {
             .toBe(`myList`);
     });
 
+    it(`The rendered option row template must be replaced 
+            with the customized one`, async function(done):es6Promise<any> {
+        var infinite = document.createElement('div');
+        var iniElm = new InfiniteAutocomplete(infinite, {
+            data: [
+                { mySpecialText: 'first', mySpecialValue: 1 },
+                { mySpecialText: 'second', mySpecialValue: 2 },
+                { mySpecialText: 'theird', mySpecialValue: 3 },
+                { mySpecialText: 'fourth', mySpecialValue: 4 },
+                { mySpecialText: 'fivth', mySpecialValue: 5 }
+            ]
+        }, myTextValue, undefined, template);
+        var resultsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-results-wrapper`);
+        var myList = resultsWrapper.querySelectorAll(`div`)[1];
+        TestUtils.typeLetter(<HTMLInputElement> infinite.querySelector(`input`), 'i');
+        await TestUtils.sleep(0);
+        var rows = <NodeListOf<HTMLElement>> myList.querySelectorAll(`div`);
+        expect(rows.length)
+            .toBe(3);
+        for(var i = 0; i < rows.length; i++) {
+            expect(rows[i].style.fontWeight)
+                .toBe(`bold`);
+            expect(rows[i].innerText)
+                .toContain('i');
+        }
+        done();
+    });
+
 });
