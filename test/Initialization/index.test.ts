@@ -34,8 +34,6 @@ describe(`Initialization: `, function() {
             data: [{ text: 'text', value: 'value '}]
         });
         expect((iniEle as any).page).toBe(1);
-        TestUtils.typeLetter(<HTMLInputElement> infinite.querySelector(`input`), `t`);
-        expect((iniEle as any).page).toBe(1);
     });
 
 });
