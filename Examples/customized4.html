@@ -41,19 +41,19 @@
                 return CustomizedInput;
             }());
 
-            var ResultsComponent = (function () {
-                function ResultsComponent() {
+            var OptionsComponent = (function () {
+                function OptionsComponent() {
                     this.listElementSelector = ".myList";
                 }
-                ResultsComponent.prototype.render = function () {
+                OptionsComponent.prototype.render = function () {
                     //You can inject template code before
                     return "<ul class='myList'></ul>";
                     //You can inject template code after
                 };
-                ResultsComponent.prototype.renderOption = function (option) {
+                OptionsComponent.prototype.renderOption = function (option) {
                     return "<li style='font-weight:bold;'>" + option.text + "</li>";
                 };
-                return ResultsComponent;
+                return OptionsComponent;
             }());
 
             
@@ -67,7 +67,7 @@
                         console.log(arguments);
                     },
                     customizedInput: CustomizedInput,
-                    customizedOptions: ResultsComponent
+                    customizedOptions: OptionsComponent
                 }
             );
             iniElm.setConfig({

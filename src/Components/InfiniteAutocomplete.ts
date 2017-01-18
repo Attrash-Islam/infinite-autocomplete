@@ -1,5 +1,5 @@
 import { InputComponent as defaultInput } from './InputComponent';
-import { ResultsComponent as defaultResults } from './ResultsComponent';
+import { OptionsComponent as defaultResults } from './OptionsComponent';
 import { InfiniteAutocompleteConfig } from '../Interfaces/InfiniteAutocompleteConfig';
 import { IInputComponent, IInputCompoenentConstructor } from '../Interfaces/IInputComponent';
 import { IResultsComponent, IResultsComponentConstructor } from '../Interfaces/IResultsComponent';
@@ -16,7 +16,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
     private element:HTMLElement;
     private inputComponent:IInputComponent;
-    private resultsComponent:IResultsComponent;
+    private optionsComponent:IResultsComponent;
     private page:number = 1;
     private config:InfiniteAutocompleteConfig;
     private preventMoreRequests:boolean = false;
@@ -39,13 +39,13 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param config - InfiniteAutocomplete config options
      * @param optionComponent - Option component implementation to be injected (or default)
      * @param inputComponent - Input component implementation to be injected (or default)
-     * @param resultsComponent - Results component implementation to be injected (or default)
+     * @param optionsComponent - Results component implementation to be injected (or default)
      */
     constructor(element:HTMLElement, config?:InfiniteAutocompleteConfigParams) {
         this.element = element;
         this.config = { ...this.defaultConfig, ...config };
         this.inputComponent = new this.config.customizedInput();
-        this.resultsComponent = new this.config.customizedOptions();
+        this.optionsComponent = new this.config.customizedOptions();
         this.init();
     }
 
@@ -127,8 +127,8 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private linkResultsComponent() {
         let resultsWrapperEle = document.createElement(`div`);
         resultsWrapperEle.className = `infinite-autocomplete-results-wrapper`;
-        resultsWrapperEle.innerHTML = this.resultsComponent.render();
-        let resultsEle = <HTMLElement> resultsWrapperEle.querySelector(this.resultsComponent.listElementSelector);
+        resultsWrapperEle.innerHTML = this.optionsComponent.render();
+        let resultsEle = <HTMLElement> resultsWrapperEle.querySelector(this.optionsComponent.listElementSelector);
         resultsEle.style.display = `none`;
         resultsEle.style.overflow = `scroll`;
         resultsEle.style.maxHeight = this.config.maxHeight || null;
@@ -193,7 +193,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                 .querySelector(`.infinite-autocomplete-results-wrapper`);
             if(resultsWrapper) {
                     return <HTMLElement> resultsWrapper
-                         .querySelector(this.resultsComponent.listElementSelector);
+                         .querySelector(this.optionsComponent.listElementSelector);
                 } else {
                     Utils.throwErrorInConsole(resultsWrapperExceptionMsg);
                     throw resultsWrapperExceptionMsg;
@@ -311,7 +311,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
             filteredResults
                 .forEach((option) => {
-                        let optionElementTemplate = this.resultsComponent.renderOption(option);
+                        let optionElementTemplate = this.optionsComponent.renderOption(option);
                         let tempElement = document.createElement(`div`);
                         tempElement.innerHTML = optionElementTemplate;
                         let optionElement = tempElement.childNodes[0];
