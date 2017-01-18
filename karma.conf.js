@@ -1,13 +1,25 @@
 var webpackConf = require('./webpack.config.js');
 
+webpackConf.entry = {};
+webpackConf.module.postLoaders = [
+    {
+        test: /\.ts$/,
+        loader: 'istanbul-instrumenter-loader',
+        exclude: [
+            'node_modules',
+			/test/
+        ]
+    }
+];
+
 module.exports = function (config) {
 	config.set({
 		basePath: '',
-		frameworks: ['jasmine'],
+		frameworks: ['jasmine', 'source-map-support'],
 		logLevel: config.LOG_INFO,
 		browsers: ['PhantomJS'], 
 		singleRun: true,
-		reporters: ['dots'], 
+		reporters: ['dots', 'coverage'], 
 		files: [
 			'test/index.ts'
 		],
@@ -16,7 +28,7 @@ module.exports = function (config) {
 			'test/index.ts': ['webpack']
 		},
 		coverageReporter: {
-			type: 'lcov',
+			type: 'lcovonly',
 			dir: 'coverage/'
 		},
 		mime: {
