@@ -21,8 +21,24 @@ export class TestUtils {
         input.dispatchEvent(typingEvent);
     }
 
+
+    /**
+     * Simulate click event on element
+     * @param element - HTMLElement
+     */
+    static clickOnElement(element:HTMLElement) {
+        var clickEvent = new Event('click');
+        element.dispatchEvent(clickEvent);
+    }
     
+
+    /**
+     * Block code until async finished
+     * @param ms - Time in milliseconds
+     * @returns Promise<any>
+     */
     static sleep(ms:number):es6Promise<any> {
         return new es6Promise(resolve => setTimeout(resolve, ms));
     }
+
 }

@@ -132,5 +132,63 @@ describe(`Options Default implementation: `, function() {
 
             done();
         });
+
+        describe(`Selecting an option: `, function() {
+
+            it(`should update the input value with the clicked one`, 
+                async function (done):es6Promise<any> {
+                    var infinite = document.createElement('div');
+                    var iniElm = new InfiniteAutocomplete(infinite);
+
+                    iniElm.setConfig({data: [
+                        { text: 'first', value: 1},
+                        { text: 'second', value: 2},
+                        { text: 'theird', value: 3},
+                        { text: 'fourth', value: 4},
+                        { text: 'fivth', value: 5}
+                    ]});
+
+                    var input = <HTMLInputElement> infinite.querySelector(`input`);
+                    TestUtils.typeLetter(input, 'd');
+                    await TestUtils.sleep(0);
+                    var secondOption = <HTMLElement> infinite.querySelectorAll(`li`)[0];
+                    TestUtils.clickOnElement(secondOption);
+                    expect(input.value)
+                        .toBe(`second`);
+                    done();
+            });
+        });
+
+        describe(`onSelect function in configuration: `, function() {
+
+            it(`Passed onSelect function in configuration should be executed when selecting option, 
+                    and will receive as arguments the selected DOM element and it's text and value`, 
+                async function (done):es6Promise<any> {
+                    var infinite = document.createElement('div');
+                    var iniElm = new InfiniteAutocomplete(infinite);
+                    var object = {
+                        spiedFunction: function() {}
+                    };
+
+                    spyOn(object, 'spiedFunction');
+
+                    iniElm.setConfig({data: [
+                        { text: 'first', value: 1},
+                        { text: 'second', value: 2},
+                        { text: 'theird', value: 3},
+                        { text: 'fourth', value: 4},
+                        { text: 'fivth', value: 5}
+                    ], onSelect: object.spiedFunction});
+
+                    var input = <HTMLInputElement> infinite.querySelector(`input`);
+                    TestUtils.typeLetter(input, 'r');
+                    await TestUtils.sleep(0);
+                    var fourthOption = <HTMLElement> infinite.querySelectorAll(`li`)[2];
+                    TestUtils.clickOnElement(fourthOption);
+                    expect(object.spiedFunction)
+                        .toHaveBeenCalledWith(fourthOption, {text: 'fourth', value: 4});
+                    done();
+            });
+        });
     });
 });
