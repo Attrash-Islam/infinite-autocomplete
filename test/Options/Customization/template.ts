@@ -1,5 +1,4 @@
 import { IResultsComponent } from '../../../src/Interfaces/IResultsComponent';
-import { IOptionObject } from '../../../src/Interfaces/IOption';
 
 export class template implements IResultsComponent {
 
@@ -13,8 +12,8 @@ export class template implements IResultsComponent {
         return `<div>Options:</div><div class='myList'></div>`;
     }
 
-    renderOption(option:IOptionObject) {
-        return `<div style='font-weight:bold;'>"${option.getText()}</div>`;
+    renderOption(option:any) {
+        return `<div style='font-weight:bold;'>"${option.text}</div>`;
     }
 
 }

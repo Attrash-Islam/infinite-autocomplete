@@ -20,18 +20,6 @@
                 return CustomizedInput;
             }());
 
-            var OptionComponent = (function () {
-                function OptionComponent(option) {
-                    this.option = option;
-                }
-                OptionComponent.prototype.getText = function () {
-                    return this.option.myText;
-                };
-                OptionComponent.prototype.getValue = function () {
-                    return this.option.myValue;
-                };
-                return OptionComponent;
-            }());
 
             var ResultsComponent = (function () {
                 function ResultsComponent() {
@@ -43,7 +31,7 @@
                     //You can inject template code after
                 };
                 ResultsComponent.prototype.renderOption = function (option) {
-                    return "<li style='font-weight:bold;'>" + option.getText() + "</li>";
+                    return "<li style='font-weight:bold;'>" + option.text + "</li>";
                 };
                 return ResultsComponent;
             }());
@@ -58,16 +46,15 @@
                         console.log(arguments);
                     }
                 },
-                OptionComponent,
                 CustomizedInput,
                 ResultsComponent
             );
             iniElm.setConfig({data:[
-                { myText: 'first', myValue: 1},
-                { myText: 'second', myValue: 2},
-                { myText: 'theird', myValue: 3},
-                { myText: 'fourth', myValue: 4},
-                { myText: 'fivth', myValue: 5}
+                { text: 'first', value: 1},
+                { text: 'second', value: 2},
+                { text: 'theird', value: 3},
+                { text: 'fourth', value: 4},
+                { text: 'fivth', value: 5}
             ]});
         </script>
     </body>

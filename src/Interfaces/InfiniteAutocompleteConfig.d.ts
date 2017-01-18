@@ -1,4 +1,3 @@
-import { IOptionObject } from './IOption';
 import { Promise as es6Promise } from 'es6-promise';
 
 /**

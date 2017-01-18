@@ -41,19 +41,6 @@
                 return CustomizedInput;
             }());
 
-            var OptionComponent = (function () {
-                function OptionComponent(option) {
-                    this.option = option;
-                }
-                OptionComponent.prototype.getText = function () {
-                    return this.option.myText;
-                };
-                OptionComponent.prototype.getValue = function () {
-                    return this.option.myValue;
-                };
-                return OptionComponent;
-            }());
-
             var ResultsComponent = (function () {
                 function ResultsComponent() {
                     this.listElementSelector = ".myList";
@@ -64,7 +51,7 @@
                     //You can inject template code after
                 };
                 ResultsComponent.prototype.renderOption = function (option) {
-                    return "<li style='font-weight:bold;'>" + option.getText() + "</li>";
+                    return "<li style='font-weight:bold;'>" + option.text + "</li>";
                 };
                 return ResultsComponent;
             }());
@@ -80,33 +67,32 @@
                         console.log(arguments);
                     }
                 },
-                OptionComponent,
                 CustomizedInput,
                 ResultsComponent
             );
             iniElm.setConfig({data:[
-                { myText: 'ine', myValue: 1},
-                { myText: 'iwo', myValue: 2},
-                { myText: 'ihree', myValue: 3},
-                { myText: 'iour', myValue: 4},
-                { myText: 'iive', myValue: 5},
-                { myText: 'iix', myValue: 6},
-                { myText: 'ieven', myValue: 7},
-                { myText: 'iight', myValue: 8},
-                { myText: 'iine', myValue: 9},
-                { myText: 'ien', myValue: 10},
-                { myText: 'islam', myValue: 11},
-                { myText: 'iabel', myValue: 12},
-                { myText: 'iife', myValue: '13'},
-                { myText: 'iodeing', myValue: '14'},
-                { myText: 'iove', myValue: '15'},
-                { myText: 'iike', myValue: '16'},
-                { myText: 'iumans', myValue: null},
-                { myText: 'iomething', myValue: 17},
-                { myText: 'iypescript', myValue: 'whooo? whoo?'},
-                { myText: 'iinux', myValue: [1,2,3]},
-                { myText: 'iernel', myValue: {object: true}},
-                { myText: 'what!', myValue: 'what'}
+                { text: 'ine', value: 1},
+                { text: 'iwo', value: 2},
+                { text: 'ihree', value: 3},
+                { text: 'iour', value: 4},
+                { text: 'iive', value: 5},
+                { text: 'iix', value: 6},
+                { text: 'ieven', value: 7},
+                { text: 'iight', value: 8},
+                { text: 'iine', value: 9},
+                { text: 'ien', value: 10},
+                { text: 'islam', value: 11},
+                { text: 'iabel', value: 12},
+                { text: 'iife', value: '13'},
+                { text: 'iodeing', value: '14'},
+                { text: 'iove', value: '15'},
+                { text: 'iike', value: '16'},
+                { text: 'iumans', value: null},
+                { text: 'iomething', value: 17},
+                { text: 'iypescript', value: 'whooo? whoo?'},
+                { text: 'iinux', value: [1,2,3]},
+                { text: 'iernel', value: {object: true}},
+                { text: 'what!', value: 'what'}
             ]});
         </script>
     </body>

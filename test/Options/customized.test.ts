@@ -1,5 +1,4 @@
 import { InfiniteAutocomplete } from '../../src/Components/InfiniteAutocomplete';
-import { myTextValue } from './Customization/myTextValue';
 import { TestUtils } from '../Utils/index';
 import { Promise as es6Promise } from 'es6-promise';
 import { template } from './Customization/template';
@@ -9,13 +8,13 @@ describe(`Customized Option object implementation: `, function() {
     it(`should fetch text and value based on my IOptionObject implementation logic`, 
         async function(done):es6Promise<any> {
             var infinite = document.createElement('div');
-            var iniElm = new InfiniteAutocomplete(infinite, undefined, myTextValue);
+            var iniElm = new InfiniteAutocomplete(infinite);
             iniElm.setConfig({data: [
-                    { mySpecialText: 'first', mySpecialValue: 1},
-                    { mySpecialText: 'second', mySpecialValue: 2},
-                    { mySpecialText: 'theird', mySpecialValue: 3},
-                    { mySpecialText: 'fourth', mySpecialValue: 4},
-                    { mySpecialText: 'fivth', mySpecialValue: 5}
+                    { text: 'first', value: 1},
+                    { text: 'second', value: 2},
+                    { text: 'theird', value: 3},
+                    { text: 'fourth', value: 4},
+                    { text: 'fivth', value: 5}
                 ]});
 
                 var input = <HTMLInputElement> infinite.querySelector(`input`);
@@ -54,7 +53,7 @@ describe(`Customized options results template: `, function() {
     it(`The rendered results options template must be replaced 
             with the customized one`, function() {
         var infinite = document.createElement('div');
-        var iniElm = new InfiniteAutocomplete(infinite, undefined, myTextValue, undefined, template);
+        var iniElm = new InfiniteAutocomplete(infinite, undefined, undefined, template);
         var resultsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-results-wrapper`);
         var titleBeforeList = <HTMLElement> resultsWrapper.querySelectorAll(`div`)[0];
         expect(titleBeforeList.innerText)
@@ -69,13 +68,13 @@ describe(`Customized options results template: `, function() {
         var infinite = document.createElement('div');
         var iniElm = new InfiniteAutocomplete(infinite, {
             data: [
-                { mySpecialText: 'first', mySpecialValue: 1 },
-                { mySpecialText: 'second', mySpecialValue: 2 },
-                { mySpecialText: 'theird', mySpecialValue: 3 },
-                { mySpecialText: 'fourth', mySpecialValue: 4 },
-                { mySpecialText: 'fivth', mySpecialValue: 5 }
+                { text: 'first', value: 1 },
+                { text: 'second', value: 2 },
+                { text: 'theird', value: 3 },
+                { text: 'fourth', value: 4 },
+                { text: 'fivth', value: 5 }
             ]
-        }, myTextValue, undefined, template);
+        }, undefined, template);
         var resultsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-results-wrapper`);
         var myList = resultsWrapper.querySelectorAll(`div`)[1];
         TestUtils.typeLetter(<HTMLInputElement> infinite.querySelector(`input`), 'i');

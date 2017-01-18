@@ -41,19 +41,6 @@
                 return CustomizedInput;
             }());
 
-            var OptionComponent = (function () {
-                function OptionComponent(option) {
-                    this.option = option;
-                }
-                OptionComponent.prototype.getText = function () {
-                    return this.option.text;
-                };
-                OptionComponent.prototype.getValue = function () {
-                    return this.option.value;
-                };
-                return OptionComponent;
-            }());
-
             var ResultsComponent = (function () {
                 function ResultsComponent() {
                     this.listElementSelector = ".myList";
@@ -64,7 +51,7 @@
                     //You can inject template code after
                 };
                 ResultsComponent.prototype.renderOption = function (option) {
-                    return "<li style='font-weight:bold;'>" + option.getText() + "</li>";
+                    return "<li style='font-weight:bold;'>" + option.text + "</li>";
                 };
                 return ResultsComponent;
             }());
@@ -80,7 +67,6 @@
                         console.log(arguments);
                     }
                 },
-                OptionComponent,
                 CustomizedInput,
                 ResultsComponent
             );

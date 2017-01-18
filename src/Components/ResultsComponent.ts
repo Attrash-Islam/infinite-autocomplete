@@ -1,5 +1,4 @@
 import { IResultsComponent } from '../Interfaces/IResultsComponent';
-import { IOptionObject } from '../Interfaces/IOption';
 
 /**
  * Results component default implementation
@@ -21,9 +20,9 @@ export class ResultsComponent implements IResultsComponent {
     }
 
 
-    renderOption(option:IOptionObject):string {
+    renderOption(option:any):string {
         return `<li>
-                    ${option.getText()}
+                    ${option.text}
                 </li>`;
     }
     

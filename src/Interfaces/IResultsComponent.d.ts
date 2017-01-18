@@ -1,4 +1,3 @@
-import { IOptionObject } from './IOption';
 
 /**
  * Results component interface
@@ -20,10 +19,11 @@ export interface IResultsComponent {
     render():string;
     /**
      * Option row template string in results component
+     * @param option
      * @default `<li> ${value} </li>`
      * @requires one base HTML Element
      */
-    renderOption(option:IOptionObject):string;
+    renderOption(option:any):string;
 }
 
 
