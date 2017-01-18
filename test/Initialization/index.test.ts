@@ -19,4 +19,14 @@ describe(`Initialization: `, function() {
         done();
     });
 
+    it(`should append 'infinite-autocomplete-wrapper' to the base element className
+          without overriding the past classes`, function() {
+        spyOn(console, 'error');
+        var infinite = document.createElement('div');
+        infinite.className = 'my-own-class';
+        new InfiniteAutocomplete(infinite);
+        expect(infinite.className)
+            .toBe(`my-own-class infinite-autocomplete-wrapper`);
+    });
+
 });
