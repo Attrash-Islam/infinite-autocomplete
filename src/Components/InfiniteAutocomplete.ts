@@ -116,7 +116,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Set the config object with extending
      * @param config - infinite-autocomplete configuration object
      */
-    setConfig(config:InfiniteAutocompleteConfigParams) {
+    public setConfig(config:InfiniteAutocompleteConfigParams) {
         this.config = {...this.config, ...config};
     }
 
