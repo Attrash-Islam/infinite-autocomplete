@@ -2,6 +2,7 @@ import { InfiniteAutocomplete } from '../../src/Components/InfiniteAutocomplete'
 import { myTextValue } from './Customization/myTextValue';
 import { TestUtils } from '../Utils/index';
 import { Promise as es6Promise } from 'es6-promise';
+import { template } from './Customization/template';
 
 describe(`Customized Option object implementation: `, function() {
 
@@ -44,6 +45,23 @@ describe(`Customized Option object implementation: `, function() {
                         .toContain('fi');
                 }
                 done();
+    });
+
+});
+
+describe(`Customized options results template: `, function() {
+
+    it(`The rendered results options template must be replaced 
+            with the customized one`, function() {
+        var infinite = document.createElement('div');
+        var iniElm = new InfiniteAutocomplete(infinite, undefined, myTextValue, undefined, template);
+        var resultsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-results-wrapper`);
+        var titleBeforeList = <HTMLElement> resultsWrapper.querySelectorAll(`div`)[0];
+        expect(titleBeforeList.innerText)
+            .toBe(`Options:`);
+        var myList = resultsWrapper.querySelectorAll(`div`)[1];
+        expect(myList.className)
+            .toBe(`myList`);
     });
 
 });
