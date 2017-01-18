@@ -53,7 +53,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     /**
      * Initialize hook that get executed immediatly after using the infinite-autocomplete component
      */
-    init() {
+    private init() {
         this.appendInfiniteAutocompleteWrapperClass();
         this.linkInputComponent();
         this.linkResultsComponent();
@@ -64,7 +64,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     /**
      * Append infinite autocomplete main wrapper className
      */
-    appendInfiniteAutocompleteWrapperClass() {
+    private appendInfiniteAutocompleteWrapperClass() {
         this.element.className = this.element
             .className
             .split(` `)
@@ -77,14 +77,14 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     /**
      * Reset current page
      */
-    resetCurrentPage() {
+    private resetCurrentPage() {
         this.page = 1;
     }
 
     /**
      * Link input component into the input wrapper
      */
-    linkInputComponent() {
+    private linkInputComponent() {
         let inputWrapperEle = document.createElement(`div`);
         inputWrapperEle.className = `infinite-autocomplete-input-wrapper`;
         inputWrapperEle.innerHTML = this.inputComponent.render();
@@ -100,7 +100,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Input component `change` event handler
      * @param inputChangeEvent - Input change event handler
      */
-    onInputChange(inputChangeEvent:Event) {
+    private onInputChange(inputChangeEvent:Event) {
         let target = <HTMLInputElement> inputChangeEvent.currentTarget;
         if(this.inputComponent.onInputChange) {
             this.inputComponent.onInputChange(target, target.value);
@@ -124,7 +124,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     /**
      * Link results component into the results component
      */
-    linkResultsComponent() {
+    private linkResultsComponent() {
         let resultsWrapperEle = document.createElement(`div`);
         resultsWrapperEle.className = `infinite-autocomplete-results-wrapper`;
         resultsWrapperEle.innerHTML = this.resultsComponent.render();
@@ -139,7 +139,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     /**
      * Binds a scroll event handler on the results options
      */
-    bindScrollReachBottomEvent() {
+    private bindScrollReachBottomEvent() {
         let resultsEle = this.getResultsOptionsBaseElement();
         resultsEle.addEventListener(`scroll`, this.scrollReachedBottomHandler.bind(this));
     }
@@ -149,7 +149,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Scroll reached bottom handler
      * @param e - Scroll event object
      */
-    scrollReachedBottomHandler(e:Event) {
+    private scrollReachedBottomHandler(e:Event) {
         let resultsEle = <HTMLElement> e.currentTarget;
         if(!this.fetchingData && !this.preventMoreRequests) {
             if(resultsEle.scrollTop + resultsEle.clientHeight >= resultsEle.scrollHeight) {
@@ -168,7 +168,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * unbind the `scroll` event from the results options
      * (Garbage collecting)
      */
-    clearResultsOptions() {
+    private clearResultsOptions() {
         this.detachClickEventHandlers(
             this.getResultsOptionsBaseElement()
                 .querySelectorAll(`[infinite-clickable]`)
@@ -186,7 +186,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Get results options base HTMLElement
      * @returns HTMLElement
      */
-    getResultsOptionsBaseElement():HTMLElement {
+    private getResultsOptionsBaseElement():HTMLElement {
         const resultsWrapperExceptionMsg = new Error(`Couldn't get the results options base element.`);
         if(this.element) {
             let resultsWrapper = this.element
@@ -209,7 +209,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     /**
      * Detaching the event handler over the option elements
      */
-    detachClickEventHandlers(elements:NodeListOf<Element>) {
+    private detachClickEventHandlers(elements:NodeListOf<Element>) {
         for( let i = 0; i < elements.length; i++) {
             elements[i].removeEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
         }
@@ -219,7 +219,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Option click event handler
      * @param clickEvent
      */
-    onOptionClickEvent(clickEvent:MouseEvent) {
+    private onOptionClickEvent(clickEvent:MouseEvent) {
         if(this.config.onSelect) {
             this.config.onSelect(clickEvent.currentTarget, (clickEvent.currentTarget as any).data);
         }
@@ -231,7 +231,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Get input HTML element below infinite-autocomplete-input-wrapper
      * @returns HTMLInputElement
      */
-    getInputElement():HTMLInputElement {
+    private getInputElement():HTMLInputElement {
         const inputElementExceptionMsg = new Error(`Couldn't get the input element.`);
         if(this.element) {
             let inputWrapper = this.element
@@ -254,7 +254,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Set input shown text
      * @param text
      */
-    setInput(text:string) {
+    private setInput(text:string) {
         this.getInputElement()
             .value = text;
     }
@@ -265,12 +265,12 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param page
      * @param fetchSize
      */
-    async getData(text:string, page:number, fetchSize:number):es6Promise<any[]> {
+    private async getData(text:string):es6Promise<any[]> {
         const dataSourceMissingExceptionMsg = new Error (`You must pass data or getDataFromApi function via config`);
         if(this.config.data) {
             this.fetchingData = true;
-            let from = (page - 1) * fetchSize;
-            let to = (fetchSize * (page - 1)) + fetchSize;
+            let from = (this.page - 1) * this.config.fetchSize;
+            let to = (this.config.fetchSize * (this.page - 1)) + this.config.fetchSize;
             this.fetchingData = false;
 
             return this.config.data
@@ -278,7 +278,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                 .slice(from, to);
         } else if(this.config.getDataFromApi) {
             this.fetchingData = true;
-            let apiData = await this.config.getDataFromApi(text, page, fetchSize);
+            let apiData = await this.config.getDataFromApi(text, this.page, this.config.fetchSize);
             this.fetchingData = false;
             return apiData;
         } else {
@@ -293,7 +293,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param text - Text to search on in the autocomplete
      * @param clearPreviousData - Flag to clear previous results and override with the new one
      */
-    async buildResultsOptions(text:string, clearPreviousData:boolean = true):es6Promise<void> {
+    private async buildResultsOptions(text:string, clearPreviousData:boolean = true):es6Promise<void> {
         const fetchSizeExceptionMsg = new Error(`fetchSize must be overriden with correct numeric value`);
 
         let optionListElement = this.getResultsOptionsBaseElement();
@@ -302,7 +302,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         }
 
         if(this.config.fetchSize) {
-            let filteredResults = await this.getData(text, this.page, this.config.fetchSize);
+            let filteredResults = await this.getData(text);
 
             if(filteredResults.length < this.config.fetchSize) {
                 //Stop fetching more chunks whenever you get less than the chunk fetch size

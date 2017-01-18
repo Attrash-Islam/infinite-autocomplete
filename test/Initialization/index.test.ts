@@ -21,12 +21,21 @@ describe(`Initialization: `, function() {
 
     it(`should append 'infinite-autocomplete-wrapper' to the base element className
           without overriding the past classes`, function() {
-        spyOn(console, 'error');
         var infinite = document.createElement('div');
         infinite.className = 'my-own-class';
         new InfiniteAutocomplete(infinite);
         expect(infinite.className)
             .toBe(`my-own-class infinite-autocomplete-wrapper`);
+    });
+
+    it(`should set page to 1 at the initialization`, function() {
+        var infinite = document.createElement('div');
+        var iniEle = new InfiniteAutocomplete(infinite, {
+            data: [{ text: 'text', value: 'value '}]
+        });
+        expect((iniEle as any).page).toBe(1);
+        TestUtils.typeLetter(<HTMLInputElement> infinite.querySelector(`input`), `t`);
+        expect((iniEle as any).page).toBe(1);
     });
 
 });
