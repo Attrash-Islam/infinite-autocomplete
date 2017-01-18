@@ -6,6 +6,12 @@ import { TestUtils } from '../Utils/index';
 describe(`Customized Input implementation: `, function() {
 
     describe(`template Customization :`, function() {
+
+        it(`should throw exception when template not contain input tag`, function() {
+            //[TODO]
+        });
+
+
         it(`The rendered input should be replaced with the custom red input`, function() {
             var infinite = document.createElement('div');
             new InfiniteAutocomplete(infinite, undefined, undefined, template);

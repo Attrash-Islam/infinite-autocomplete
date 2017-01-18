@@ -57,6 +57,36 @@ describe(`Options Default implementation: `, function() {
         });
 
 
+        it(`should bind the value of options into the DOM node element as 'data'`, 
+            async function (done):es6Promise<any> {
+                var infinite = document.createElement('div');
+                var iniElm = new InfiniteAutocomplete(infinite);
+
+                iniElm.setConfig({data: [
+                    { text: 'first', value: 1},
+                    { text: 'second', value: 2},
+                    { text: 'theird', value: 3},
+                    { text: 'fourth', value: '4'},
+                    { text: 'fivth', value: {a: 1, b: 2}}
+                ]});
+
+                var input = <HTMLInputElement> infinite.querySelector(`input`);
+                TestUtils.typeLetter(input, 'f');
+                await TestUtils.sleep(0);
+                var options = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
+                if(options.length === 0) {
+                    throw `options shouldn't be empty!`;
+                }
+                expect((options[0] as any).data.value)
+                    .toBe(1);
+                expect((options[1] as any).data.value)
+                    .toBe('4');
+                expect((options[2] as any).data.value)
+                    .toEqual({a:1, b: 2});
+                done();
+        });
+
+
         it(`should show the items when they match the search`, async function(done):es6Promise<void> {
             var infinite = document.createElement('div');
             var iniElm = new InfiniteAutocomplete(infinite);
