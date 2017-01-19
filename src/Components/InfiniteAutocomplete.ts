@@ -72,6 +72,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             .concat([`infinite-autocomplete-wrapper`])
             .filter(c => c)
             .join(` `);
+        this.element.style.position = `relative`;
     }
 
 
@@ -136,6 +137,10 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private linkOptionsComponent() {
         let optionsWrapperEle = document.createElement(`div`);
         optionsWrapperEle.className = `infinite-autocomplete-options-wrapper`;
+        optionsWrapperEle.style.position = `absolute`;
+        optionsWrapperEle.style.width = `100%`;
+        optionsWrapperEle.style.zIndex = `10`;
+        optionsWrapperEle.style.background = `white`;
         optionsWrapperEle.innerHTML = this.optionsComponent.render();
         let optionsEle = <HTMLElement> optionsWrapperEle.querySelector(this.optionsComponent.listElementSelector);
         optionsEle.style.display = `none`;
