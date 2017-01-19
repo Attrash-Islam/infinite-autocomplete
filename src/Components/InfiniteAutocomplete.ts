@@ -22,6 +22,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private config:InfiniteAutocompleteConfig;
     private preventMoreRequests:boolean = false;
     private fetchingData:boolean = false;
+    private isOptionsHidden = true;
 
     /**
      * Default configuration object
@@ -101,6 +102,9 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         }
         inputEle
             .addEventListener(`input`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
+        //#2 Start to show options when focus on the input
+        inputEle
+            .addEventListener(`click`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
         inputEle.style.width = '100%';
         this.element.appendChild(inputWrapperEle);
     }
@@ -112,12 +116,16 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     private onInputChange(inputChangeEvent:Event) {
         let target = <HTMLInputElement> inputChangeEvent.currentTarget;
+        //If user pass special behavior for typing via configuration
         if(this.inputComponent.onInputChange) {
             this.inputComponent.onInputChange(target, target.value);
         }
-        this.clearOptions();
-        if(target.value) {
-            this.buildOptions(target.value);
+        //If we type always fetch data and build options
+        //If we click on input and the options is hidden build the options
+        //If we click on input and the options is already opened don't do anything
+        if(inputChangeEvent.type === `input` || 
+                (inputChangeEvent.type === `click` && this.isOptionsHidden)) {
+            this.buildOptions(target.value, true);
         }
     }
 
@@ -144,6 +152,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         optionsWrapperEle.innerHTML = this.optionsComponent.render();
         let optionsEle = <HTMLElement> optionsWrapperEle.querySelector(this.optionsComponent.listElementSelector);
         optionsEle.style.display = `none`;
+        this.isOptionsHidden = true;
         optionsEle.style.overflow = `scroll`;
         optionsEle.style.maxHeight = this.config.maxHeight || null;
         this.element.appendChild(optionsWrapperEle);
@@ -192,7 +201,8 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
         let optionListElement = this.getOptionsBaseElement();
         
-        optionListElement.style.display = `none`;;
+        optionListElement.style.display = `none`;
+        this.isOptionsHidden = true;
         optionListElement.innerHTML = ``;
     }
 
@@ -337,8 +347,10 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
             if(optionListElement.innerHTML !== ``) {
                 optionListElement.style.display = ``;
+                this.isOptionsHidden = false;
             } else {
-                optionListElement.style.display = `none`;;
+                optionListElement.style.display = `none`;
+                this.isOptionsHidden = true;
             }
 
         } else {
