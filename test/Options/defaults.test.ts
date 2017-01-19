@@ -24,7 +24,7 @@ describe(`Options Default implementation: `, function() {
     });
 
     
-    describe(`Options results based on dynamic data`, function() {
+    describe(`Options based on dynamic data`, function() {
 
         it(`should show the items received from the backend mock`, 
             async function (done):es6Promise<any> {
@@ -93,7 +93,7 @@ describe(`Options Default implementation: `, function() {
     });
 
 
-    describe(`Options results based on static data`, function() {
+    describe(`Options based on static data`, function() {
 
         it(`should not show the items when they don't match the search`, 
             async function (done):es6Promise<void> {

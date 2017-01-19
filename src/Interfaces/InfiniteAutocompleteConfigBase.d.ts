@@ -1,6 +1,6 @@
 import { Promise as es6Promise } from 'es6-promise';
 import { IInputCompoenentConstructor } from './IInputComponent';
-import { IResultsComponentConstructor } from './IOptionsComponent';
+import { IOptionsComponentConstructor } from './IOptionsComponent';
 import { IOption } from './IOption';
 
 /**
@@ -17,7 +17,7 @@ export interface InfiniteAutocompleteConfigBase {
      */
     onSelect?:Function;
     /**
-     * max height for the results options
+     * max height for the options
      */
     maxHeight?:string;
     /**

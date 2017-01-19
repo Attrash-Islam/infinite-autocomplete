@@ -32,6 +32,6 @@ export interface IOptionsComponent {
  * Options component constructor interface
  * @author Islam Attrash
  */
-export interface IResultsComponentConstructor {
+export interface IOptionsComponentConstructor {
     new():IOptionsComponent;
 }

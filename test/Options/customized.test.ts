@@ -48,19 +48,19 @@ describe(`Customized Option object implementation: `, function() {
 
 });
 
-describe(`Customized options results template: `, function() {
+describe(`Customized options template: `, function() {
 
-    it(`The rendered results options template must be replaced 
+    it(`The rendered options template must be replaced 
             with the customized one`, function() {
         var infinite = document.createElement('div');
         var iniElm = new InfiniteAutocomplete(infinite, {
             customizedOptions: template
         });
-        var resultsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-results-wrapper`);
-        var titleBeforeList = <HTMLElement> resultsWrapper.querySelectorAll(`div`)[0];
+        var optionsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-options-wrapper`);
+        var titleBeforeList = <HTMLElement> optionsWrapper.querySelectorAll(`div`)[0];
         expect(titleBeforeList.innerText)
             .toBe(`Options:`);
-        var myList = resultsWrapper.querySelectorAll(`div`)[1];
+        var myList = optionsWrapper.querySelectorAll(`div`)[1];
         expect(myList.className)
             .toBe(`myList`);
     });
@@ -78,8 +78,8 @@ describe(`Customized options results template: `, function() {
             ],
             customizedOptions: template
         });
-        var resultsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-results-wrapper`);
-        var myList = resultsWrapper.querySelectorAll(`div`)[1];
+        var optionsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-options-wrapper`);
+        var myList = optionsWrapper.querySelectorAll(`div`)[1];
         TestUtils.typeLetter(<HTMLInputElement> infinite.querySelector(`input`), 'i');
         await TestUtils.sleep(0);
         var rows = <NodeListOf<HTMLElement>> myList.querySelectorAll(`div`);

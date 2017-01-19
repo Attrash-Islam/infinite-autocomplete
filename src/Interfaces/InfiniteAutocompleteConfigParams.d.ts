@@ -1,6 +1,6 @@
 import { Promise as es6Promise } from 'es6-promise';
 import { IInputCompoenentConstructor } from './IInputComponent';
-import { IResultsComponentConstructor } from './IOptionsComponent';
+import { IOptionsComponentConstructor } from './IOptionsComponent';
 import { InfiniteAutocompleteConfigBase } from './InfiniteAutocompleteConfigBase';
 
 /**
@@ -17,7 +17,7 @@ export interface InfiniteAutocompleteConfigParams extends InfiniteAutocompleteCo
      */
     customizedInput?:IInputCompoenentConstructor;
     /**
-     * Customized options (results) class to override the default input
+     * Customized options class to override the default input
      */
-    customizedOptions?:IResultsComponentConstructor;
+    customizedOptions?:IOptionsComponentConstructor;
 }
