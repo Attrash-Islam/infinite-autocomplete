@@ -11,6 +11,8 @@ export interface IOption {
      * The option value
      */
     value: any;
-    //Any other dynamic user selection
+    /**
+     * Any other OPTIONAL dynamic user properties
+     */
     [key: string]: any;
 }
