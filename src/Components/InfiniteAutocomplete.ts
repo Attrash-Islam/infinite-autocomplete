@@ -60,6 +60,19 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         this.linkInputComponent();
         this.linkOptionsComponent();
         this.bindScrollReachBottomEvent();
+        this.bindEscapeEvent();
+    }
+
+
+    /**
+     * (#11) Binds escape event handler to clear the options when clicking Esc
+     */
+    private bindEscapeEvent() {
+        document.addEventListener('keydown', (e) => {
+            if(e.keyCode === 27 && !this.isOptionsHidden) { //Esc key pressed
+                this.clearOptions();
+            }
+        });
     }
 
 
@@ -102,7 +115,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         }
         inputEle
             .addEventListener(`input`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
-        //#2 Start to show options when focus on the input
+        //(#2) Start to show options when focus on the input
         inputEle
             .addEventListener(`click`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
         inputEle.style.width = '100%';

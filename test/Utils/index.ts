@@ -36,6 +36,17 @@ export class TestUtils {
         element.dispatchEvent(clickEvent);
     }
     
+    
+    /**
+     * Simulate Escape press event on document
+     */
+    static clickEsc() {
+        var escapeClick = new Event('keydown');
+        (escapeClick as any).keyCode = 27;
+        document.dispatchEvent(escapeClick);
+    }
+
+
 
     /**
      * Block code until async finished

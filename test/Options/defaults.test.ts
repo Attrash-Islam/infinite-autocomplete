@@ -178,6 +178,35 @@ describe(`Options Default implementation: `, function() {
         });
 
 
+        it(`should hide the options when pressing Esc if they exist (opened)`, 
+            async function(done):es6Promise<void> {
+                var infinite = document.createElement('div');
+                var iniElm = new InfiniteAutocomplete(infinite, {
+                    fetchSize: 2
+                });
+
+                iniElm.setConfig({data: [
+                    { text: 'first', value: 1},
+                    { text: 'second', value: 2},
+                    { text: 'theird', value: 3},
+                    { text: 'fourth', value: 4},
+                    { text: 'fivth', value: 5}
+                ]});
+
+                var input = <HTMLInputElement> infinite.querySelector(`input`);
+                TestUtils.clickOnElement(input);
+                await TestUtils.sleep(0);
+                var options = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
+                expect(options.length).toBe(2);
+                
+                TestUtils.clickEsc();
+                var optionsAfterEsc = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
+                expect(optionsAfterEsc.length).toBe(0);
+                done();
+        });
+
+
+
         it(`should show the items when they match the search`, async function(done):es6Promise<void> {
             var infinite = document.createElement('div');
             var iniElm = new InfiniteAutocomplete(infinite);
