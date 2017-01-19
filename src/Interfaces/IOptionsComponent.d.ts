@@ -8,7 +8,7 @@ export interface IOptionsComponent {
     /**
      * The list element tag selector
      * This value can be a tag string `ul` `div` `ol` that indicates tag name,
-     * or it can be a class selector (or id selector) `.myClass`/`#myClass` which is 
+     * or it can be a class selector (or id selector) `.myClass`/`#myId` which is 
      * returned in @render method template
      * @default `ul`
      */
