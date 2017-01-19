@@ -150,6 +150,34 @@ describe(`Options Default implementation: `, function() {
         });
 
 
+        it(`should show the items when clicking on the input even if the input is empty`, 
+            async function(done):es6Promise<void> {
+                var infinite = document.createElement('div');
+                var iniElm = new InfiniteAutocomplete(infinite, {
+                    fetchSize: 2
+                });
+
+                iniElm.setConfig({data: [
+                    { text: 'first', value: 1},
+                    { text: 'second', value: 2},
+                    { text: 'theird', value: 3},
+                    { text: 'fourth', value: 4},
+                    { text: 'fivth', value: 5}
+                ]});
+
+                var input = <HTMLInputElement> infinite.querySelector(`input`);
+                TestUtils.clickOnElement(input);
+                await TestUtils.sleep(0);
+                var options = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
+                expect(options.length).toBe(2);
+                expect(options[0].innerText)
+                        .toContain('first');
+                expect(options[1].innerText)
+                        .toContain('second');
+                done();
+        });
+
+
         it(`should show the items when they match the search`, async function(done):es6Promise<void> {
             var infinite = document.createElement('div');
             var iniElm = new InfiniteAutocomplete(infinite);
