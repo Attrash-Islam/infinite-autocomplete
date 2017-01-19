@@ -14,6 +14,7 @@ export class TestUtils {
      * Simulate typing letter in input
      * @param input - HTMLInputElement
      * @param letter
+     * @param clear - If true clear the input and then append @letter
      */
     static typeLetter(input:HTMLInputElement, letter:string, clear:boolean = false) {
         if(clear) {
