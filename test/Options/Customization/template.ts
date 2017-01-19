@@ -1,6 +1,6 @@
-import { IResultsComponent } from '../../../src/Interfaces/IResultsComponent';
+import { IOptionsComponent } from '../../../src/Interfaces/IOptionsComponent';
 
-export class template implements IResultsComponent {
+export class template implements IOptionsComponent {
 
     listElementSelector = `.myList`;
 

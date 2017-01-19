@@ -1,10 +1,11 @@
-import { IResultsComponent } from '../Interfaces/IResultsComponent';
+import { IOptionsComponent } from '../Interfaces/IOptionsComponent';
+import { IOption } from '../Interfaces/IOption';
 
 /**
- * Results component default implementation
+ * Options component default implementation
  * @author Islam Attrash
  */
-export class OptionsComponent implements IResultsComponent {
+export class OptionsComponent implements IOptionsComponent {
     
     listElementSelector:string = `ul`;
 
@@ -20,7 +21,7 @@ export class OptionsComponent implements IResultsComponent {
     }
 
 
-    renderOption(option:any):string {
+    renderOption(option:IOption):string {
         return `<li>
                     ${option.text}
                 </li>`;

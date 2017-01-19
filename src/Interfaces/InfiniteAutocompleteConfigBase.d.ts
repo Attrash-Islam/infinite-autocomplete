@@ -1,6 +1,7 @@
 import { Promise as es6Promise } from 'es6-promise';
 import { IInputCompoenentConstructor } from './IInputComponent';
-import { IResultsComponentConstructor } from './IResultsComponent';
+import { IResultsComponentConstructor } from './IOptionsComponent';
+import { IOption } from './IOption';
 
 /**
  * infinite-autocomplete config base interface
@@ -10,7 +11,7 @@ export interface InfiniteAutocompleteConfigBase {
     /**
      * data static source
      */
-    data?:Array<any>;
+    data?:Array<IOption>;
     /**
      * on-select event output handler when choosing an option
      */

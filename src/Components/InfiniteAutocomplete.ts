@@ -2,11 +2,12 @@ import { InputComponent as defaultInput } from './InputComponent';
 import { OptionsComponent as defaultOptions } from './OptionsComponent';
 import { InfiniteAutocompleteConfig } from '../Interfaces/InfiniteAutocompleteConfig';
 import { IInputComponent, IInputCompoenentConstructor } from '../Interfaces/IInputComponent';
-import { IResultsComponent, IResultsComponentConstructor } from '../Interfaces/IResultsComponent';
+import { IOptionsComponent, IResultsComponentConstructor } from '../Interfaces/IOptionsComponent';
 import { IInfiniteAutocomplete } from '../Interfaces/IInfiniteAutocomplete';
 import { Promise as es6Promise } from 'es6-promise';
 import { Utils } from '../Utils/index';
 import { InfiniteAutocompleteConfigParams } from '../Interfaces/InfiniteAutocompleteConfigParams';
+import { IOption } from '../Interfaces/IOption';
 
 /**
  * infinite-autocomplete component implementation
@@ -16,7 +17,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
     private element:HTMLElement;
     private inputComponent:IInputComponent;
-    private optionsComponent:IResultsComponent;
+    private optionsComponent:IOptionsComponent;
     private page:number = 1;
     private config:InfiniteAutocompleteConfig;
     private preventMoreRequests:boolean = false;
@@ -39,7 +40,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param config - InfiniteAutocomplete config options
      * @param optionComponent - Option component implementation to be injected (or default)
      * @param inputComponent - Input component implementation to be injected (or default)
-     * @param optionsComponent - Results component implementation to be injected (or default)
+     * @param optionsComponent - Options component implementation to be injected (or default)
      */
     constructor(element:HTMLElement, config?:InfiniteAutocompleteConfigParams) {
         this.element = element;
@@ -265,7 +266,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param page
      * @param fetchSize
      */
-    private async getData(text:string):es6Promise<any[]> {
+    private async getData(text:string):es6Promise<IOption[]> {
         const dataSourceMissingExceptionMsg = new Error (`You must pass data or getDataFromApi function via config`);
         if(this.config.data) {
             this.fetchingData = true;

@@ -1,6 +1,6 @@
 import { Promise as es6Promise } from 'es6-promise';
 import { IInputCompoenentConstructor } from './IInputComponent';
-import { IResultsComponentConstructor } from './IResultsComponent';
+import { IResultsComponentConstructor } from './IOptionsComponent';
 import { InfiniteAutocompleteConfigBase } from './InfiniteAutocompleteConfigBase';
 
 /**
