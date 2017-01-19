@@ -15,8 +15,12 @@ export class TestUtils {
      * @param input - HTMLInputElement
      * @param letter
      */
-    static typeLetter(input:HTMLInputElement, letter:string) {
-        input.value += letter;
+    static typeLetter(input:HTMLInputElement, letter:string, clear:boolean = false) {
+        if(clear) {
+            input.value = letter;
+        } else {
+            input.value += letter;
+        }
         var typingEvent = new Event('input');
         input.dispatchEvent(typingEvent);
     }
