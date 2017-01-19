@@ -86,10 +86,18 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Link input component into the input wrapper
      */
     private linkInputComponent() {
+        const MissingInputElementInInputComponentExceptionMsg = 
+            new Error(`Customized input should contain input element <input />`);
         let inputWrapperEle = document.createElement(`div`);
         inputWrapperEle.className = `infinite-autocomplete-input-wrapper`;
         inputWrapperEle.innerHTML = this.inputComponent.render();
         let inputEle = <HTMLElement> inputWrapperEle.querySelector(`input`);
+        if(!inputEle) {
+            Utils.throwErrorInConsole(
+                MissingInputElementInInputComponentExceptionMsg
+            );
+            throw MissingInputElementInInputComponentExceptionMsg;
+        }
         inputEle
             .addEventListener(`input`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
         inputEle.style.width = '100%';

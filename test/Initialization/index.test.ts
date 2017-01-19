@@ -67,6 +67,9 @@ describe(`Initialization: `, function() {
         //Passing custom input implementation should override the default input configuration
         expect((iniEle as any).config.customizedInput)
             .not.toEqual(defaultInput);
+
+        expect((iniEle as any).config.customizedInput)
+            .toEqual(template);
     });
 
 });

@@ -2,13 +2,32 @@ import { InfiniteAutocomplete } from '../../src/Components/InfiniteAutocomplete'
 import { template } from './Customization/template';
 import { inputHandlers } from './Customization/inputHandlers';
 import { TestUtils } from '../Utils/index';
+import { missingInput } from './Customization/missingInput';
 
 describe(`Customized Input implementation: `, function() {
 
     describe(`template Customization :`, function() {
 
         it(`should throw exception when template not contain input tag`, function() {
-            //[TODO]
+            var expectedException = new Error(`Customized input should contain input element <input />`);
+            spyOn(console, 'error');
+            var infinite = document.createElement('div');
+            try {
+                new InfiniteAutocomplete(infinite, {
+                    customizedInput: missingInput
+                });
+                throw `Exception expected.`;
+            } catch(e) {
+                expect(e)
+                    .toEqual(
+                        expectedException
+                    );
+            }
+            
+            expect(console.error)
+                .toHaveBeenCalledWith(
+                    expectedException
+                );
         });
 
 
