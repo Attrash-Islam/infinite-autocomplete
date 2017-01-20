@@ -210,15 +210,19 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Apply the options style
      */
     private applyOptionsStyle() {
-        let optionsStyle = document.createElement('style');
-        optionsStyle.innerHTML = `
-            .infinite-autocomplete-options-wrapper {
-                position: absolute;
-                z-index: 10;
-                background: white;
-            }
-        `;
-        document.head.appendChild(optionsStyle);
+        let isOptionsStyleApplied = document.head.querySelector('#infinite-autocomplete-options-style');
+        if(!isOptionsStyleApplied) {
+            let optionsStyle = document.createElement('style');
+            optionsStyle.id = `infinite-autocomplete-options-style`;
+            optionsStyle.innerHTML = `
+                .infinite-autocomplete-options-wrapper {
+                    position: absolute;
+                    z-index: 10;
+                    background: white;
+                }
+            `;
+            document.head.appendChild(optionsStyle);
+        }
     }
 
 
@@ -226,29 +230,33 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Apply a special slim scroll bar for the infinite autocomplete options
      */
     private applySpecialScrollbarStyle() {
-        let specialScroll = document.createElement('style');
-        specialScroll.innerHTML = `
-            .infinite-autocomplete-wrapper ::-webkit-scrollbar {
-                    width: 4px;
-                }
-                
-                .infinite-autocomplete-wrapper ::-webkit-scrollbar-track {
-                    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
-                    -webkit-border-radius: 10px;
-                    border-radius: 10px;
-                }
-                
-                .infinite-autocomplete-wrapper ::-webkit-scrollbar-thumb {
-                    -webkit-border-radius: 10px;
-                    border-radius: 10px;
-                    background: rgba(128, 128, 128, 0.8); 
-                    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
-                }
-                .infinite-autocomplete-wrapper ::-webkit-scrollbar-thumb:window-inactive {
-                    background: rgba(255,0,0,0.4); 
-                }
-        `;
-        document.head.appendChild(specialScroll);
+        let isStyleAlreadyApplied = document.head.querySelector('#infinite-autocomplete-scrollbar-style');
+        if(!isStyleAlreadyApplied) {
+            let specialScroll = document.createElement('style');
+            specialScroll.id = 'infinite-autocomplete-scrollbar-style';
+            specialScroll.innerHTML = `
+                .infinite-autocomplete-wrapper ::-webkit-scrollbar {
+                        width: 4px;
+                    }
+                    
+                    .infinite-autocomplete-wrapper ::-webkit-scrollbar-track {
+                        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+                        -webkit-border-radius: 10px;
+                        border-radius: 10px;
+                    }
+                    
+                    .infinite-autocomplete-wrapper ::-webkit-scrollbar-thumb {
+                        -webkit-border-radius: 10px;
+                        border-radius: 10px;
+                        background: rgba(128, 128, 128, 0.8); 
+                        -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+                    }
+                    .infinite-autocomplete-wrapper ::-webkit-scrollbar-thumb:window-inactive {
+                        background: rgba(255,0,0,0.4); 
+                    }
+            `;
+            document.head.appendChild(specialScroll);
+        }
     }
 
     /**
