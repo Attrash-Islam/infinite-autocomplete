@@ -199,11 +199,44 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         optionsEle.style.display = `none`;
         this.isOptionsHidden = true;
         optionsEle.style.overflow = `scroll`;
+        optionsEle.style.overflowX = `hidden`;
+        optionsEle.style.border = `1px solid #bcbcbc`;
+        optionsEle.style.paddingBottom = `5px`;
         optionsEle.style.maxHeight = this.config.maxHeight || null;
+        this.applySpecialScrollbar();
         this.element.appendChild(optionsWrapperEle);
     }
 
     
+    /**
+     * Apply a special slim scroll bar for the infinite autocomplete options
+     */
+    private applySpecialScrollbar() {
+        let specialScroll = document.createElement('style');
+        specialScroll.innerHTML = `
+            .infinite-autocomplete-wrapper ::-webkit-scrollbar {
+                    width: 4px;
+                }
+                
+                .infinite-autocomplete-wrapper ::-webkit-scrollbar-track {
+                    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+                    -webkit-border-radius: 10px;
+                    border-radius: 10px;
+                }
+                
+                .infinite-autocomplete-wrapper ::-webkit-scrollbar-thumb {
+                    -webkit-border-radius: 10px;
+                    border-radius: 10px;
+                    background: rgba(128, 128, 128, 0.8); 
+                    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+                }
+                .infinite-autocomplete-wrapper ::-webkit-scrollbar-thumb:window-inactive {
+                    background: rgba(255,0,0,0.4); 
+                }
+        `;
+        document.head.appendChild(specialScroll);
+    }
+
     /**
      * Binds a scroll event handler on the options
      */
