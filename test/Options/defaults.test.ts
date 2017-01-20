@@ -90,6 +90,49 @@ describe(`Options Default implementation: `, function() {
                 expect(options3.length).toBe(0);
                 done();
             });
+
+
+            it(`should show the items received from the backend mock based on page and scrolling event`, 
+                async function (done):es6Promise<any> {
+                    var infinite = document.createElement('div');
+                    var iniElm = new InfiniteAutocomplete(infinite);
+                    var conf = {
+                        getDataFromApi: function() {
+                            return new es6Promise((resolve) => {
+                                resolve([
+                                    { text: 'one', value: 1 },
+                                    { text: 'two', value: 2 }
+                                ]);
+                            });
+                        }
+                    };
+                    spyOn(conf, 'getDataFromApi');
+                    
+                    iniElm.setConfig({
+                        getDataFromApi: conf.getDataFromApi,
+                        fetchSize: 2
+                    });
+                    
+                    var input = <HTMLInputElement> infinite.querySelector(`input`);
+                    var optionsList = <HTMLElement> infinite.querySelector(`ul`);
+                    TestUtils.typeLetter(input, `t`);
+                    await TestUtils.sleep(0);
+
+                    //Get data from text `t` with page 1 (first chunk) with size of 2 per chunk
+                    expect(conf.getDataFromApi)
+                        .toHaveBeenCalledWith(`t`, 1, 2);
+
+                    //Scroll to bottom
+                    TestUtils.scrollToBottom(optionsList);
+                    await TestUtils.sleep(0);
+
+                    //Get data from text `t` with page 2 (second chunk) with size of 2 per chunk
+                    expect(conf.getDataFromApi)
+                        .toHaveBeenCalledWith(`t`, 2, 2);
+
+                    done();
+                }
+        );
     });
 
 
@@ -174,6 +217,53 @@ describe(`Options Default implementation: `, function() {
                         .toContain('first');
                 expect(options[1].innerText)
                         .toContain('second');
+                done();
+        });
+
+
+        it(`should show more items when scrolling to bottom if data fits, and updates current page number`, 
+            async function(done):es6Promise<void> {
+                var infinite = document.createElement('div');
+                var iniElm = new InfiniteAutocomplete(infinite, {
+                    fetchSize: 3
+                });
+
+                iniElm.setConfig({data: [
+                    { text: 'first', value: 1},
+                    { text: 'second', value: 2},
+                    { text: 'theird', value: 3},
+                    { text: 'fourth', value: 4},
+                    { text: 'fivth', value: 5},
+                    { text: 'fivth', value: 6},
+                    { text: 'fivth', value: 7},
+                    { text: 'fivth', value: 8}
+                ]});
+
+                var optionsBase = <HTMLElement> infinite.querySelector(`ul`);
+
+                var input = <HTMLInputElement> infinite.querySelector(`input`);
+                TestUtils.clickOnElement(input);
+                await TestUtils.sleep(0);
+                var options = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
+                expect(options.length).toBe(3); //First data chunk
+                expect((iniElm as any).page).toBe(1);
+
+                //Scroll to bottom
+                TestUtils.scrollToBottom(optionsBase);
+                await TestUtils.sleep(0);
+
+                var optionsAfterScrolling = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
+                expect(optionsAfterScrolling.length).toBe(6); //two chunks
+                expect((iniElm as any).page).toBe(2);
+
+                //Scroll to bottom
+                TestUtils.scrollToBottom(optionsBase);
+                await TestUtils.sleep(0);
+
+                var optionsAfterScrolling = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
+                expect(optionsAfterScrolling.length).toBe(8); //three chunks (last two items - smaller than chunk)
+                expect((iniElm as any).page).toBe(3);
+
                 done();
         });
 

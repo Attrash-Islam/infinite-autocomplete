@@ -38,6 +38,17 @@ export class TestUtils {
     
     
     /**
+     * Simulate scroll to bottom event on element
+     * @param element - HTMLElement
+     */
+    static scrollToBottom(element:HTMLElement) {
+        var scrollEvent = new Event('scroll', { bubbles: true });
+        element.scrollTop = 10000; //Jump to bottom
+        element.dispatchEvent(scrollEvent);
+    }
+
+
+    /**
      * Simulate Escape press event on document
      */
     static clickEsc() {
