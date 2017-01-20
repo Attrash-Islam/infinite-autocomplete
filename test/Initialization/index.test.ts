@@ -9,7 +9,7 @@ describe(`Initialization: `, function() {
 
     it(`should throw exception when trying to type without any static data source
             nor dynamic API`, async function(done):es6Promise<any> {
-        spyOn(console, 'error');
+        spyOn(console, 'error').and.returnValue('');
         var infinite = document.createElement('div');
         new InfiniteAutocomplete(infinite);
         var input = <HTMLInputElement> infinite.querySelector(`input`);

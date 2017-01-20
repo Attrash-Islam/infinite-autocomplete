@@ -133,6 +133,67 @@ describe(`Options Default implementation: `, function() {
                     done();
                 }
         );
+
+        it(`should stop fetching items from the backend mock when returned data is smaller than chunk size`, 
+                async function (done):es6Promise<any> {
+                    var infinite = document.createElement('div');
+                    var iniElm = new InfiniteAutocomplete(infinite);
+                    var conf = {
+                        getDataFromApi: function(text, page, size) {
+                            return new es6Promise((resolve) => {
+                                setTimeout(() => {
+                                    if(page === 1) {
+                                        resolve([
+                                            { text: 'one', value: 1 },
+                                            { text: 'two', value: 2 }
+                                        ]);
+                                    } else {
+                                        resolve([
+                                            { text: 'three', value: 3 }
+                                        ]);
+                                    }
+                                }, 0);
+                            });
+                            
+                        }
+                    };
+                    spyOn(conf, 'getDataFromApi').and.callThrough();
+                    
+                    iniElm.setConfig({
+                        getDataFromApi: conf.getDataFromApi,
+                        fetchSize: 2
+                    });
+
+                    var input = <HTMLInputElement> infinite.querySelector(`input`);
+                    var optionsList = <HTMLElement> infinite.querySelector(`ul`);
+                    TestUtils.typeLetter(input, `t`);
+                    await TestUtils.sleep(0);
+
+                    //Get data from text `t` with page 1 (first chunk) with size of 2 per chunk
+                    expect(conf.getDataFromApi)
+                        .toHaveBeenCalledWith(`t`, 1, 2);
+
+                    //Scroll to bottom
+                    TestUtils.scrollToBottom(optionsList);
+                    await TestUtils.sleep(0);
+
+                    //Get data from text `t` with page 2 (second chunk) with size of 2 per chunk
+                    expect(conf.getDataFromApi)
+                        .toHaveBeenCalledWith(`t`, 2, 2);
+
+                    
+                    //Scroll to bottom
+                    TestUtils.scrollToBottom(optionsList);
+                    await TestUtils.sleep(0);
+
+                    //Prevent getting data since second chunk returned with a smaller data size than the chunk size
+                    expect(conf.getDataFromApi)
+                        .not.toHaveBeenCalledWith(`t`, 3, 2);
+
+                    done();
+                }
+        );
+
     });
 
 

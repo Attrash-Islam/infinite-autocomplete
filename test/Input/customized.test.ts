@@ -10,7 +10,7 @@ describe(`Customized Input implementation: `, function() {
 
         it(`should throw exception when template not contain input tag`, function() {
             var expectedException = new Error(`Customized input should contain input element <input />`);
-            spyOn(console, 'error');
+            spyOn(console, 'error').and.returnValue('');
             var infinite = document.createElement('div');
             try {
                 new InfiniteAutocomplete(infinite, {
