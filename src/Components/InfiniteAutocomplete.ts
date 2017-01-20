@@ -61,6 +61,37 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         this.linkOptionsComponent();
         this.bindScrollReachBottomEvent();
         this.bindEscapeEvent();
+        this.bindOutSideClickEvent();
+    }
+
+
+
+    /**
+     * (#1) Binds a click handler to detect where the user clicked
+     * If click is out side the main wrapper area then close options
+     */
+    private bindOutSideClickEvent() {
+        document.addEventListener(`click`, (event:Event) => {
+            let clickedOutSide = this.checkIfClickedOutSideTheAutocompleteComponents(<HTMLElement> event.target);
+            if(clickedOutSide) {
+                this.clearOptions();
+            }
+        });
+    }
+
+
+    /**
+     * Check if click is outside the plugin
+     * @param element - HTMLElement
+     */
+    private checkIfClickedOutSideTheAutocompleteComponents(element: HTMLElement | null) {
+        if(element === null) {
+            return true;
+        } else if(element.className && element.className.indexOf(`infinite-autocomplete-wrapper`) != -1) {
+            return false;
+        } else {
+            return this.checkIfClickedOutSideTheAutocompleteComponents(element.parentElement)
+        }
     }
 
 

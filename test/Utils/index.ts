@@ -32,7 +32,7 @@ export class TestUtils {
      * @param element - HTMLElement
      */
     static clickOnElement(element:HTMLElement) {
-        var clickEvent = new Event('click');
+        var clickEvent = new Event('click', { bubbles: true });
         element.dispatchEvent(clickEvent);
     }
     
