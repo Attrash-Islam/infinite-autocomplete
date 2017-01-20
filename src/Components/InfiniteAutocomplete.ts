@@ -90,7 +90,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private checkIfClickedOutSideTheAutocompleteComponents(element: HTMLElement | null) {
         if(element === null) {
             return true;
-        } else if(element === this.element || element.parentElement === this.element) {
+        } else if(element === this.element) {
             return false;
         } else {
             return this.checkIfClickedOutSideTheAutocompleteComponents(element.parentElement)
