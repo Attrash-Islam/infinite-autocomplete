@@ -192,7 +192,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         let optionsWrapperEle = document.createElement(`div`);
         optionsWrapperEle.className = `infinite-autocomplete-options-wrapper`;
         optionsWrapperEle.style.position = `absolute`;
-        optionsWrapperEle.style.width = `100%`;
         optionsWrapperEle.style.zIndex = `10`;
         optionsWrapperEle.style.background = `white`;
         optionsWrapperEle.innerHTML = this.optionsComponent.render();
