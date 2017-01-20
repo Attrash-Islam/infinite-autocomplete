@@ -72,9 +72,11 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     private bindOutSideClickEvent() {
         document.addEventListener(`click`, (event:Event) => {
-            let clickedOutSide = this.checkIfClickedOutSideTheAutocompleteComponents(<HTMLElement> event.target);
-            if(clickedOutSide) {
-                this.clearOptions();
+            if(!this.isOptionsHidden) {
+                let clickedOutSide = this.checkIfClickedOutSideTheAutocompleteComponents(<HTMLElement> event.target);
+                if(clickedOutSide) {
+                    this.clearOptions();
+                }
             }
         });
     }
