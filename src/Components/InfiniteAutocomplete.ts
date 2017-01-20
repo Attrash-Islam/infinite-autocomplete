@@ -56,8 +56,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Initialize hook that get executed immediatly after using the infinite-autocomplete component
      */
     private init() {
-        this.applySpecialScrollbarStyle();
-        this.applyOptionsStyle();
+        this.applyStylesRules();
         this.appendInfiniteAutocompleteWrapperClass();
         this.linkInputComponent();
         this.linkOptionsComponent();
@@ -121,7 +120,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             .concat([`infinite-autocomplete-wrapper`])
             .filter(c => c)
             .join(` `);
-        this.element.style.position = `relative`;
     }
 
 
@@ -153,7 +151,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         //(#2) Start to show options when focus on the input
         inputEle
             .addEventListener(`click`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
-        inputEle.style.width = '100%';
         this.element.appendChild(inputWrapperEle);
     }
     
@@ -207,9 +204,39 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
     
     /**
-     * Apply the options style
+     * Apply the style rules for the infinite autocomplete plugin and it's components
      */
-    private applyOptionsStyle() {
+    private applyStylesRules() {
+        
+        //Main wrapper style rules
+        let isMainWrapperStyleApplied = document.head.querySelector('#infinite-autocomplete-wrapper-style');
+        if(!isMainWrapperStyleApplied) {
+            let mainWrapperStyle = document.createElement('style');
+            mainWrapperStyle.id = 'infinite-autocomplete-wrapper-style';
+            mainWrapperStyle.innerHTML = `
+                .infinite-autocomplete-wrapper {
+                    position: relative;
+                }
+            `;
+            document.head.appendChild(mainWrapperStyle);
+        }
+
+        
+        //Input style rules
+        let isInputStyleApplied = document.head.querySelector('#infinite-autocomplete-input-style');
+        if(!isInputStyleApplied) {
+            let inputStyle = document.createElement('style');
+            inputStyle.id = 'infinite-autocomplete-input-style';
+            inputStyle.innerHTML = `
+                .infinite-autocomplete-input-wrapper input {
+                    width: 100%;
+                }
+            `;
+            document.head.appendChild(inputStyle);
+        }
+
+
+        //Options style rules
         let isOptionsStyleApplied = document.head.querySelector('#infinite-autocomplete-options-style');
         if(!isOptionsStyleApplied) {
             let optionsStyle = document.createElement('style');
@@ -223,15 +250,10 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             `;
             document.head.appendChild(optionsStyle);
         }
-    }
 
-
-    /**
-     * Apply a special slim scroll bar for the infinite autocomplete options
-     */
-    private applySpecialScrollbarStyle() {
-        let isStyleAlreadyApplied = document.head.querySelector('#infinite-autocomplete-scrollbar-style');
-        if(!isStyleAlreadyApplied) {
+        //Scrollbar style rules
+        let isScrollbarStyleApplied = document.head.querySelector('#infinite-autocomplete-scrollbar-style');
+        if(!isScrollbarStyleApplied) {
             let specialScroll = document.createElement('style');
             specialScroll.id = 'infinite-autocomplete-scrollbar-style';
             specialScroll.innerHTML = `
@@ -258,6 +280,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             document.head.appendChild(specialScroll);
         }
     }
+
 
     /**
      * Binds a scroll event handler on the options
