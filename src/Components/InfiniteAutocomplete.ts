@@ -56,7 +56,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Initialize hook that get executed immediatly after using the infinite-autocomplete component
      */
     private init() {
-        this.applySpecialScrollbar();
+        this.applySpecialScrollbarStyle();
         this.applyOptionsStyle();
         this.appendInfiniteAutocompleteWrapperClass();
         this.linkInputComponent();
@@ -225,7 +225,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     /**
      * Apply a special slim scroll bar for the infinite autocomplete options
      */
-    private applySpecialScrollbar() {
+    private applySpecialScrollbarStyle() {
         let specialScroll = document.createElement('style');
         specialScroll.innerHTML = `
             .infinite-autocomplete-wrapper ::-webkit-scrollbar {
