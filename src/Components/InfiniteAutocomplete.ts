@@ -221,6 +221,32 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             document.head.appendChild(mainWrapperStyle);
         }
 
+        let isDefaultsStyleApplied = document.head.querySelector('#infinite-autocomplete-defaults-style');
+        if(!isDefaultsStyleApplied) {
+            let defaultsStyle = document.createElement('style');
+            defaultsStyle.id = 'infinite-autocomplete-defaults-style';
+            defaultsStyle.innerHTML = `
+                .infinite-autocomplete-input-wrapper .infinite-autocomplete-default-input {
+                    height: 28px;
+                    border-radius: 8px;
+                    box-shadow: inset 0px 0px 15px -4px transparent;
+                }
+                .infinite-autocomplete-options-wrapper .infinite-autocomplete-default-options {
+                    list-style-type: none;
+                    margin-top: 0;
+                    padding-left: 0;
+                }
+                .infinite-autocomplete-options-wrapper .infinite-autocomplete-default-options li {
+                    padding: 5px 10px 10px 10px;
+                }
+                .infinite-autocomplete-options-wrapper .infinite-autocomplete-default-options li:hover {
+                    background: #d5ebff;
+                    color: black;
+                    cursor: pointer;
+                }
+            `;
+            document.head.appendChild(defaultsStyle);
+        }
         
         //Input style rules
         let isInputStyleApplied = document.head.querySelector('#infinite-autocomplete-input-style');

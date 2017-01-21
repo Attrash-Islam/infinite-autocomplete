@@ -2,7 +2,7 @@
     <head>
         <style>
             .infinite-autocomplete-input-wrapper input {
-                height: 38px;
+                height: 28px;
                 border-radius: 8px;
                 box-shadow: inset 0px 0px 15px -4px transparent;
             }
@@ -17,15 +17,14 @@
             }
             .infinite-autocomplete-options-wrapper ul li:hover {
                 font-weight: bold;
-                background: black;
-                color: white;
+                background: #d5ebff;
+                color: black;
                 cursor: pointer;
             }
         </style>
     </head>
     <body>
         <div id="test" class="my-own-class"></div>
-        <div id="angry-div" style="overflow: scroll; max-height: 100px; height: 500px">Don't push me down!</div>
         <script src="../dist/index.debug.js"></script>
         <script>
 
@@ -34,7 +33,7 @@
                 function CustomizedInput() {
                 }
                 CustomizedInput.prototype.render = function () {
-                    return '<div>Start typing!</div><input type="text" />';
+                    return '<input type="text" />';
                 };
                 CustomizedInput.prototype.onInputChange = function (inputDOMElement, value) {
                     console.log(value);
@@ -72,28 +71,28 @@
                 }
             );
             iniElm.setConfig({data:[
-                { text: 'ine', value: 1},
-                { text: 'iwo', value: 2},
-                { text: 'ihree', value: 3},
-                { text: 'iour', value: 4},
-                { text: 'iive', value: 5},
-                { text: 'iix', value: 6},
-                { text: 'ieven', value: 7},
-                { text: 'iight', value: 8},
-                { text: 'iine', value: 9},
-                { text: 'ien', value: 10},
-                { text: 'islam', value: 11},
-                { text: 'iabel', value: 12},
-                { text: 'iife', value: '13'},
-                { text: 'iodeing', value: '14'},
-                { text: 'iove', value: '15'},
-                { text: 'iike', value: '16'},
-                { text: 'iumans', value: null},
-                { text: 'iomething', value: 17},
-                { text: 'iypescript', value: 'whooo? whoo?'},
-                { text: 'iinux', value: [1,2,3]},
-                { text: 'iernel', value: {object: true}},
-                { text: 'what!', value: 'what'}
+                { text: 'Islam Attrash', value: 1},
+                { text: 'Shai Reznik', value: 2},
+                { text: 'Uri Shaked', value: 3},
+                { text: 'Salsabel Eawissat', value: 4},
+                { text: 'Mohammed Attrash', value: 5},
+                { text: 'Mike Brocole', value: 6},
+                { text: 'John Stewart', value: 7},
+                { text: 'Stone Cold', value: 8},
+                { text: 'Triple H', value: 9},
+                { text: 'Sting The Stinger', value: 10},
+                { text: 'Superman', value: 11},
+                { text: 'Batman', value: 12},
+                { text: 'The Joker', value: '13'},
+                { text: 'Vanilla Icecream', value: '14'},
+                { text: 'Stephane macmahon', value: '15'},
+                { text: 'infinite autocomplete', value: '16'},
+                { text: 'Barak Obama', value: null},
+                { text: 'Bill Goldberg', value: 17},
+                { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+                { text: 'Saloma', value: [1,2,3]},
+                { text: 'Yosra Eawissat', value: {object: true}},
+                { text: 'Medium Articles', value: 'what'}
             ]});
         </script>
     </body>

@@ -16,7 +16,7 @@ export class OptionsComponent implements IOptionsComponent {
 
     render() {
         //You can inject template code before
-        return `<${this.listElementSelector}></${this.listElementSelector}>`;
+        return `<${this.listElementSelector} class="infinite-autocomplete-default-options"></${this.listElementSelector}>`;
         //You can inject template code after
     }
 

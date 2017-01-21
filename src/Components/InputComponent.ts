@@ -11,7 +11,7 @@ export class InputComponent implements IInputComponent {
     }
 
     render() {
-        return `<input type="text" />`;
+        return `<input class="infinite-autocomplete-default-input" type="text" />`;
     }
 
 }
