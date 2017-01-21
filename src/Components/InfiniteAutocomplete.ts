@@ -22,7 +22,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private config:InfiniteAutocompleteConfig;
     private preventMoreRequests:boolean = false;
     private fetchingData:boolean = false;
-    private isOptionsHidden = true;
 
     /**
      * Default configuration object
@@ -73,7 +72,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     private bindOutSideClickEvent() {
         document.addEventListener(`click`, (event:Event) => {
-            if(!this.isOptionsHidden) {
+            if(!this.isOptionsHidden()) {
                 let clickedOutSide = this.checkIfClickedOutSideTheAutocompleteComponents(<HTMLElement> event.target);
                 if(clickedOutSide) {
                     this.clearOptions();
@@ -103,7 +102,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     private bindEscapeEvent() {
         document.addEventListener('keydown', (e) => {
-            if(e.keyCode === 27 && !this.isOptionsHidden) { //Esc key pressed
+            if(e.keyCode === 27 && !this.isOptionsHidden()) { //Esc key pressed
                 this.clearOptions();
             }
         });
@@ -169,7 +168,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         //If we click on input and the options is hidden build the options
         //If we click on input and the options is already opened don't do anything
         if(inputChangeEvent.type === `input` || 
-                (inputChangeEvent.type === `click` && this.isOptionsHidden)) {
+                (inputChangeEvent.type === `click` && this.isOptionsHidden())) {
             this.buildOptions(target.value, true);
         }
     }
@@ -192,8 +191,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         optionsWrapperEle.className = `infinite-autocomplete-options-wrapper`;
         optionsWrapperEle.innerHTML = this.optionsComponent.render();
         let optionsEle = <HTMLElement> optionsWrapperEle.querySelector(this.optionsComponent.listElementSelector);
-        optionsEle.style.display = `none`;
-        this.isOptionsHidden = true;
+        this.setElementVisiblity(optionsWrapperEle, false);
         optionsEle.style.overflow = `scroll`;
         optionsEle.style.overflowX = `hidden`;
         optionsEle.style.border = `1px solid #bcbcbc`;
@@ -203,6 +201,17 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     }
 
     
+    /**
+     * Check if options wrapper hidden or not
+     * @returns true if hidden, or else false
+     */
+    private isOptionsHidden():boolean {
+        let optionsWrapper = <HTMLElement> this.element.querySelector(`.infinite-autocomplete-options-wrapper`);
+        return optionsWrapper.className
+            .indexOf(`infinite-autocomplete-hidden-element`) > -1;
+    }
+
+
     /**
      * Apply the style rules for the infinite autocomplete plugin and it's components
      */
@@ -221,6 +230,22 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             document.head.appendChild(mainWrapperStyle);
         }
 
+        //Hidden element style rules
+        let isHiddenStyleApplied = document.head.querySelector('#infinite-autocomplete-hidden-style');
+        if(!isHiddenStyleApplied) {
+            let hiddenStyle = document.createElement('style');
+            hiddenStyle.id = 'infinite-autocomplete-hidden-style';
+            hiddenStyle.innerHTML = `
+                .infinite-autocomplete-hidden-element {
+                    visibility: hidden;
+                    z-index: -1;
+                }
+            `;
+            document.head.appendChild(hiddenStyle);
+        }
+
+
+        //Defaults style rules
         let isDefaultsStyleApplied = document.head.querySelector('#infinite-autocomplete-defaults-style');
         if(!isDefaultsStyleApplied) {
             let defaultsStyle = document.createElement('style');
@@ -323,7 +348,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     private scrollReachedBottomHandler(e:Event) {
         let optionsEle = <HTMLElement> e.currentTarget;
-        if(!this.fetchingData && !this.preventMoreRequests) {
+        if(!this.fetchingData && !this.preventMoreRequests && !this.isOptionsHidden()) {
             if(optionsEle.scrollTop + optionsEle.clientHeight >= optionsEle.scrollHeight) {
                 this.page++;
                 this.buildOptions(
@@ -350,10 +375,32 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
         let optionListElement = this.getOptionsBaseElement();
         
-        optionListElement.style.display = `none`;
-        this.isOptionsHidden = true;
+        this.setElementVisiblity(
+            <HTMLElement> this.element.querySelector(`.infinite-autocomplete-options-wrapper`), 
+            false
+        );
         optionListElement.innerHTML = ``;
     }
+
+
+    /**
+     * Sets the element visiblity
+     * @param element - HTMLElement
+     * @param visible - visibility status
+     */
+    private setElementVisiblity(element:HTMLElement, visible:boolean) {
+        if(visible) {
+            element.className = element.className
+                .split(' ')
+                .filter(e => e !== `infinite-autocomplete-hidden-element`)
+                .join(' ');
+        } else {
+            if(element.className.indexOf(`infinite-autocomplete-hidden-element`) === -1) {
+                    element.className += ` infinite-autocomplete-hidden-element`;
+            }
+        }
+    }
+
 
     /**
      * Get options base HTMLElement
@@ -495,11 +542,15 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                 });
 
             if(optionListElement.innerHTML !== ``) {
-                optionListElement.style.display = ``;
-                this.isOptionsHidden = false;
+                this.setElementVisiblity(
+                    <HTMLElement> this.element.querySelector(`.infinite-autocomplete-options-wrapper`), 
+                    true
+                );
             } else {
-                optionListElement.style.display = `none`;
-                this.isOptionsHidden = true;
+                this.setElementVisiblity(
+                    <HTMLElement> this.element.querySelector(`.infinite-autocomplete-options-wrapper`), 
+                    false
+                );
             }
 
         } else {

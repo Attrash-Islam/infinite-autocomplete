@@ -14,10 +14,10 @@ describe(`Options Default implementation: `, function() {
     it(`The options list should be initialized as hidden`, function() {
         var infinite = document.createElement('div');
         new InfiniteAutocomplete(infinite);
-        var optionsList = infinite.querySelector('ul');
-        if(optionsList) {
-            expect(optionsList.style.display)
-                .toBe(`none`);
+        var optionsListWrapper = infinite.querySelector('.infinite-autocomplete-options-wrapper');
+        if(optionsListWrapper) {
+            expect(optionsListWrapper.className)
+                .toContain(`infinite-autocomplete-hidden-element`);
         } else {
             throw `Can't find the options list HTMLElement`;
         }
@@ -106,7 +106,7 @@ describe(`Options Default implementation: `, function() {
                             });
                         }
                     };
-                    spyOn(conf, 'getDataFromApi');
+                    spyOn(conf, 'getDataFromApi').and.callThrough();
                     
                     iniElm.setConfig({
                         getDataFromApi: conf.getDataFromApi,
@@ -217,9 +217,9 @@ describe(`Options Default implementation: `, function() {
                 await TestUtils.sleep(0);
                 var options = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
                 expect(options.length).toBe(0);
-                var optionsList = <HTMLElement> infinite.querySelector(`ul`);
-                expect(optionsList.style.display)
-                    .toBe(`none`);
+                var optionsList = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-options-wrapper`);
+                expect(optionsList.className)
+                    .toContain(`infinite-autocomplete-hidden-element`);
                 done();
         });
 
