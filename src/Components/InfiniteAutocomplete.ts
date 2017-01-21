@@ -540,6 +540,20 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                         optionElement.addEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
                         optionListElement.appendChild(optionElement);
                 });
+            
+            let chunkClientHeight = optionListElement.children[0].clientHeight;
+
+            //Check if maxHeight is fits the chunk size list
+            if(this.config.maxHeight) {
+                let maxHeightNumber = parseInt(this.config.maxHeight);
+                if(maxHeightNumber >= chunkClientHeight * this.config.fetchSize) {
+                    this.config.maxHeight = (chunkClientHeight * this.config.fetchSize - 5) + 'px';
+                    let optionsWrapperEle = <HTMLElement> this.element.querySelector(`.infinite-autocomplete-options-wrapper`);
+                    let optionsEle = <HTMLElement> optionsWrapperEle.querySelector(this.optionsComponent.listElementSelector);
+                    optionsEle.style.maxHeight = this.config.maxHeight;
+                }
+            }
+
 
             if(optionListElement.innerHTML !== ``) {
                 this.setElementVisiblity(
