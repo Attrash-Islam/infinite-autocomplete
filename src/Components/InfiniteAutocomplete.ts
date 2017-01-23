@@ -190,6 +190,18 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     public setConfig(config:InfiniteAutocompleteConfigParams) {
         this.config = {...this.config, ...config};
+        // this.destroy();
+        // this.inputComponent = new this.config.customizedInput();
+        // this.optionsComponent = new this.config.customizedOptions();
+    }
+
+    
+    
+    /**
+     * Destroy the infinite-autocomplete and unbind all events
+     */
+    private destroy() {
+
     }
 
 

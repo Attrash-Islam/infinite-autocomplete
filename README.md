@@ -58,7 +58,9 @@ new InfiniteAutocomplete(document.getElementById('test'), {
 # Override Implementations
 Regards the custom implementations, they're targeting the two main component of this plugin, which is: InputComponent, OptionsComponent (The result)
 
-For that you've two interfaces exported to help you manage correctly overriding with your own classes
+For that you've two classes exported to help you manage correctly extending with your own classes
+
+The Defaults implements these interfaces:
 
 The IInputComponent interface can be defined as:
 
@@ -109,9 +111,9 @@ export interface IOptionsComponent {
 
 ```js
 
-import { InfiniteAutocomplete, IInputComponent } from 'infinite-autocomplete';
+import { InfiniteAutocomplete, InputComponent } from 'infinite-autocomplete';
 
-class SpecialInput implements IInputComponent {
+class SpecialInput extends InputComponent {
     render() {
         return `<input class="test-input" style="background: red;" />`;
     }
