@@ -15,7 +15,7 @@ export interface InfiniteAutocompleteConfigBase {
     /**
      * on-select event output handler when choosing an option
      */
-    onSelect?:Function;
+    onSelect?(selectedElement:EventTarget, selectedData:IOption);
     /**
      * max height for the options
      */
