@@ -81,14 +81,21 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * If click is out side the main wrapper area then close options
      */
     private bindOutSideClickEvent() {
-        document.addEventListener(`click`, (event:Event) => {
-            if(!this.isOptionsHidden()) {
-                let clickedOutSide = this.checkIfClickedOutSideTheAutocompleteComponents(<HTMLElement> event.target);
-                if(clickedOutSide) {
-                    this.clearOptions();
-                }
+        document.addEventListener(`click`, this.onDocumentClickHandler.bind(this));
+    }
+
+
+    /**
+     * on document click handler
+     * @param event - Event
+     */
+    private onDocumentClickHandler(event:Event) {
+        if(!this.isOptionsHidden()) {
+            let clickedOutSide = this.checkIfClickedOutSideTheAutocompleteComponents(<HTMLElement> event.target);
+            if(clickedOutSide) {
+                this.clearOptions();
             }
-        });
+        }
     }
 
 
@@ -111,11 +118,18 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * (#11) Binds escape event handler to clear the options when clicking Esc
      */
     private bindEscapeEvent() {
-        document.addEventListener('keydown', (e) => {
-            if(e.keyCode === 27 && !this.isOptionsHidden()) { //Esc key pressed
-                this.clearOptions();
-            }
-        });
+        document.addEventListener('keydown', this.onEscapeEventHandler.bind(this));
+    }
+
+
+    /**
+     * Escape event handler
+     * @param e - KeyboardEvent
+     */
+    private onEscapeEventHandler(e) {
+        if(e.keyCode === 27 && !this.isOptionsHidden()) { //Esc key pressed
+            this.clearOptions();
+        }
     }
 
 
@@ -123,12 +137,14 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Append infinite autocomplete main wrapper className
      */
     private appendInfiniteAutocompleteWrapperClass() {
-        this.element.className = this.element
-            .className
-            .split(` `)
-            .concat([`infinite-autocomplete-wrapper`])
-            .filter(c => c)
-            .join(` `);
+        if(this.element.className && this.element.className.indexOf(`infinite-autocomplete-wrapper`) === -1) {
+            this.element.className = this.element
+                .className
+                .split(` `)
+                .concat([`infinite-autocomplete-wrapper`])
+                .filter(c => c)
+                .join(` `);
+        }
     }
 
 
@@ -189,20 +205,33 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param config - infinite-autocomplete configuration object
      */
     public setConfig(config:InfiniteAutocompleteConfigParams) {
-        this.config = {...this.config, ...config};
-        // this.destroy();
-        // this.inputComponent = new this.config.customizedInput();
-        // this.optionsComponent = new this.config.customizedOptions();
+        this.destroy();
+        this.config = { ...this.config, ...config };
+        this.inputComponent = new this.config.customizedInput();
+        this.optionsComponent = new this.config.customizedOptions();
+        this.init();
     }
 
-    
     
     /**
      * Destroy the infinite-autocomplete and unbind all events
      */
     private destroy() {
+        
+        if(!this.isOptionsHidden()) {
+            this.clearOptions();
+        }
 
+        let optionsList = this.getOptionsBaseElement();
+        optionsList.removeEventListener(`scroll`, this.scrollReachedBottomHandler.bind(this));
+        let inputEle = this.getInputElement();
+        inputEle.removeEventListener(`input`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
+        inputEle.removeEventListener(`click`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
+        document.removeEventListener(`click`, this.onDocumentClickHandler.bind(this));
+        document.removeEventListener('keydown', this.onEscapeEventHandler.bind(this));
+        this.element.innerHTML = ``;
     }
+
 
 
     /**

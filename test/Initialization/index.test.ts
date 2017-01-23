@@ -144,4 +144,45 @@ describe(`Initialization: `, function() {
             done();
     });
 
+
+    it(`should destroy and reinitialize the plugin whenever setConfig is called`, 
+        async function(done):es6Promise<any> {
+
+            var infinite = document.createElement('div');
+            
+            var iniEle = new InfiniteAutocomplete(infinite, {
+                data: [{ text: 'text', value: 'value' }]
+            });
+
+            expect(infinite.querySelector(`#before-input`))
+                .toBe(null);
+
+            var inputEle = <HTMLInputElement> infinite.querySelector(`input`);
+            TestUtils.typeLetter(inputEle, `te`);
+            await TestUtils.sleep(0);
+
+            var optionsRow = infinite.querySelectorAll(`li`);
+            expect(optionsRow.length)
+                .toBe(1);
+
+            iniEle.setConfig({
+                customizedInput: template
+            });
+
+            var optionsRowAfterConfigChange = infinite.querySelectorAll(`li`);
+            expect(optionsRowAfterConfigChange.length)
+                .toBe(0);
+
+            var inputAfterChanges = <HTMLInputElement> infinite.querySelector(`input`);
+            
+            TestUtils.typeLetter(inputAfterChanges, `te`);
+            await TestUtils.sleep(0);
+
+            expect(infinite.querySelector(`#before-input`))
+                .not.toBe(null);
+
+            done();
+        });
+
+
 });
