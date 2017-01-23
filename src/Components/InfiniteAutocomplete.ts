@@ -137,7 +137,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Append infinite autocomplete main wrapper className
      */
     private appendInfiniteAutocompleteWrapperClass() {
-        if(this.element.className && this.element.className.indexOf(`infinite-autocomplete-wrapper`) === -1) {
+        if(!this.element.className || this.element.className.indexOf(`infinite-autocomplete-wrapper`) === -1) {
             this.element.className = this.element
                 .className
                 .split(` `)
