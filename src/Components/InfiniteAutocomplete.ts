@@ -1,5 +1,5 @@
-import { InputComponent as defaultInput } from './InputComponent';
-import { OptionsComponent as defaultOptions } from './OptionsComponent';
+import { InputComponent as defaultInputImpl } from './InputComponent';
+import { OptionsComponent as defaultOptionsImpl } from './OptionsComponent';
 import { InfiniteAutocompleteConfig } from '../Interfaces/InfiniteAutocompleteConfig';
 import { IInputComponent, IInputCompoenentConstructor } from '../Interfaces/IInputComponent';
 import { IOptionsComponent, IOptionsComponentConstructor } from '../Interfaces/IOptionsComponent';
@@ -8,6 +8,16 @@ import { Promise as es6Promise } from 'es6-promise';
 import { Utils } from '../Utils/index';
 import { InfiniteAutocompleteConfigParams } from '../Interfaces/InfiniteAutocompleteConfigParams';
 import { IOption } from '../Interfaces/IOption';
+
+/**
+ * Default Input in infinite-autocomplete component
+ */
+export const InputComponent = defaultInputImpl;
+
+/**
+ * Default Input in infinite-autocomplete component
+ */
+export const OptionsComponent = defaultOptionsImpl;
 
 /**
  * infinite-autocomplete component implementation
@@ -29,8 +39,8 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private defaultConfig:InfiniteAutocompleteConfig = {
         fetchSize: 10,
         maxHeight: '160px',
-        customizedInput: defaultInput,
-        customizedOptions: defaultOptions
+        customizedInput: defaultInputImpl,
+        customizedOptions: defaultOptionsImpl
     };
     
     /**

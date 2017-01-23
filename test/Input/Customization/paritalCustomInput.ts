@@ -1,16 +1,13 @@
 import { InputComponent } from '../../../src/Components/InfiniteAutocomplete';
 
-export class inputHandlers extends InputComponent {
+export class paritalCustomInput extends InputComponent {
     
     constructor() {
         super();
     }
 
-    render() {
-        return `<input />`;
-    }
-
     onInputChange(inputElement:HTMLInputElement, value:string) {
         
     }
+
 }

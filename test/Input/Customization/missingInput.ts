@@ -1,9 +1,9 @@
-import { IInputComponent } from '../../../src/Interfaces/IInputComponent';
+import { InputComponent } from '../../../src/Components/InfiniteAutocomplete';
 
-export class missingInput implements IInputComponent {
+export class missingInput extends InputComponent {
     
     constructor() {
-
+        super();
     }
 
     render() {

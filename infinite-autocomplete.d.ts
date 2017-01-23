@@ -1,6 +1,6 @@
 import { Promise as es6Promise } from 'es6-promise';
 export { InfiniteAutocomplete };
-export { IInputComponent, IOptionsComponent };
+export { InputComponent, OptionsComponent };
 
 ///////////////////////////////////////////////////////////////////////////////
 // infAutocomplete module (infinite-autocomplete)
@@ -74,6 +74,13 @@ interface IInputComponent {
     onInputChange?(inputElement:HTMLInputElement, value:string);
 }
 
+/**
+ * Default input component implementation
+ */
+declare class InputComponent implements IInputComponent {
+    render():string;
+}
+
 
 /**
  * Options component constructor interface
@@ -126,6 +133,20 @@ interface InfiniteAutocompleteConfigParams extends InfiniteAutocompleteConfigBas
     customizedOptions?:IOptionsComponentConstructor;
 }
 
+interface IInputComponent {
+    /**
+     * Input component template string
+     * @default `<input />`
+     */
+    render():string;
+    /**
+     * onInputChange event handler
+     * @param inputElement - HTMLInputElement
+     * @param value - input text value
+     */
+    onInputChange?(inputElement:HTMLInputElement, value:string);
+}
+
 
 /**
  * Option model interface
@@ -170,5 +191,14 @@ interface IOptionsComponent {
      * @default `<li> ${value} </li>`
      * @requires one base HTML Element
      */
+    renderOption(option:IOption):string;
+}
+
+/**
+ * Default options component
+ */
+declare class OptionsComponent implements IOptionsComponent {
+    listElementSelector:string;
+    render():string;
     renderOption(option:IOption):string;
 }

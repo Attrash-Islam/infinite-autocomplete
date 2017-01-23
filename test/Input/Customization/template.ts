@@ -1,9 +1,9 @@
-import { IInputComponent } from '../../../src/Interfaces/IInputComponent';
+import { InputComponent } from '../../../src/Components/InfiniteAutocomplete';
 
-export class template implements IInputComponent {
+export class template extends InputComponent {
     
     constructor() {
-
+        super();
     }
 
     render() {

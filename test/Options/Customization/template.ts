@@ -1,12 +1,12 @@
-import { IOptionsComponent } from '../../../src/Interfaces/IOptionsComponent';
 import { IOption } from '../../../src/Interfaces/IOption';
+import { OptionsComponent } from '../../../src/Components/InfiniteAutocomplete';
 
-export class template implements IOptionsComponent {
+export class template extends OptionsComponent {
 
     listElementSelector = `.myList`;
 
     constructor() {
-
+        super();
     }
 
     render() {

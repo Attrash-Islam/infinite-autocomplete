@@ -3,6 +3,7 @@ import { template } from './Customization/template';
 import { inputHandlers } from './Customization/inputHandlers';
 import { TestUtils } from '../Utils/index';
 import { missingInput } from './Customization/missingInput';
+import { paritalCustomInput } from './Customization/paritalCustomInput';
 
 describe(`Customized Input implementation: `, function() {
 
@@ -79,6 +80,14 @@ describe(`Customized Input implementation: `, function() {
             TestUtils.typeLetter(input, 'f');
             expect(inputHandlers.prototype.onInputChange)
                 .toHaveBeenCalledWith(input, 'Tf');
+        });
+    });
+
+    describe(`Custom partial input`, function() {
+        it(`should extend the default and contain all it's functions`, function() {
+            var infinite = document.createElement('div');
+            var iniEle = new InfiniteAutocomplete(infinite, { customizedInput: paritalCustomInput });
+            expect((iniEle as any).inputComponent.render).toBeDefined();
         });
     });
     
