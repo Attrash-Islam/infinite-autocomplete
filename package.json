@@ -34,7 +34,7 @@
     "typescript"
   ],
   "author": "Islam Attrash",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Attrash-Islam/infinite-autocomplete/issues"
   },
