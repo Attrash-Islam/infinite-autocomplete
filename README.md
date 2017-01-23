@@ -13,6 +13,16 @@ Ease of use, flexable and written with TypeScript following the SOLID principles
 ```js
 npm i --save infinite-autocomplete
 ```
+# Developer section
+In the package.json scripts we've 4 basic tasks:
+
+`build` - Build the code once
+
+`build:watch` - Build the code and watch changes
+
+`test` - Run tests once
+
+`test:watch` - Run tests and watch changes
 
 # Basic Usage (Minimum Configuration)
 ```js
