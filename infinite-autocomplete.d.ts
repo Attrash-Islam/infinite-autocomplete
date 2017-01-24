@@ -25,7 +25,7 @@ declare class InfiniteAutocomplete {
      * Update configuration on runtime
      * @param config - New infinite autocomplete configuration
      */
-    setConfig(config:InfiniteAutocompleteConfig);
+    setConfig(config:InfiniteAutocompleteConfigParams);
 }
 
 
