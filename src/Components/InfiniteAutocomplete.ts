@@ -216,7 +216,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     /**
      * Destroy the infinite-autocomplete and unbind all events
      */
-    private destroy() {
+    destroy() {
         
         if(!this.isOptionsHidden()) {
             this.clearOptions();

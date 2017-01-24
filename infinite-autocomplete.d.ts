@@ -26,6 +26,10 @@ declare class InfiniteAutocomplete {
      * @param config - New infinite autocomplete configuration
      */
     setConfig(config:InfiniteAutocompleteConfigParams);
+    /**
+     * Destory the plugin and unbind all the DOM events
+     */
+    destroy();
 }
 
 

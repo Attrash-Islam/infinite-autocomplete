@@ -10,4 +10,8 @@ export interface IInfiniteAutocomplete {
      * @param config - New infinite autocomplete configuration
      */
     setConfig(config:InfiniteAutocompleteConfig);
+    /**
+     * Destory the plugin and unbind all the DOM events
+     */
+    destroy();
 }
