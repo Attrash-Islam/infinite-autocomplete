@@ -8,6 +8,7 @@ import { Promise as es6Promise } from 'es6-promise';
 import { Utils } from '../Utils/index';
 import { InfiniteAutocompleteConfigParams } from '../Interfaces/InfiniteAutocompleteConfigParams';
 import { IOption } from '../Interfaces/IOption';
+import { HOVERED, KEY_PRESS_STATES } from '../Constants/index';
 
 /**
  * Default Input in infinite-autocomplete component
@@ -176,9 +177,109 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         //(#2) Start to show options when focus on the input
         inputEle
             .addEventListener(`click`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
+        inputEle
+            .addEventListener(`keydown`, (keyDownEvent:KeyboardEvent) => this.onKeyPressed(keyDownEvent));
         this.element.appendChild(inputWrapperEle);
     }
     
+
+    /**
+     * On keydown pressing in input element
+     * @param keydownEvent - pressing key event
+     */
+    private onKeyPressed(keydownEvent:KeyboardEvent) {
+        if(!this.isOptionsHidden()) {
+            let currentHovered = this.getNavigationIndex();
+            if(currentHovered === -1) {
+                if(keydownEvent.keyCode === KEY_PRESS_STATES.DOWN) {
+                    this.toggleHoveredState(0, keydownEvent);
+                }
+            } else {
+                switch(keydownEvent.keyCode) {
+                    case KEY_PRESS_STATES.DOWN:
+                        this.toggleHoveredState(currentHovered + 1, keydownEvent);
+                    break;
+                    
+                    case KEY_PRESS_STATES.UP:
+                        this.toggleHoveredState(currentHovered - 1, keydownEvent);
+                    break;
+
+                    case KEY_PRESS_STATES.ENTER:
+                        this.clickOnHovered();
+                    break;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Click on hovered element
+     */
+    private clickOnHovered() {
+        let optionsList = this.getOptionsBaseElement();
+        let hoveredElement = <HTMLElement> optionsList.querySelector(`.${HOVERED}`);
+        if(hoveredElement) hoveredElement.click();
+    }
+
+
+    /**
+     * Toggle hovered state on specific index in options list
+     * @param index - The index to be applied as hovered
+     */
+    private toggleHoveredState(index:number, keydownEvent:KeyboardEvent) {
+        let optionsList = this.getOptionsBaseElement();
+        if(index >= 0 && index < optionsList.children.length) {
+
+            let hoveredElement = optionsList.querySelector(`.${HOVERED}`);
+            if(hoveredElement) {
+                hoveredElement.className = hoveredElement
+                    .className
+                    .split(' ')
+                    .filter(e => e !== HOVERED)
+                    .join(' ')
+                    .trim();
+            }
+
+            let targetElement = <HTMLElement> optionsList.children[index];
+            targetElement.className += ` ${HOVERED}`;
+
+            // If hovered is not in the scrollable view
+            if (targetElement.offsetTop < optionsList.scrollTop || (
+                    targetElement.offsetTop - optionsList.scrollTop > optionsList.clientHeight)) {
+                switch(keydownEvent.keyCode) {
+
+                    case KEY_PRESS_STATES.UP:
+                        targetElement.scrollIntoView(true);
+                    break;
+
+                    case KEY_PRESS_STATES.DOWN:
+                        targetElement.scrollIntoView(false);
+                    break;
+
+                }
+            }
+            
+        }
+    }
+
+
+    /**
+     * Get navigation index if options is open
+     * @returns Options current index
+     */
+    private getNavigationIndex() {
+        let optionsList = this.getOptionsBaseElement();
+        for(let i = 0; i < optionsList.children.length; i++) {
+            let option = optionsList.children[i];
+            if(option.className.indexOf(HOVERED) !== -1) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
 
     /**
      * Input component `change` event handler
@@ -227,6 +328,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         let inputEle = this.getInputElement();
         inputEle.removeEventListener(`input`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
         inputEle.removeEventListener(`click`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
+        inputEle.removeEventListener(`keydown`, (keyDownEvent:KeyboardEvent) => this.onKeyPressed(keyDownEvent));
         document.removeEventListener(`click`, this.onDocumentClickHandler.bind(this));
         document.removeEventListener('keydown', this.onEscapeEventHandler.bind(this));
         this.element.innerHTML = ``;
@@ -324,6 +426,19 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             document.head.appendChild(defaultsStyle);
         }
         
+        let isHoveredStyleApplied = document.head.querySelector('#infinite-autocomplete-hovered-style');
+        if(!isHoveredStyleApplied) {
+            let hoveredStyle = document.createElement('style');
+            hoveredStyle.id = 'infinite-autocomplete-hovered-style';
+            hoveredStyle.innerHTML = `
+                .infinite-autocomplete-wrapper .hovered {
+                    background: #d5ebff;
+                }
+            `;
+            document.head.appendChild(hoveredStyle);
+        }
+
+
         //Input style rules
         let isInputStyleApplied = document.head.querySelector('#infinite-autocomplete-input-style');
         if(!isInputStyleApplied) {
