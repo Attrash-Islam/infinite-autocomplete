@@ -57,7 +57,34 @@ export class TestUtils {
         document.dispatchEvent(escapeClick);
     }
 
+    /**
+     * Simulate upArrow press event on document
+     */
+    static pressUpArrow(element:HTMLElement) {
+        var upArrow = new Event('keydown');
+        (upArrow as any).keyCode = 38;
+        element.dispatchEvent(upArrow);
+    }
 
+
+    /**
+     * Simulate downArrow press event on document
+     */
+    static pressDownArrow(element:HTMLElement) {
+        var downArrow = new Event('keydown');
+        (downArrow as any).keyCode = 40;
+        element.dispatchEvent(downArrow);
+    }
+
+
+    /**
+     * Simulate Enter press event on document
+     */
+    static pressEnter(element:HTMLElement) {
+        var enter = new Event('keydown');
+        (enter as any).keyCode = 13;
+        element.dispatchEvent(enter);
+    }
 
     /**
      * Block code until async finished
