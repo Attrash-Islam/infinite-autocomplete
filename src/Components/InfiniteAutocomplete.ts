@@ -21,10 +21,15 @@ export const InputComponent = defaultInputImpl;
 export const OptionsComponent = defaultOptionsImpl;
 
 /**
+ * InfiniteAutocomplete named export support
+ */
+export { InfiniteAutocomplete };
+
+/**
  * infinite-autocomplete component implementation
  * @author Islam Attrash
  */
-export class InfiniteAutocomplete implements IInfiniteAutocomplete {
+export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
     private element:HTMLElement;
     private inputComponent:IInputComponent;

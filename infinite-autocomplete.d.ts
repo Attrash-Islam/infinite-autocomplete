@@ -1,6 +1,6 @@
 import { Promise as es6Promise } from 'es6-promise';
-export { InfiniteAutocomplete };
-export { InputComponent, OptionsComponent };
+export { InfiniteAutocomplete, InputComponent, OptionsComponent };
+export default InfiniteAutocomplete;
 
 ///////////////////////////////////////////////////////////////////////////////
 // infAutocomplete module (infinite-autocomplete)
