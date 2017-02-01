@@ -417,7 +417,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                 .infinite-autocomplete-options-wrapper .infinite-autocomplete-default-options li {
                     padding: 5px 10px 10px 10px;
                 }
-                .infinite-autocomplete-options-wrapper .infinite-autocomplete-default-options li:hover {
+                .infinite-autocomplete-options-wrapper .infinite-autocomplete-default-options li.hovered {
                     background: #d5ebff;
                     color: black;
                     cursor: pointer;
@@ -426,19 +426,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             document.head.appendChild(defaultsStyle);
         }
         
-        let isHoveredStyleApplied = document.head.querySelector('#infinite-autocomplete-hovered-style');
-        if(!isHoveredStyleApplied) {
-            let hoveredStyle = document.createElement('style');
-            hoveredStyle.id = 'infinite-autocomplete-hovered-style';
-            hoveredStyle.innerHTML = `
-                .infinite-autocomplete-wrapper .hovered {
-                    background: #d5ebff;
-                }
-            `;
-            document.head.appendChild(hoveredStyle);
-        }
-
-
         //Input style rules
         let isInputStyleApplied = document.head.querySelector('#infinite-autocomplete-input-style');
         if(!isInputStyleApplied) {
@@ -675,6 +662,26 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
 
     /**
+     * On hovering on option row
+     * @param event - Hover Mouse Event
+     */
+    private onOptionHoverEvent(event:MouseEvent) {
+        let optionsList = this.getOptionsBaseElement();
+        let hoveredElement = optionsList.querySelector(`.${HOVERED}`);
+        if(hoveredElement) {
+            hoveredElement.className = hoveredElement
+                .className
+                .split(' ')
+                .filter(e => e !== HOVERED)
+                .join(' ')
+                .trim();
+        }
+        let target = <HTMLElement> event.currentTarget;
+        target.className += ` ${HOVERED}`;
+    }
+
+
+    /**
      * Build the options inner tags in options list tag based on the text passed and the data in config
      * @param text - Text to search on in the autocomplete
      * @param clearPreviousData - Flag to clear previous options and override with the new one
@@ -704,6 +711,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
                         (optionElement as any).data = { text: option.text, value: option.value };
                         (<HTMLElement> optionElement).setAttribute('infinite-clickable', '');
                         optionElement.addEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
+                        optionElement.addEventListener(`mouseover`, (event:MouseEvent) => this.onOptionHoverEvent(event));
                         optionListElement.appendChild(optionElement);
                 });
             

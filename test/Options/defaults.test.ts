@@ -461,5 +461,168 @@ describe(`Options Default implementation: `, function() {
                     done();
             });
         });
+
+
+            describe(`Up/Down keypress in input: `, function() {
+
+                it(`should append 'hovered' class for the first option in the first press`, 
+                    async function(done):es6Promise<any> {
+                        var infinite = document.createElement('div');
+                        var iniEle = new InfiniteAutocomplete(infinite, {
+                            data: [
+                                { text: 'text', value: 'value'}, 
+                                { text: 'text2', value: 'value2'}
+                            ]
+                        });
+                        var inputEle = <HTMLElement> infinite.querySelector(`input`);
+                        if(inputEle) {
+                            inputEle.click();
+                            await TestUtils.sleep(0);
+                            TestUtils.pressDownArrow(inputEle);
+                            expect(infinite.querySelectorAll(`li`)[0].className)
+                                .toContain(`hovered`);
+                            expect(infinite.querySelectorAll(`li`)[1].className)
+                                .not.toContain(`hovered`);
+                            done();
+                        }
+                    });
+
+                
+                it(`should append 'hovered' class for the second option when pressing twice`, 
+                    async function(done):es6Promise<any> {
+                        var infinite = document.createElement('div');
+                        var iniEle = new InfiniteAutocomplete(infinite, {
+                            data: [
+                                { text: 'text', value: 'value'}, 
+                                { text: 'text2', value: 'value2'}
+                            ]
+                        });
+                        var inputEle = <HTMLElement> infinite.querySelector(`input`);
+                        if(inputEle) {
+                            inputEle.click();
+                            await TestUtils.sleep(0);
+                            TestUtils.pressDownArrow(inputEle);
+                            TestUtils.pressDownArrow(inputEle);
+                            expect(infinite.querySelectorAll(`li`)[1].className)
+                                .toContain(`hovered`);
+                            expect(infinite.querySelectorAll(`li`)[0].className)
+                                .not.toContain(`hovered`);
+                            done();
+                        }
+                    });
+
+
+                it(`should append 'hovered' class for the first option when pressing down twice and up again`, 
+                    async function(done):es6Promise<any> {
+                        var infinite = document.createElement('div');
+                        var iniEle = new InfiniteAutocomplete(infinite, {
+                            data: [
+                                { text: 'text', value: 'value'}, 
+                                { text: 'text2', value: 'value2'}
+                            ]
+                        });
+                        var inputEle = <HTMLElement> infinite.querySelector(`input`);
+                        if(inputEle) {
+                            inputEle.click();
+                            await TestUtils.sleep(0);
+                            TestUtils.pressDownArrow(inputEle);
+                            TestUtils.pressDownArrow(inputEle);
+                            TestUtils.pressUpArrow(inputEle);
+                            expect(infinite.querySelectorAll(`li`)[0].className)
+                                .toContain(`hovered`);
+                            expect(infinite.querySelectorAll(`li`)[1].className)
+                                .not.toContain(`hovered`);
+                            done();
+                        }
+                    });
+
+
+                it(`it should append 'hovered' in a way that is not circlular. 
+                        Pressing Up in the first element won't go to bottom`, 
+                    async function(done):es6Promise<any> {
+                        var infinite = document.createElement('div');
+                        var iniEle = new InfiniteAutocomplete(infinite, {
+                            data: [
+                                { text: 'text', value: 'value'}, 
+                                { text: 'text2', value: 'value2'}
+                            ]
+                        });
+                        var inputEle = <HTMLElement> infinite.querySelector(`input`);
+                        if(inputEle) {
+                            inputEle.click();
+                            await TestUtils.sleep(0);
+                            TestUtils.pressDownArrow(inputEle);
+                            TestUtils.pressUpArrow(inputEle);
+                            TestUtils.pressUpArrow(inputEle);
+                            TestUtils.pressUpArrow(inputEle);
+                            expect(infinite.querySelectorAll(`li`)[0].className)
+                                .toContain(`hovered`);
+                            expect(infinite.querySelectorAll(`li`)[1].className)
+                                .not.toContain(`hovered`);
+                            done();
+                        }
+                    });
+
+                it(`it should append 'hovered' in a way that is not circlular. 
+                        Pressing Down in the last element won't go to the top`, 
+                    async function(done):es6Promise<any> {
+                        var infinite = document.createElement('div');
+                        var iniEle = new InfiniteAutocomplete(infinite, {
+                            data: [
+                                { text: 'text', value: 'value'}, 
+                                { text: 'text2', value: 'value2'}
+                            ]
+                        });
+                        var inputEle = <HTMLElement> infinite.querySelector(`input`);
+                        if(inputEle) {
+                            inputEle.click();
+                            await TestUtils.sleep(0);
+                            TestUtils.pressDownArrow(inputEle);
+                            TestUtils.pressDownArrow(inputEle);
+                            TestUtils.pressDownArrow(inputEle);
+                            TestUtils.pressDownArrow(inputEle);
+                            expect(infinite.querySelectorAll(`li`)[0].className)
+                                .not.toContain(`hovered`);
+                            expect(infinite.querySelectorAll(`li`)[1].className)
+                                .toContain(`hovered`);
+                            done();
+                        }
+                    });
+
+
+                it(`should select the 'hovered' class when pressing enter`, 
+                    async function(done):es6Promise<any> {
+                        var infinite = document.createElement('div');
+                        var object = {
+                            spiedFunction: function() {}
+                        };
+                        spyOn(object, 'spiedFunction').and.returnValue('');
+                        
+                        var iniEle = new InfiniteAutocomplete(infinite, {
+                            data: [
+                                { text: 'text', value: 'value'}, 
+                                { text: 'text2', value: 'value2'}
+                            ],
+                            onSelect: object.spiedFunction
+                        });
+                        var inputEle = <HTMLElement> infinite.querySelector(`input`);
+                        if(inputEle) {
+                            inputEle.click();
+                            await TestUtils.sleep(0);
+                            var secondOption = infinite.querySelectorAll(`li`)[1];
+                            TestUtils.pressDownArrow(inputEle);
+                            TestUtils.pressDownArrow(inputEle);
+                            TestUtils.pressEnter(inputEle);
+                            expect(object.spiedFunction)
+                                .toHaveBeenCalledWith(secondOption, {
+                                    text: 'text2',
+                                    value: 'value2'
+                                })
+                            done();
+                        }
+                    });
+
+            });
+
     });
 });
