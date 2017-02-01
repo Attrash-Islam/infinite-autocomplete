@@ -58,7 +58,8 @@ export class TestUtils {
     }
 
     /**
-     * Simulate upArrow press event on document
+     * Simulate upArrow press event on element
+     * @param element
      */
     static pressUpArrow(element:HTMLElement) {
         var upArrow = new Event('keydown');
@@ -68,7 +69,8 @@ export class TestUtils {
 
 
     /**
-     * Simulate downArrow press event on document
+     * Simulate downArrow press event on element
+     * @param element
      */
     static pressDownArrow(element:HTMLElement) {
         var downArrow = new Event('keydown');
@@ -78,13 +80,24 @@ export class TestUtils {
 
 
     /**
-     * Simulate Enter press event on document
+     * Simulate Enter press event on element
+     * @param element
      */
     static pressEnter(element:HTMLElement) {
         var enter = new Event('keydown');
         (enter as any).keyCode = 13;
         element.dispatchEvent(enter);
     }
+
+    /**
+     * Simulate mouseover (hover) event on element
+     * @param element
+     */
+    static hoverOnElement(element:HTMLElement) {
+        var hover = new Event('mouseover');
+        element.dispatchEvent(hover);
+    }
+
 
     /**
      * Block code until async finished

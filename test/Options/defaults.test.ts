@@ -624,5 +624,41 @@ describe(`Options Default implementation: `, function() {
 
             });
 
+
+            describe(`Hovering state`, function() {
+
+                it(`should append hovered when hovering on elements`, 
+                    async function(done):es6Promise<any> {
+
+                        var infinite = document.createElement('div');
+                        
+                        var iniEle = new InfiniteAutocomplete(infinite, {
+                            data: [
+                                { text: 'text', value: 'value'}, 
+                                { text: 'text2', value: 'value2'}
+                            ]
+                        });
+
+                        var inputEle = <HTMLElement> infinite.querySelector(`input`);
+
+                        if(inputEle) {
+                            inputEle.click();
+                            await TestUtils.sleep(0);
+                            var ele1 = <HTMLElement> infinite.querySelectorAll(`li`)[0];
+                            var ele2 = <HTMLElement> infinite.querySelectorAll(`li`)[1];
+                            TestUtils.hoverOnElement(ele1);
+                            expect(ele1.className)
+                                .toContain(`hovered`);
+                            TestUtils.hoverOnElement(ele2);
+                            expect(ele1.className)
+                                .not.toContain(`hovered`);
+                            expect(ele2.className)
+                                .toContain(`hovered`);
+                            done();
+                        }
+                });
+
+            });
+
     });
 });
