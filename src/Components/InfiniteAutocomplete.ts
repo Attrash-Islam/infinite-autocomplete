@@ -82,7 +82,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * If click is out side the main wrapper area then close options
      */
     private bindOutSideClickEvent() {
-        document.addEventListener(`click`, this.onDocumentClickHandler.bind(this));
+        document.addEventListener(`click`, (event:Event) => this.onDocumentClickHandler(event));
     }
 
 
@@ -119,7 +119,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * (#11) Binds escape event handler to clear the options when clicking Esc
      */
     private bindEscapeEvent() {
-        document.addEventListener('keydown', this.onEscapeEventHandler.bind(this));
+        document.addEventListener('keydown', (e) => this.onEscapeEventHandler(e));
     }
 
 
@@ -324,13 +324,13 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         }
 
         let optionsList = this.getOptionsBaseElement();
-        optionsList.removeEventListener(`scroll`, this.scrollReachedBottomHandler.bind(this));
+        optionsList.removeEventListener(`scroll`, (e:Event) => this.scrollReachedBottomHandler(e));
         let inputEle = this.getInputElement();
         inputEle.removeEventListener(`input`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
         inputEle.removeEventListener(`click`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
         inputEle.removeEventListener(`keydown`, (keyDownEvent:KeyboardEvent) => this.onKeyPressed(keyDownEvent));
-        document.removeEventListener(`click`, this.onDocumentClickHandler.bind(this));
-        document.removeEventListener('keydown', this.onEscapeEventHandler.bind(this));
+        document.removeEventListener(`click`, (event:Event) => this.onDocumentClickHandler(event));
+        document.removeEventListener('keydown', (e) => this.onEscapeEventHandler(e));
         this.element.innerHTML = ``;
     }
 
@@ -491,7 +491,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     private bindScrollReachBottomEvent() {
         let optionsEle = this.getOptionsBaseElement();
-        optionsEle.addEventListener(`scroll`, this.scrollReachedBottomHandler.bind(this));
+        optionsEle.addEventListener(`scroll`, (e:Event) => this.scrollReachedBottomHandler(e));
     }
 
 
