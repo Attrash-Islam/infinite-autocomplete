@@ -519,7 +519,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * (Garbage collecting)
      */
     private clearOptions() {
-        this.detachClickEventHandlers(
+        this.detachOptionEventHandlers(
             this.getOptionsBaseElement()
                 .querySelectorAll(`[infinite-clickable]`)
         );
@@ -580,13 +580,15 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
 
     /**
-     * Detaching the event handler over the option elements
+     * Detaching the event handlers over the option elements
      */
-    private detachClickEventHandlers(elements:NodeListOf<Element>) {
+    private detachOptionEventHandlers(elements:NodeListOf<Element>) {
         for( let i = 0; i < elements.length; i++) {
             elements[i].removeEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
+            elements[i].removeEventListener(`mouseover`, (event:MouseEvent) => this.onOptionHoverEvent(event));
         }
     }
+
 
     /**
      * Option click event handler
