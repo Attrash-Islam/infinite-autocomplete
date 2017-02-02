@@ -7,7 +7,9 @@ This autocomplete is like all these autocomplete out there, except that he is "I
 
 Ease of use, flexable and written with TypeScript following the SOLID principles to guarantee a plug-in implementations so you can customize it's behaviours and inject it in any environment you want. 
 
-[Wrappers for AngularJS and React will be implemented in the next months, and for other frameworks]
+# Popular Frameworks Wrappers
+- <a href="https://github.com/Attrash-Islam/ng-infinite-autocomplete">ng-infinite-autocomplete (AngularJS 1.x)</a>
+- <a href="https://github.com/Attrash-Islam/react-infinite-autocomplete">react-infinite-autocomplete</a>
 
 # Install
 ```js
