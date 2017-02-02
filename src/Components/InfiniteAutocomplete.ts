@@ -71,6 +71,7 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * Initialize hook that get executed immediatly after using the infinite-autocomplete component
      */
     private init() {
+        this.bindScope();
         this.applyStylesRules();
         this.appendInfiniteAutocompleteWrapperClass();
         this.linkInputComponent();
@@ -81,13 +82,25 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
     }
 
 
+    private bindScope() {
+        this.onDocumentClickHandler = this.onDocumentClickHandler.bind(this);
+        this.onEscapeEventHandler = this.onEscapeEventHandler.bind(this);
+        this.onInputChange = this.onInputChange.bind(this);
+        this.scrollReachedBottomHandler = this.scrollReachedBottomHandler.bind(this);
+        this.onOptionClickEvent = this.onOptionClickEvent.bind(this);
+        this.onKeyPressed = this.onKeyPressed.bind(this);
+        this.onDocumentClickHandler = this.onDocumentClickHandler.bind(this);
+        this.onEscapeEventHandler = this.onEscapeEventHandler.bind(this);
+        this.onOptionHoverEvent = this.onOptionHoverEvent.bind(this);
+    }
+
 
     /**
      * (#1) Binds a click handler to detect where the user clicked
      * If click is out side the main wrapper area then close options
      */
     private bindOutSideClickEvent() {
-        document.addEventListener(`click`, (event:Event) => this.onDocumentClickHandler(event));
+        document.addEventListener(`click`, this.onDocumentClickHandler);
     }
 
 
@@ -124,7 +137,7 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * (#11) Binds escape event handler to clear the options when clicking Esc
      */
     private bindEscapeEvent() {
-        document.addEventListener('keydown', (e) => this.onEscapeEventHandler(e));
+        document.addEventListener('keydown', this.onEscapeEventHandler);
     }
 
 
@@ -178,12 +191,12 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
             throw MissingInputElementInInputComponentExceptionMsg;
         }
         inputEle
-            .addEventListener(`input`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
+            .addEventListener(`input`, this.onInputChange);
         //(#2) Start to show options when focus on the input
         inputEle
-            .addEventListener(`click`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
+            .addEventListener(`click`, this.onInputChange);
         inputEle
-            .addEventListener(`keydown`, (keyDownEvent:KeyboardEvent) => this.onKeyPressed(keyDownEvent));
+            .addEventListener(`keydown`, this.onKeyPressed);
         this.element.appendChild(inputWrapperEle);
     }
     
@@ -329,13 +342,13 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
         }
 
         let optionsList = this.getOptionsBaseElement();
-        optionsList.removeEventListener(`scroll`, (e:Event) => this.scrollReachedBottomHandler(e));
+        optionsList.removeEventListener(`scroll`, this.scrollReachedBottomHandler);
         let inputEle = this.getInputElement();
-        inputEle.removeEventListener(`input`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
-        inputEle.removeEventListener(`click`, (inputChangeEvent) => this.onInputChange(inputChangeEvent));
-        inputEle.removeEventListener(`keydown`, (keyDownEvent:KeyboardEvent) => this.onKeyPressed(keyDownEvent));
-        document.removeEventListener(`click`, (event:Event) => this.onDocumentClickHandler(event));
-        document.removeEventListener('keydown', (e) => this.onEscapeEventHandler(e));
+        inputEle.removeEventListener(`input`, this.onInputChange);
+        inputEle.removeEventListener(`click`, this.onInputChange);
+        inputEle.removeEventListener(`keydown`, this.onKeyPressed);
+        document.removeEventListener(`click`, this.onDocumentClickHandler);
+        document.removeEventListener('keydown', this.onEscapeEventHandler);
         this.element.innerHTML = ``;
     }
 
@@ -496,7 +509,7 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     private bindScrollReachBottomEvent() {
         let optionsEle = this.getOptionsBaseElement();
-        optionsEle.addEventListener(`scroll`, (e:Event) => this.scrollReachedBottomHandler(e));
+        optionsEle.addEventListener(`scroll`, this.scrollReachedBottomHandler);
     }
 
 
@@ -589,8 +602,8 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
      */
     private detachOptionEventHandlers(elements:NodeListOf<Element>) {
         for( let i = 0; i < elements.length; i++) {
-            elements[i].removeEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
-            elements[i].removeEventListener(`mouseover`, (event:MouseEvent) => this.onOptionHoverEvent(event));
+            elements[i].removeEventListener(`click`, this.onOptionClickEvent);
+            elements[i].removeEventListener(`mouseover`, this.onOptionHoverEvent);
         }
     }
 
@@ -717,8 +730,8 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
                         let optionElement = tempElement.childNodes[0];
                         (optionElement as any).data = { text: option.text, value: option.value };
                         (<HTMLElement> optionElement).setAttribute('infinite-clickable', '');
-                        optionElement.addEventListener(`click`, (event:MouseEvent) => this.onOptionClickEvent(event));
-                        optionElement.addEventListener(`mouseover`, (event:MouseEvent) => this.onOptionHoverEvent(event));
+                        optionElement.addEventListener(`click`, this.onOptionClickEvent);
+                        optionElement.addEventListener(`mouseover`, this.onOptionHoverEvent);
                         optionListElement.appendChild(optionElement);
                 });
             
