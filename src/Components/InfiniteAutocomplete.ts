@@ -82,6 +82,9 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
     }
 
 
+    /**
+     * Bind `this` scope for the Class methods
+     */
     private bindScope() {
         this.onDocumentClickHandler = this.onDocumentClickHandler.bind(this);
         this.onEscapeEventHandler = this.onEscapeEventHandler.bind(this);
