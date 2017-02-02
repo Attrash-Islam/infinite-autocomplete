@@ -242,11 +242,29 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
 
 
     /**
+     * Simulate Scrolled to bottom
+     */
+    private simulateScrollToBottom() {
+        let optionsList = this.getOptionsBaseElement();
+        let scrollEvent = new Event('scroll', { bubbles: true });
+        optionsList.scrollTop = 10000; // Simulate reached bottom
+        optionsList.dispatchEvent(scrollEvent);
+    }
+
+
+
+    /**
      * Toggle hovered state on specific index in options list
      * @param index - The index to be applied as hovered
      */
     private toggleHoveredState(index:number, keydownEvent:KeyboardEvent) {
+        console.log(`index:${index}`);
         let optionsList = this.getOptionsBaseElement();
+        console.log(`index:${optionsList.children.length}`);
+        if(index === optionsList.children.length) {
+            this.simulateScrollToBottom();
+        }
+        
         if(index >= 0 && index < optionsList.children.length) {
 
             let hoveredElement = optionsList.querySelector(`.${HOVERED}`);
