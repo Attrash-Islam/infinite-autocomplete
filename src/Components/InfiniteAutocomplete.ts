@@ -258,9 +258,7 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param index - The index to be applied as hovered
      */
     private toggleHoveredState(index:number, keydownEvent:KeyboardEvent) {
-        console.log(`index:${index}`);
         let optionsList = this.getOptionsBaseElement();
-        console.log(`index:${optionsList.children.length}`);
         if(index === optionsList.children.length) {
             this.simulateScrollToBottom();
         }

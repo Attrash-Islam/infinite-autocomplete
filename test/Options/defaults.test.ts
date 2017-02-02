@@ -660,5 +660,63 @@ describe(`Options Default implementation: `, function() {
 
             });
 
+
+
+            describe(`Pressing down in bottom fetchs the next chunk of data - As Scrolling to bottom`, 
+                function() {
+
+                    it(`should fetch the next chunks`, async function(done):es6Promise<any> {
+                        var infinite = document.createElement('div');
+                        var iniElm = new InfiniteAutocomplete(infinite, {
+                            fetchSize: 3
+                        });
+
+                        iniElm.setConfig({data: [
+                            { text: 'first', value: 1},
+                            { text: 'second', value: 2},
+                            { text: 'theird', value: 3},
+                            { text: 'fourth', value: 4},
+                            { text: 'fivth', value: 5},
+                            { text: 'fivth', value: 6},
+                            { text: 'fivth', value: 7},
+                            { text: 'fivth', value: 8}
+                        ]});
+
+                        var optionsBase = <HTMLElement> infinite.querySelector(`ul`);
+
+                        var input = <HTMLInputElement> infinite.querySelector(`input`);
+                        TestUtils.clickOnElement(input);
+                        await TestUtils.sleep(0);
+                        var options = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
+                        expect(options.length).toBe(3); //First data chunk
+                        expect((iniElm as any).page).toBe(1);
+
+                        //Scroll to bottom via navigation keys
+                        TestUtils.pressDownArrow(input);
+                        TestUtils.pressDownArrow(input);
+                        TestUtils.pressDownArrow(input);
+                        TestUtils.pressDownArrow(input);
+                        await TestUtils.sleep(0);
+
+                        var optionsAfterScrolling = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
+                        expect(optionsAfterScrolling.length).toBe(6); //two chunks
+                        expect((iniElm as any).page).toBe(2);
+
+                        //Scroll to bottom via navigation keys
+                        TestUtils.pressDownArrow(input);
+                        TestUtils.pressDownArrow(input);
+                        TestUtils.pressDownArrow(input);
+                        TestUtils.pressDownArrow(input);
+                        await TestUtils.sleep(0);
+
+                        var optionsAfterScrolling = <NodeListOf<HTMLElement>> infinite.querySelectorAll(`li`);
+                        expect(optionsAfterScrolling.length).toBe(8); //three chunks (last two items - smaller than chunk)
+                        expect((iniElm as any).page).toBe(3);
+
+                        done();
+                    });
+
+            });
+
     });
 });
