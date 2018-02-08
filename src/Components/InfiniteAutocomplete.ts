@@ -34,7 +34,8 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
     private element:HTMLElement;
     private inputComponent:IInputComponent;
     private optionsComponent:IOptionsComponent;
-    private page:number = 1;
+    private page: number = 1;
+    private searchedText: string = "";
     private config:InfiniteAutocompleteConfig;
     private preventMoreRequests:boolean = false;
     private fetchingData:boolean = false;
@@ -677,22 +678,31 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
      * @param page
      * @param fetchSize
      */
-    private async getData(text:string):es6Promise<IOption[]> {
+    private async getData(text:string, page: number, fetchSize: number):es6Promise<IOption[] | null> {
+      this.searchedText = text;
         const dataSourceMissingExceptionMsg = new Error (`You must pass data or getDataFromApi function via config`);
         if(this.config.data) {
             this.fetchingData = true;
-            let from = (this.page - 1) * this.config.fetchSize;
-            let to = (this.config.fetchSize * (this.page - 1)) + this.config.fetchSize;
-            this.fetchingData = false;
-
-            return this.config.data
+            let from = (page - 1) * fetchSize;
+            let to = (fetchSize * (page - 1)) + fetchSize;
+            let staticData = this.config.data
                 .filter(option => option.text.toLowerCase().indexOf(text.toLowerCase()) !== -1)
                 .slice(from, to);
+            this.fetchingData = false;
+            return staticData;
         } else if(this.config.getDataFromApi) {
             this.fetchingData = true;
-            let apiData = await this.config.getDataFromApi(text, this.page, this.config.fetchSize);
+            let apiData = await this.config.getDataFromApi(text, page, fetchSize);
             this.fetchingData = false;
-            return apiData;
+            if (
+              this.searchedText === text &&
+              this.page === page &&
+              this.config.fetchSize === fetchSize
+            ) {
+              return apiData;
+            } else {
+              return null;
+            }
         } else {
             Utils.throwErrorInConsole(dataSourceMissingExceptionMsg);
             throw dataSourceMissingExceptionMsg;
@@ -734,14 +744,15 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
         }
 
         if(this.config.fetchSize) {
-            let filteredOptions = await this.getData(text);
+            let filteredOptions = await this.getData(text, this.page, this.config.fetchSize);
 
-            if(filteredOptions.length < this.config.fetchSize) {
+            if (filteredOptions !== null) {
+              if(filteredOptions.length < this.config.fetchSize) {
                 //Stop fetching more chunks whenever you get less than the chunk fetch size
                 this.preventMoreRequests = true;
-            }
+              }
 
-            filteredOptions
+              filteredOptions
                 .forEach((option) => {
                         let optionElementTemplate = this.optionsComponent.renderOption(option);
                         let tempElement = document.createElement(`div`);
@@ -753,6 +764,7 @@ export default class InfiniteAutocomplete implements IInfiniteAutocomplete {
                         optionElement.addEventListener(`mouseover`, this.onOptionHoverEvent);
                         optionListElement.appendChild(optionElement);
                 });
+            }
             
             let chunkClientHeight = optionListElement.children[0].clientHeight;
 

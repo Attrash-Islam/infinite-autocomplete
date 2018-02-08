@@ -58,7 +58,15 @@ app.get('/data', function(req, res) {
     var to = (fetchSize * (page - 1)) + fetchSize;
     console.log('from:' + from + ' , to:' + to);
 
-    res.send(data
+    if (req.query.text[0] === 'w') {
+      setTimeout(function() {
+        res.send(data
+          .filter(option => option.text.toLowerCase().indexOf(req.query.text.toLowerCase()) !== -1)
+          .slice(from, to));
+      }, 5000);
+    } else {
+      res.send(data
         .filter(option => option.text.toLowerCase().indexOf(req.query.text.toLowerCase()) !== -1)
-    .slice(from, to));
+        .slice(from, to));
+    }
 });
