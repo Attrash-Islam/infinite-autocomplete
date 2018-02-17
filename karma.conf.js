@@ -26,12 +26,15 @@ var webpackConf = {
 
 module.exports = function (config) {
 	config.set({
+    client: {
+      captureConsole: false,
+    },
 		basePath: '',
 		frameworks: ['jasmine', 'source-map-support'],
 		logLevel: config.LOG_INFO,
 		browsers: ['PhantomJS'], 
 		singleRun: true,
-		reporters: ['dots', 'coverage'], 
+		reporters: ['progress', 'coverage'], 
 		files: [
       "node_modules/es6-promise/dist/es6-promise.auto.js",
 			'test/index.ts'
