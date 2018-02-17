@@ -1,13 +1,13 @@
-import { InputComponent } from '../../../src/Components/InfiniteAutocomplete';
+import { InputComponent } from "../../../src/Components/InfiniteAutocomplete";
 
-export class paritalCustomInput extends InputComponent {
-    
+export class ParitalCustomInput extends InputComponent {
+
     constructor() {
         super();
     }
 
-    onInputChange(inputElement:HTMLInputElement, value:string) {
-        
+    public onInputChange(inputElement: HTMLInputElement, value: string) {
+      //
     }
 
 }

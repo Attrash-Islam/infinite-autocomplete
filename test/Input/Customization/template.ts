@@ -1,12 +1,12 @@
-import { InputComponent } from '../../../src/Components/InfiniteAutocomplete';
+import { InputComponent } from "../../../src/Components/InfiniteAutocomplete";
 
-export class template extends InputComponent {
-    
+export class Template extends InputComponent {
+
     constructor() {
         super();
     }
 
-    render() {
+    public render() {
         return `
             <div id="before-input">
 

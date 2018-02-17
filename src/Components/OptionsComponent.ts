@@ -1,30 +1,21 @@
-import { IOptionsComponent } from '../Interfaces/IOptionsComponent';
-import { IOption } from '../Interfaces/IOption';
+import { IOptionsComponent } from "../Interfaces/IOptionsComponent";
+import { IOption } from "../Interfaces/IOption";
 
 /**
  * Options component default implementation
  * @author Islam Attrash
  */
 export class OptionsComponent implements IOptionsComponent {
-    
-    listElementSelector:string = `ul`;
+  public listElementSelector: string = `ul`;
 
-    constructor() {
+  public render() {
+    return `<${this.listElementSelector} class="infinite-autocomplete-default-options"></${this.listElementSelector}>`;
+  }
 
-    }
+  public renderOption(option: IOption): string {
+    return `<li>
+                ${option.text}
+            </li>`;
+  }
 
-
-    render() {
-        //You can inject template code before
-        return `<${this.listElementSelector} class="infinite-autocomplete-default-options"></${this.listElementSelector}>`;
-        //You can inject template code after
-    }
-
-
-    renderOption(option:IOption):string {
-        return `<li>
-                    ${option.text}
-                </li>`;
-    }
-    
 }

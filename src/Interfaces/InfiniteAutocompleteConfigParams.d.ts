@@ -1,7 +1,6 @@
-import { Promise as es6Promise } from 'es6-promise';
-import { IInputCompoenentConstructor } from './IInputComponent';
-import { IOptionsComponentConstructor } from './IOptionsComponent';
-import { InfiniteAutocompleteConfigBase } from './InfiniteAutocompleteConfigBase';
+import { IInputCompoenentConstructor } from "./IInputComponent";
+import { IOptionsComponentConstructor } from "./IOptionsComponent";
+import { InfiniteAutocompleteConfigBase } from "./InfiniteAutocompleteConfigBase";
 
 /**
  * infinite-autocomplete config params interface
@@ -11,13 +10,13 @@ export interface InfiniteAutocompleteConfigParams extends InfiniteAutocompleteCo
     /**
      * Chunk fetch size
      */
-    fetchSize?:number,
+    fetchSize?: number;
     /**
      * Customized input class to override the default input
      */
-    customizedInput?:IInputCompoenentConstructor;
+    customizedInput?: IInputCompoenentConstructor;
     /**
      * Customized options class to override the default input
      */
-    customizedOptions?:IOptionsComponentConstructor;
+    customizedOptions?: IOptionsComponentConstructor;
 }

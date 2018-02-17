@@ -1,94 +1,93 @@
-import { InfiniteAutocomplete } from '../../src/Components/InfiniteAutocomplete';
-import { template } from './Customization/template';
-import { inputHandlers } from './Customization/inputHandlers';
-import { TestUtils } from '../Utils/index';
-import { missingInput } from './Customization/missingInput';
-import { paritalCustomInput } from './Customization/paritalCustomInput';
+import { InfiniteAutocomplete } from "../../src/Components/InfiniteAutocomplete";
+import { Template } from "./Customization/template";
+import { InputHandlers } from "./Customization/inputHandlers";
+import { TestUtils } from "../Utils/index";
+import { MissingInput } from "./Customization/missingInput";
+import { ParitalCustomInput } from "./Customization/paritalCustomInput";
 
-describe(`Customized Input implementation: `, function() {
+describe(`Customized Input implementation: `, () => {
 
-    describe(`template Customization :`, function() {
+    describe(`template Customization :`, () => {
 
-        it(`should throw exception when template not contain input tag`, function() {
-            var expectedException = new Error(`Customized input should contain input element <input />`);
-            spyOn(console, 'error').and.returnValue('');
-            var infinite = document.createElement('div');
-            try {
-                new InfiniteAutocomplete(infinite, {
-                    customizedInput: missingInput
-                });
-                throw `Exception expected.`;
-            } catch(e) {
-                expect(e)
-                    .toEqual(
-                        expectedException
-                    );
-            }
-            
-            expect(console.error)
-                .toHaveBeenCalledWith(
-                    expectedException
-                );
-        });
+        it(`should throw exception when template not contain input tag`, () => {
+          let expectedException = new Error(`Customized input should contain input element <input />`);
+          spyOn(console, "error").and.returnValue("");
+          let infinite = document.createElement("div");
+          try {
+              new InfiniteAutocomplete(infinite, {
+                  customizedInput: MissingInput,
+              });
+              throw new Error(`Exception expected.`);
+          } catch (e) {
+            expect(e)
+              .toEqual(
+                  expectedException,
+              );
+          }
 
+          expect(console.error)
+            .toHaveBeenCalledWith(
+              expectedException,
+            );
+      });
 
-        it(`The rendered input should be replaced with the custom red input`, function() {
-            var infinite = document.createElement('div');
+        it(`The rendered input should be replaced with the custom red input`, () => {
+            let infinite = document.createElement("div");
             new InfiniteAutocomplete(infinite, {
-                customizedInput: template
+                customizedInput: Template,
             });
-            var redInput = <HTMLElement> infinite.querySelector(`input`);
-            if(redInput) {
+            let redInput = infinite.querySelector(`input`) as HTMLElement;
+            if (redInput) {
                 expect(redInput.style.background)
                     .toBe(`red`);
             } else {
-                throw `Input doesn't exist`;
+                throw new Error(`Input doesn't exist`);
             }
         });
 
-        it(`The rendered input should and 'before-input' and 'after-input' elements`, function() {
-            var infinite = document.createElement('div');
+        it(`The rendered input should and 'before-input' and 'after-input' elements`, () => {
+            let infinite = document.createElement("div");
             new InfiniteAutocomplete(infinite, {
-                customizedInput: template
+                customizedInput: Template,
             });
-            var inputWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-input-wrapper`);
-            if(inputWrapper) {
+            let inputWrapper = infinite.querySelector(`.infinite-autocomplete-input-wrapper`) as HTMLElement;
+            if (inputWrapper) {
                 expect(inputWrapper.children[0].id)
-                    .toBe('before-input');
+                    .toBe("before-input");
                 expect(inputWrapper.children[1].id)
-                    .toBe('input');
+                    .toBe("input");
                 expect(inputWrapper.children[2].id)
-                    .toBe('after-input');
+                    .toBe("after-input");
             } else {
-                throw `Input wrapper doesn't exist`;
+                throw new Error(`Input wrapper doesn't exist`);
             }
         });
     });
 
-    describe(`Events custom handlers`, function() {
-        it(`onInputChange method should be executed in customized input if supplied`, function() {
-            var infinite = document.createElement('div');
-            spyOn(inputHandlers.prototype, 'onInputChange').and.returnValue('');
-            new InfiniteAutocomplete(infinite, { customizedInput: inputHandlers });
-            var input = <HTMLInputElement> infinite.querySelector(`input`);
+    describe(`Events custom handlers`, () => {
+        it(`onInputChange method should be executed in customized input if supplied`, () => {
+            let infinite = document.createElement("div");
+            spyOn(InputHandlers.prototype, "onInputChange").and.returnValue("");
+            new InfiniteAutocomplete(infinite, { customizedInput: InputHandlers });
+            let input = infinite.querySelector(`input`) as HTMLInputElement;
 
-            //Simulate typing into the input element
-            TestUtils.typeLetter(input, 'T');
-            expect(inputHandlers.prototype.onInputChange)
-                .toHaveBeenCalledWith(input, 'T');
+            // Simulate typing into the input element
+            TestUtils.typeLetter(input, "T");
+            expect(InputHandlers.prototype.onInputChange)
+                .toHaveBeenCalledWith(input, "T");
 
-            TestUtils.typeLetter(input, 'f');
-            expect(inputHandlers.prototype.onInputChange)
-                .toHaveBeenCalledWith(input, 'Tf');
+            TestUtils.typeLetter(input, "f");
+            expect(InputHandlers.prototype.onInputChange)
+                .toHaveBeenCalledWith(input, "Tf");
         });
     });
 
-    describe(`Custom partial input`, function() {
-        it(`should extend the default and contain all it's functions`, function() {
-            var infinite = document.createElement('div');
-            var iniEle = new InfiniteAutocomplete(infinite, { customizedInput: paritalCustomInput });
+    describe(`Custom partial input`, () => {
+        it(`should extend the default and contain all it's functions`, () => {
+            let infinite = document.createElement("div");
+            let iniEle = new InfiniteAutocomplete(infinite, { customizedInput: ParitalCustomInput });
             expect((iniEle as any).inputComponent.render).toBeDefined();
         });
     });
-    
+
 });

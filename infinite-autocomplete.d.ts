@@ -1,6 +1,4 @@
-import { Promise as es6Promise } from 'es6-promise';
 export { InfiniteAutocomplete, InputComponent, OptionsComponent };
-export default InfiniteAutocomplete;
 
 ///////////////////////////////////////////////////////////////////////////////
 // infAutocomplete module (infinite-autocomplete)
@@ -20,18 +18,17 @@ declare class InfiniteAutocomplete {
      * @param inputComponent - Input component implementation to be injected (or default)
      * @param optionsComponent - Options component implementation to be injected (or default)
      */
-    constructor(element:HTMLElement, config?:InfiniteAutocompleteConfigParams);
+    constructor(element: HTMLElement, config?: InfiniteAutocompleteConfigParams);
     /**
      * Update configuration on runtime
      * @param config - New infinite autocomplete configuration
      */
-    setConfig(config:InfiniteAutocompleteConfigParams);
+    public setConfig(config: InfiniteAutocompleteConfigParams);
     /**
      * Destory the plugin and unbind all the DOM events
      */
-    destroy();
+    public destroy();
 }
-
 
 /**
  * infinite-autocomplete config interface
@@ -41,15 +38,15 @@ interface InfiniteAutocompleteConfig extends InfiniteAutocompleteConfigBase {
     /**
      * Chunk fetch size
      */
-    fetchSize:number;
+    fetchSize: number;
     /**
      * Customized input class to override the default input
      */
-    customizedInput:IInputCompoenentConstructor;
+    customizedInput: IInputCompoenentConstructor;
     /**
      * Customized options class to override the default input
      */
-    customizedOptions:IOptionsComponentConstructor;
+    customizedOptions: IOptionsComponentConstructor;
 }
 
 /**
@@ -57,7 +54,7 @@ interface InfiniteAutocompleteConfig extends InfiniteAutocompleteConfigBase {
  * @author Islam Attrash
  */
 interface IInputCompoenentConstructor {
-    new():IInputComponent;
+    new(): IInputComponent;
 }
 
 /**
@@ -69,31 +66,29 @@ interface IInputComponent {
      * Input component template string
      * @default `<input />`
      */
-    render():string;
+    render(): string;
     /**
      * onInputChange event handler
      * @param inputElement - HTMLInputElement
      * @param value - input text value
      */
-    onInputChange?(inputElement:HTMLInputElement, value:string);
+    onInputChange?(inputElement: HTMLInputElement, value: string);
 }
 
 /**
  * Default input component implementation
  */
 declare class InputComponent implements IInputComponent {
-    render():string;
+    public render(): string;
 }
-
 
 /**
  * Options component constructor interface
  * @author Islam Attrash
  */
 interface IOptionsComponentConstructor {
-    new():IOptionsComponent;
+    new(): IOptionsComponent;
 }
-
 
 /**
  * infinite-autocomplete config base interface
@@ -103,19 +98,19 @@ interface InfiniteAutocompleteConfigBase {
     /**
      * data static source
      */
-    data?:Array<IOption>;
+    data?: IOption[];
     /**
      * on-select event output handler when choosing an option
      */
-    onSelect?(selectedElement:EventTarget, selectedData:IOption);
+    onSelect?(selectedElement: EventTarget, selectedData: IOption);
     /**
      * max height for the options
      */
-    maxHeight?:string;
+    maxHeight?: string;
     /**
      * data dynamic api source
      */
-    getDataFromApi?(text:string, page:number, fetchSize:number):es6Promise<Array<any>>;
+    getDataFromApi?(text: string, page: number, fetchSize: number): Promise<any[]>;
 }
 
 /**
@@ -126,15 +121,15 @@ interface InfiniteAutocompleteConfigParams extends InfiniteAutocompleteConfigBas
     /**
      * Chunk fetch size
      */
-    fetchSize?:number,
+    fetchSize?: number;
     /**
      * Customized input class to override the default input
      */
-    customizedInput?:IInputCompoenentConstructor;
+    customizedInput?: IInputCompoenentConstructor;
     /**
      * Customized options class to override the default input
      */
-    customizedOptions?:IOptionsComponentConstructor;
+    customizedOptions?: IOptionsComponentConstructor;
 }
 
 interface IInputComponent {
@@ -142,15 +137,14 @@ interface IInputComponent {
      * Input component template string
      * @default `<input />`
      */
-    render():string;
+    render(): string;
     /**
      * onInputChange event handler
      * @param inputElement - HTMLInputElement
      * @param value - input text value
      */
-    onInputChange?(inputElement:HTMLInputElement, value:string);
+    onInputChange?(inputElement: HTMLInputElement, value: string);
 }
-
 
 /**
  * Option model interface
@@ -179,30 +173,30 @@ interface IOptionsComponent {
     /**
      * The list element tag selector
      * This value can be a tag string `ul` `div` `ol` that indicates tag name,
-     * or it can be a class selector (or id selector) `.myClass`/`#myId` which is 
+     * or it can be a class selector (or id selector) `.myClass`/`#myId` which is
      * returned in @render method template
      * @default `ul`
      */
-    listElementSelector:string;
+    listElementSelector: string;
     /**
      * Options component template string
      * @default `<ul></ul>` base list tag
      */
-    render():string;
+    render(): string;
     /**
      * Option row template string in Options component
      * @param option
      * @default `<li> ${value} </li>`
      * @requires one base HTML Element
      */
-    renderOption(option:IOption):string;
+    renderOption(option: IOption): string;
 }
 
 /**
  * Default options component
  */
 declare class OptionsComponent implements IOptionsComponent {
-    listElementSelector:string;
-    render():string;
-    renderOption(option:IOption):string;
+    public listElementSelector: string;
+    public render(): string;
+    public renderOption(option: IOption): string;
 }

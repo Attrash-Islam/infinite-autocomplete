@@ -1,50 +1,49 @@
-import { InfiniteAutocomplete } from '../../src/Components/InfiniteAutocomplete';
-import { TestUtils } from '../Utils/index';
-import { Promise as es6Promise } from 'es6-promise';
-import { template } from './Customization/template';
+import { InfiniteAutocomplete } from "../../src/Components/InfiniteAutocomplete";
+import { TestUtils } from "../Utils/index";
+import { Template } from "./Customization/template";
 
-describe(`Customized options template: `, function() {
+describe(`Customized options template: `, () => {
 
-    it(`The rendered options template must be replaced 
-            with the customized one`, function() {
-        var infinite = document.createElement('div');
-        var iniElm = new InfiniteAutocomplete(infinite, {
-            customizedOptions: template
+    it(`The rendered options template must be replaced
+            with the customized one`, () => {
+        let infinite = document.createElement("div");
+        let iniElm = new InfiniteAutocomplete(infinite, {
+            customizedOptions: Template,
         });
-        var optionsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-options-wrapper`);
-        var titleBeforeList = <HTMLElement> optionsWrapper.querySelectorAll(`div`)[0];
+        let optionsWrapper = infinite.querySelector(`.infinite-autocomplete-options-wrapper`) as HTMLElement;
+        let titleBeforeList = optionsWrapper.querySelectorAll(`div`)[0] as HTMLElement;
         expect(titleBeforeList.innerText)
             .toBe(`Options:`);
-        var myList = optionsWrapper.querySelectorAll(`div`)[1];
+        let myList = optionsWrapper.querySelectorAll(`div`)[1];
         expect(myList.className)
             .toBe(`myList`);
     });
 
-    it(`The rendered option row template must be replaced 
-            with the customized one`, async function(done):es6Promise<any> {
-        var infinite = document.createElement('div');
-        var iniElm = new InfiniteAutocomplete(infinite, {
+    it(`The rendered option row template must be replaced
+            with the customized one`, async (done): Promise<any> => {
+        let infinite = document.createElement("div");
+        let iniElm = new InfiniteAutocomplete(infinite, {
             data: [
-                { text: 'first', value: 1 },
-                { text: 'second', value: 2 },
-                { text: 'theird', value: 3 },
-                { text: 'fourth', value: 4 },
-                { text: 'fivth', value: 5 }
+                { text: "first", value: 1 },
+                { text: "second", value: 2 },
+                { text: "theird", value: 3 },
+                { text: "fourth", value: 4 },
+                { text: "fivth", value: 5 },
             ],
-            customizedOptions: template
+            customizedOptions: Template,
         });
-        var optionsWrapper = <HTMLElement> infinite.querySelector(`.infinite-autocomplete-options-wrapper`);
-        var myList = optionsWrapper.querySelectorAll(`div`)[1];
-        TestUtils.typeLetter(<HTMLInputElement> infinite.querySelector(`input`), 'i');
+        let optionsWrapper = infinite.querySelector(`.infinite-autocomplete-options-wrapper`) as HTMLElement;
+        let myList = optionsWrapper.querySelectorAll(`div`)[1];
+        TestUtils.typeLetter(infinite.querySelector(`input`) as HTMLInputElement, "i");
         await TestUtils.sleep(0);
-        var rows = <NodeListOf<HTMLElement>> myList.querySelectorAll(`div`);
+        let rows = myList.querySelectorAll(`div`) as NodeListOf<HTMLElement>;
         expect(rows.length)
             .toBe(3);
-        for(var i = 0; i < rows.length; i++) {
+        for (let i = 0; i < rows.length; i++) {
             expect(rows[i].style.fontWeight)
                 .toBe(`bold`);
             expect(rows[i].innerText)
-                .toContain('i');
+                .toContain("i");
         }
         done();
     });

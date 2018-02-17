@@ -152,7 +152,7 @@ The configuration object will be exposed when initializing the infinite-autocomp
     /**
      * data dynamic api source
      */
-    getDataFromApi?(text:string, page:number, fetchSize:number):es6Promise<Array<any>>;
+    getDataFromApi?(text:string, page:number, fetchSize:number):Promise<Array<any>>;
     /**
      * Chunk fetch size
      */

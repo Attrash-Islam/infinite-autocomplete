@@ -1,16 +1,16 @@
-import { InputComponent } from '../../../src/Components/InfiniteAutocomplete';
+import { InputComponent } from "../../../src/Components/InfiniteAutocomplete";
 
-export class inputHandlers extends InputComponent {
-    
+export class InputHandlers extends InputComponent {
+
     constructor() {
         super();
     }
 
-    render() {
+    public render() {
         return `<input />`;
     }
 
-    onInputChange(inputElement:HTMLInputElement, value:string) {
-        
+    public onInputChange(inputElement: HTMLInputElement, value: string) {
+      //
     }
 }

@@ -1,19 +1,19 @@
-import { IOption } from '../../../src/Interfaces/IOption';
-import { OptionsComponent } from '../../../src/Components/InfiniteAutocomplete';
+import { IOption } from "../../../src/Interfaces/IOption";
+import { OptionsComponent } from "../../../src/Components/InfiniteAutocomplete";
 
-export class template extends OptionsComponent {
+export class Template extends OptionsComponent {
 
-    listElementSelector = `.myList`;
+    public listElementSelector = `.myList`;
 
     constructor() {
         super();
     }
 
-    render() {
+    public render() {
         return `<div>Options:</div><div class='myList'></div>`;
     }
 
-    renderOption(option:IOption) {
+    public renderOption(option: IOption) {
         return `<div style='font-weight:bold;'>"${option.text}</div>`;
     }
 

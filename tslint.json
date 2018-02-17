@@ -1,0 +1,21 @@
+{
+  "extends": ["tslint:recommended"],
+  "rules": {
+    "object-literal-sort-keys": false,
+    "ordered-imports": false,
+    "no-console": false,
+    "max-classes-per-file": false,
+    "prefer-const": false,
+    "switch-default": true,
+    "no-default-export": true,
+    "no-unused-expression": false,
+    "newline-before-return": true,
+    "no-duplicate-imports": true,
+    "no-require-imports": true,
+    "prefer-for-of": false,
+    "arrow-return-shorthand": [true, "multiline"],
+    "arrow-parens": [true, "ban-single-arg-parens"],
+    "indent": [true, "spaces", 2]
+  },
+  "defaultSeverity": "error"
+}
