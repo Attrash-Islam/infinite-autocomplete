@@ -1,0 +1,236 @@
+<html>
+    <head>
+      <style>
+        .test-box {
+          border: 1px solid #b7b7b7;
+          padding: 15px;
+          border-radius: 10px;
+          box-shadow: 1px 1px 1px 1px #cfdaf7;
+          margin-bottom: 85px;
+          margin: 40px 15px;
+        }
+        .test-pre pre {
+          background: whitesmoke;
+          border-radius: 11px;
+          padding: 20px;
+          white-space: pre-wrap;
+        }
+      </style>
+    </head>
+    <body>
+      <div id="examples" class="test-container">
+        <div class="test-box">
+            <h3>Example 1:</h3>
+            <div id="test1"></div>
+            <div class="test-pre">
+              <pre>
+
+// Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
+// Without any configuration in the second argument -> Defaults values will be applied
+
+var test1 = new InfiniteAutocomplete(
+  document.getElementById('test1'),
+  {}
+);
+
+// Configure the List static "data" prop
+test1.setConfig({data: [
+  { text: 'Islam Attrash', value: 1},
+  { text: 'Shai Reznik', value: 2},
+  { text: 'Uri Shaked', value: 3},
+  { text: 'Salsabel Eawissat', value: 4},
+  { text: 'Mohammed Attrash', value: 5},
+  { text: 'Mike Brocole', value: 6},
+  { text: 'John Stewart', value: 7},
+  { text: 'Stone Cold', value: 8},
+  { text: 'Triple H', value: 9},
+  { text: 'Sting The Stinger', value: 10},
+  { text: 'Superman', value: 11},
+  { text: 'Batman', value: 12},
+  { text: 'The Joker', value: '13'},
+  { text: 'Vanilla Icecream', value: '14'},
+  { text: 'Stephane macmahon', value: '15'},
+  { text: 'infinite autocomplete', value: '16'},
+  { text: 'Barak Obama', value: null},
+  { text: 'Bill Goldberg', value: 17},
+  { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+  { text: 'Saloma', value: [1,2,3]},
+  { text: 'Yosra Eawissat', value: {object: true}},
+  { text: 'Medium Articles', value: 'what'}
+]});
+              </pre>
+            </div>
+        </div>
+        <div class="test-box">
+            <h3>Example 2:</h3>
+            <div id="test2"></div>
+            <div class="test-pre">
+              <pre>
+// Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
+// with passing the "fetchSize" configuration to determine what the chunks size is.
+// Chunk Size: Is the results count on querying for data and/or the chunk size of scrolling infinitely 
+// Pay attention that the chunk size in Example 1 is 10 (default fetchSize) which can be checked by just clicking
+// on the input (First chunk) and the next fetch chunks in scrolling infinitely
+
+var test2 = new InfiniteAutocomplete(
+    document.getElementById('test2'),
+    {
+      fetchSize: 3
+    }
+);
+
+test2.setConfig({data:[
+    { text: 'Islam Attrash', value: 1},
+    { text: 'Shai Reznik', value: 2},
+    { text: 'Uri Shaked', value: 3},
+    { text: 'Salsabel Eawissat', value: 4},
+    { text: 'Mohammed Attrash', value: 5},
+    { text: 'Mike Brocole', value: 6},
+    { text: 'John Stewart', value: 7},
+    { text: 'Stone Cold', value: 8},
+    { text: 'Triple H', value: 9},
+    { text: 'Sting The Stinger', value: 10},
+    { text: 'Superman', value: 11},
+    { text: 'Batman', value: 12},
+    { text: 'The Joker', value: '13'},
+    { text: 'Vanilla Icecream', value: '14'},
+    { text: 'Stephane macmahon', value: '15'},
+    { text: 'infinite autocomplete', value: '16'},
+    { text: 'Barak Obama', value: null},
+    { text: 'Bill Goldberg', value: 17},
+    { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+    { text: 'Saloma', value: [1,2,3]},
+    { text: 'Yosra Eawissat', value: {object: true}},
+    { text: 'Medium Articles', value: 'what'}
+]});
+              </pre>
+            </div>
+        </div>
+        <div class="test-box">
+            <div id="test3"></div>
+            <div class="test-pre">
+
+            </div>
+        </div>
+        <div class="test-box">
+            <div id="test4"></div>
+            <div class="test-pre">
+
+            </div>
+        </div>
+      </div>
+        <script src="../../dist/index.debug.js"></script>
+        <script>
+
+            var test1 = new InfiniteAutocomplete(
+                document.getElementById('test1'),
+                {}
+            );
+            test1.setConfig({data: [
+                { text: 'Islam Attrash', value: 1},
+                { text: 'Shai Reznik', value: 2},
+                { text: 'Uri Shaked', value: 3},
+                { text: 'Salsabel Eawissat', value: 4},
+                { text: 'Mohammed Attrash', value: 5},
+                { text: 'Mike Brocole', value: 6},
+                { text: 'John Stewart', value: 7},
+                { text: 'Stone Cold', value: 8},
+                { text: 'Triple H', value: 9},
+                { text: 'Sting The Stinger', value: 10},
+                { text: 'Superman', value: 11},
+                { text: 'Batman', value: 12},
+                { text: 'The Joker', value: '13'},
+                { text: 'Vanilla Icecream', value: '14'},
+                { text: 'Stephane macmahon', value: '15'},
+                { text: 'infinite autocomplete', value: '16'},
+                { text: 'Barak Obama', value: null},
+                { text: 'Bill Goldberg', value: 17},
+                { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+                { text: 'Saloma', value: [1,2,3]},
+                { text: 'Yosra Eawissat', value: {object: true}},
+                { text: 'Medium Articles', value: 'what'}
+            ]});
+
+            var test2 = new InfiniteAutocomplete(
+                document.getElementById('test2'),
+                {
+                  fetchSize: 3
+                }
+            );
+
+            test2.setConfig({data:[
+                { text: 'Islam Attrash', value: 1},
+                { text: 'Shai Reznik', value: 2},
+                { text: 'Uri Shaked', value: 3},
+                { text: 'Salsabel Eawissat', value: 4},
+                { text: 'Mohammed Attrash', value: 5},
+                { text: 'Mike Brocole', value: 6},
+                { text: 'John Stewart', value: 7},
+                { text: 'Stone Cold', value: 8},
+                { text: 'Triple H', value: 9},
+                { text: 'Sting The Stinger', value: 10},
+                { text: 'Superman', value: 11},
+                { text: 'Batman', value: 12},
+                { text: 'The Joker', value: '13'},
+                { text: 'Vanilla Icecream', value: '14'},
+                { text: 'Stephane macmahon', value: '15'},
+                { text: 'infinite autocomplete', value: '16'},
+                { text: 'Barak Obama', value: null},
+                { text: 'Bill Goldberg', value: 17},
+                { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+                { text: 'Saloma', value: [1,2,3]},
+                { text: 'Yosra Eawissat', value: {object: true}},
+                { text: 'Medium Articles', value: 'what'}
+            ]});
+
+
+            var CustomizedInputForTest3 = (function () {
+                function CustomizedInputForTest3() {
+                }
+                CustomizedInputForTest3.prototype.render = function () {
+                    return '<div>Start typing!</div><input type="text" style="background:red;"/>';
+                };
+                CustomizedInputForTest3.prototype.onInputChange = function (inputDOMElement, value) {
+                    console.log(value);
+                };
+                return CustomizedInputForTest3;
+            }());
+
+
+            var OptionsComponentForTest3 = (function () {
+                function OptionsComponentForTest3() {
+                    this.listElementSelector = ".myList";
+                }
+                OptionsComponentForTest3.prototype.render = function () {
+                    //You can inject template code before
+                    return "<div>Options:</div><div class='myList'></div>";
+                    //You can inject template code after
+                };
+                OptionsComponentForTest3.prototype.renderOption = function (option) {
+                    return "<li style='font-weight:bold;'>" + option.text + "</li>";
+                };
+                return OptionsComponentForTest3;
+            }());
+
+            var test3 = new InfiniteAutocomplete(
+                document.getElementById('test3'),
+                {
+                    onSelect: function() {
+                        console.log(arguments);
+                    },
+                    customizedInput: CustomizedInputForTest3,
+                    customizedOptions: OptionsComponentForTest3
+                }
+            );
+
+            test3.setConfig({data:[
+                { text: 'first', value: 1},
+                { text: 'second', value: 2},
+                { text: 'theird', value: 3},
+                { text: 'fourth', value: 4},
+                { text: 'fivth', value: 5}
+            ]});
+
+        </script>
+    </body>
+</html>

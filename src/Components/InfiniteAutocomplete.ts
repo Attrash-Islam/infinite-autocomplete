@@ -403,6 +403,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
               list-style-type: none;
               margin-top: 0;
               padding-left: 0;
+              margin-bottom: 0;
           }
           .infinite-autocomplete-options-wrapper .infinite-autocomplete-default-options li {
               padding: 5px 10px 10px 10px;
@@ -705,18 +706,21 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
             optionElement.addEventListener(`mouseover`, this.onOptionHoverEvent);
             optionListElement.appendChild(optionElement);
           });
-      }
 
-      let chunkClientHeight = optionListElement.children[0].clientHeight;
-
-      // Check if maxHeight is fits the chunk size list
-      if (this.config.maxHeight) {
-        let maxHeightNumber = parseInt(this.config.maxHeight, 10);
-        if (maxHeightNumber >= chunkClientHeight * this.config.fetchSize) {
-          this.config.maxHeight = (chunkClientHeight * this.config.fetchSize - 5) + "px";
-          let optionsWrapperEle = this.element.querySelector(`.infinite-autocomplete-options-wrapper`) as HTMLElement;
-          let optionsEle = optionsWrapperEle.querySelector(this.optionsComponent.listElementSelector) as HTMLElement;
-          optionsEle.style.maxHeight = this.config.maxHeight;
+        if (filteredOptions.length > 0) {
+          let chunkClientHeight = optionListElement.children[0].clientHeight;
+          // Check if maxHeight is fits the chunk size list
+          if (this.config.maxHeight) {
+            let maxHeightNumber = parseInt(this.config.maxHeight, 10);
+            if (maxHeightNumber >= chunkClientHeight * this.config.fetchSize) {
+              this.config.maxHeight = (chunkClientHeight * this.config.fetchSize - 5) + "px";
+              let optionsWrapperEle =
+                this.element.querySelector(`.infinite-autocomplete-options-wrapper`) as HTMLElement;
+              let optionsEle =
+                optionsWrapperEle.querySelector(this.optionsComponent.listElementSelector) as HTMLElement;
+              optionsEle.style.maxHeight = this.config.maxHeight;
+            }
+          }
         }
       }
 
