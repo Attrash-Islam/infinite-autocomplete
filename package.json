@@ -2,7 +2,7 @@
   "name": "infinite-autocomplete",
   "version": "3.0.0",
   "description": "lightweight-infinite-autocomplete",
-  "main": "./dist/index.js",
+  "main": "./index.js",
   "scripts": {
     "clean": "rimraf ./dist",
     "build": "npm run clean && npm run build:umd && npm run build:umd:debug",
