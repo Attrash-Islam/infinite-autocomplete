@@ -4,8 +4,5 @@ node_js:
   - 6.9.1
 install:
   - npm install
-script:
-  - npm run tslint
-  - npm test
 after_success:
   - cat ./coverage/*/lcov.info | ./node_modules/coveralls/bin/coveralls.js
