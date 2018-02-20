@@ -11,7 +11,6 @@ describe(`Customized Input implementation: `, () => {
 
         it(`should throw exception when template not contain input tag`, () => {
           let expectedException = new Error(`Customized input should contain input element <input />`);
-          spyOn(console, "error").and.returnValue("");
           let infinite = document.createElement("div");
           try {
               new InfiniteAutocomplete(infinite, {
@@ -24,11 +23,6 @@ describe(`Customized Input implementation: `, () => {
                   expectedException,
               );
           }
-
-          expect(console.error)
-            .toHaveBeenCalledWith(
-              expectedException,
-            );
       });
 
         it(`The rendered input should be replaced with the custom red input`, () => {

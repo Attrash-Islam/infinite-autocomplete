@@ -4,10 +4,16 @@ import { InfiniteAutocompleteConfig } from "../Interfaces/InfiniteAutocompleteCo
 import { IInputComponent, IInputCompoenentConstructor } from "../Interfaces/IInputComponent";
 import { IOptionsComponent, IOptionsComponentConstructor } from "../Interfaces/IOptionsComponent";
 import { IInfiniteAutocomplete } from "../Interfaces/IInfiniteAutocomplete";
-import { InfiniteAutocompleteConfigParams } from "../Interfaces/InfiniteAutocompleteConfigParams";
 import { IOption } from "../Interfaces/IOption";
-import { HOVERED, KEY_PRESS_STATES } from "../Constants/index";
-import { Utils } from "../Utils/index";
+import {
+  HOVERED,
+  KEY_PRESS_STATES,
+  MissingInputElementInInputComponentExceptionMsg,
+  optionsWrapperExceptionMsg,
+  inputElementExceptionMsg,
+  dataSourceMissingExceptionMsg,
+  fetchSizeExceptionMsg,
+} from "../Constants/index";
 
 /**
  * Default Input in infinite-autocomplete component
@@ -41,8 +47,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
   private defaultConfig: InfiniteAutocompleteConfig = {
     fetchSize: 10,
     maxHeight: "160px",
-    customizedInput: defaultInputImpl,
-    customizedOptions: defaultOptionsImpl,
   };
 
   /**
@@ -54,11 +58,11 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
    * @param inputComponent - Input component implementation to be injected (or default)
    * @param optionsComponent - Options component implementation to be injected (or default)
    */
-  constructor(element: HTMLElement, config?: InfiniteAutocompleteConfigParams) {
+  constructor(element: HTMLElement, config?: InfiniteAutocompleteConfig) {
     this.element = element;
     this.config = { ...this.defaultConfig, ...config };
-    this.inputComponent = new this.config.customizedInput();
-    this.optionsComponent = new this.config.customizedOptions();
+    this.inputComponent = this.getCustomizedInput();
+    this.optionsComponent = this.getCustomizedOptions();
     this.init();
   }
 
@@ -66,11 +70,11 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
    * Set the config object with extending
    * @param config - infinite-autocomplete configuration object
    */
-  public setConfig = (config: InfiniteAutocompleteConfigParams) => {
+  public setConfig = (config: InfiniteAutocompleteConfig) => {
     this.destroy();
     this.config = { ...this.config, ...config };
-    this.inputComponent = new this.config.customizedInput();
-    this.optionsComponent = new this.config.customizedOptions();
+    this.inputComponent = this.getCustomizedInput();
+    this.optionsComponent = this.getCustomizedOptions();
     this.init();
   }
 
@@ -97,6 +101,12 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     this.element.innerHTML = ``;
     this.isDestroyed = true;
   }
+
+  private getCustomizedInput = () =>
+    this.config.customizedInput ? new this.config.customizedInput() : new defaultInputImpl()
+
+  private getCustomizedOptions = () =>
+    this.config.customizedOptions ? new this.config.customizedOptions() : new defaultOptionsImpl()
 
   /**
    * Initialize hook that get executed immediatly after using the infinite-autocomplete component
@@ -189,14 +199,11 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
    * Link input component into the input wrapper
    */
   private linkInputComponent = () => {
-    const MissingInputElementInInputComponentExceptionMsg =
-      new Error(`Customized input should contain input element <input />`);
     let inputWrapperEle = document.createElement(`div`);
     inputWrapperEle.className = `infinite-autocomplete-input-wrapper`;
     inputWrapperEle.innerHTML = this.inputComponent.render();
     let inputEle = inputWrapperEle.querySelector(`input`) as HTMLElement;
     if (!inputEle) {
-      Utils.throwErrorInConsole(MissingInputElementInInputComponentExceptionMsg);
       throw MissingInputElementInInputComponentExceptionMsg;
     }
     inputEle
@@ -320,7 +327,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
    * Input component `change` event handler
    * @param inputChangeEvent - Input change event handler
    */
-  private onInputChange = (inputChangeEvent: Event) => {
+  private onInputChange = async (inputChangeEvent: Event) => {
     let target = inputChangeEvent.currentTarget as HTMLInputElement;
     // If user pass special behavior for typing via configuration
     if (this.inputComponent.onInputChange) {
@@ -331,7 +338,14 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     // If we click on input and the options is already opened don't do anything
     if (inputChangeEvent.type === `input` ||
             (inputChangeEvent.type === `click` && this.isOptionsHidden())) {
-      this.buildOptions(target.value, true);
+      try {
+        await this.buildOptions(target.value, true);
+      } catch (error) {
+        console.error(error);
+        if (this.config.onError) {
+          this.config.onError(error);
+        }
+      }
     }
   }
 
@@ -494,15 +508,22 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
    * Scroll reached bottom handler
    * @param e - Scroll event object
    */
-  private scrollReachedBottomHandler = (e: Event) => {
+  private scrollReachedBottomHandler = async (e: Event) => {
     let optionsEle = e.currentTarget as HTMLElement;
     if (!this.fetchingData && !this.preventMoreRequests && !this.isOptionsHidden()) {
       if (optionsEle.scrollTop + optionsEle.clientHeight >= optionsEle.scrollHeight) {
         this.page++;
-        this.buildOptions(
+        try {
+          await this.buildOptions(
             this.getInputElement().value,
             false,
-        );
+          );
+        } catch (error) {
+          console.error(error);
+          if (this.config.onError) {
+            this.config.onError(error);
+          }
+        }
       }
     }
   }
@@ -552,7 +573,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
    * @returns HTMLElement
    */
   private getOptionsBaseElement(): HTMLElement {
-    const optionsWrapperExceptionMsg = new Error(`Couldn't get the options base element.`);
     if (this.element) {
       let optionsWrapper = this.element
         .querySelector(`.infinite-autocomplete-options-wrapper`);
@@ -560,11 +580,9 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         return optionsWrapper
           .querySelector(this.optionsComponent.listElementSelector) as HTMLElement;
       } else {
-        Utils.throwErrorInConsole(optionsWrapperExceptionMsg);
         throw optionsWrapperExceptionMsg;
       }
     } else {
-      Utils.throwErrorInConsole(optionsWrapperExceptionMsg);
       throw optionsWrapperExceptionMsg;
     }
   }
@@ -596,7 +614,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
    * @returns HTMLInputElement
    */
   private getInputElement(): HTMLInputElement {
-    const inputElementExceptionMsg = new Error(`Couldn't get the input element.`);
     if (this.element) {
       let inputWrapper = this.element
         .querySelector(`.infinite-autocomplete-input-wrapper`);
@@ -604,11 +621,9 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         return inputWrapper
           .querySelector(`input`) as HTMLInputElement;
       } else {
-        Utils.throwErrorInConsole(inputElementExceptionMsg);
         throw inputElementExceptionMsg;
       }
     } else {
-      Utils.throwErrorInConsole(inputElementExceptionMsg);
       throw inputElementExceptionMsg;
     }
   }
@@ -630,7 +645,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
    */
   private async getData(text: string, page: number, fetchSize: number): Promise<IOption[] | null> {
     this.searchedText = text;
-    const dataSourceMissingExceptionMsg = new Error (`You must pass data or getDataFromApi function via config`);
     if (this.config.data) {
       this.fetchingData = true;
       let from = (page - 1) * fetchSize;
@@ -655,7 +669,6 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
         return null;
       }
     } else {
-      Utils.throwErrorInConsole(dataSourceMissingExceptionMsg);
       throw dataSourceMissingExceptionMsg;
     }
   }
@@ -685,14 +698,12 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
    * @param clearPreviousData - Flag to clear previous options and override with the new one
    */
   private async buildOptions(text: string, clearPreviousData: boolean = true): Promise<void> {
-    const fetchSizeExceptionMsg = new Error(`fetchSize must be overriden with correct numeric value`);
-
     let optionListElement = this.getOptionsBaseElement();
     if (clearPreviousData) {
         this.clearOptions();
     }
 
-    if (this.config.fetchSize) {
+    if (this.config.fetchSize && !isNaN(this.config.fetchSize)) {
       let filteredOptions = await this.getData(text, this.page, this.config.fetchSize);
 
       if (filteredOptions !== null) {
@@ -744,7 +755,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
       }
 
     } else {
-      Utils.throwErrorInConsole(fetchSizeExceptionMsg);
+      throw fetchSizeExceptionMsg;
     }
   }
 

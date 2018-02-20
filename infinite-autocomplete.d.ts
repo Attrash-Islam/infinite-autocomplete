@@ -18,35 +18,16 @@ declare class InfiniteAutocomplete {
      * @param inputComponent - Input component implementation to be injected (or default)
      * @param optionsComponent - Options component implementation to be injected (or default)
      */
-    constructor(element: HTMLElement, config?: InfiniteAutocompleteConfigParams);
+    constructor(element: HTMLElement, config?: InfiniteAutocompleteConfig);
     /**
      * Update configuration on runtime
      * @param config - New infinite autocomplete configuration
      */
-    public setConfig(config: InfiniteAutocompleteConfigParams);
+    public setConfig(config: InfiniteAutocompleteConfig);
     /**
      * Destory the plugin and unbind all the DOM events
      */
     public destroy();
-}
-
-/**
- * infinite-autocomplete config interface
- * @author Islam Attrash
- */
-interface InfiniteAutocompleteConfig extends InfiniteAutocompleteConfigBase {
-    /**
-     * Chunk fetch size
-     */
-    fetchSize: number;
-    /**
-     * Customized input class to override the default input
-     */
-    customizedInput: IInputCompoenentConstructor;
-    /**
-     * Customized options class to override the default input
-     */
-    customizedOptions: IOptionsComponentConstructor;
 }
 
 /**
@@ -90,11 +71,12 @@ interface IOptionsComponentConstructor {
     new(): IOptionsComponent;
 }
 
+
 /**
- * infinite-autocomplete config base interface
+ * infinite-autocomplete config interface
  * @author Islam Attrash
  */
-interface InfiniteAutocompleteConfigBase {
+interface InfiniteAutocompleteConfig {
     /**
      * data static source
      */
@@ -104,6 +86,10 @@ interface InfiniteAutocompleteConfigBase {
      */
     onSelect?(selectedElement: EventTarget, selectedData: IOption);
     /**
+     * on-error event output handler when exception thrown
+     */
+    onError?(error: Error);
+    /**
      * max height for the options
      */
     maxHeight?: string;
@@ -111,13 +97,6 @@ interface InfiniteAutocompleteConfigBase {
      * data dynamic api source
      */
     getDataFromApi?(text: string, page: number, fetchSize: number): Promise<any[]>;
-}
-
-/**
- * infinite-autocomplete config params interface
- * @author Islam Attrash
- */
-interface InfiniteAutocompleteConfigParams extends InfiniteAutocompleteConfigBase {
     /**
      * Chunk fetch size
      */

@@ -318,7 +318,7 @@ function destroy() {
           </div>
         </div>
       </div>
-        <script src="./index.debug.js"></script>
+        <script src="../../dist/index.debug.js"></script>
         <script>
 
             var test1 = new InfiniteAutocomplete(
@@ -460,6 +460,9 @@ function destroy() {
                         var oReq = new XMLHttpRequest();
                         oReq.addEventListener("load", reqListener);
                         oReq.open("GET", "http://localhost:5000/data?text="+ text + "&page=" + page + "&fetchSize=" + fetchSize);
+                        oReq.onerror = function (error) {
+                          console.log(reject(error));
+                        };
                         oReq.send();
                     });
                 }

@@ -62,6 +62,10 @@ The configuration object will be exposed when initializing the infinite-autocomp
      */
     onSelect?(selectedElement: EventTarget, selectedData: IOption);
     /**
+     * on-error event output handler when exception thrown
+     */
+    onError?(error: Error);
+    /**
      * max height for the options
      */
     maxHeight?: string;

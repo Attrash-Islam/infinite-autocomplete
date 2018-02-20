@@ -46,13 +46,8 @@ describe(`Initialization: `, () => {
         // Passing config shouldn't override the fetchSize default configuration
         expect((iniEle as any).config).toEqual(jasmine.objectContaining({
             fetchSize: 10,
+            maxHeight: "160px",
         }));
-        // Passing config shouldn't empty the default input configuration
-        expect((iniEle as any).config.customizedInput)
-            .toEqual(defaultInput);
-        // Passing config shouldn't empty the default options configuration
-        expect((iniEle as any).config.customizedOptions)
-            .toEqual(defaultOptions);
     });
 
     it(`passing customized input should override the default input implementation`, () => {
