@@ -10,7 +10,8 @@
     "build:watch": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.debug.js --output-library-target=\"umd\" --watch",
     "build:umd": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.js --output-library-target=\"umd\" --config webpack.production.config.js",
     "build:umd:debug": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.debug.js --output-library-target=\"umd\"",
-    "prepublish": "npm run build",
+    "prepublish": "npm run validate-build",
+    "validate-build": "npm run tslint && npm run build && npm run test",
     "test": "karma start karma.conf.js",
     "test:watch": "karma start karma.conf.js --single-run false",
     "tslint": "tslint --fix -c tslint.json 'src/**/*.ts' 'test/**/*.ts'"
@@ -44,6 +45,7 @@
     "@types/jasmine": "2.5.40",
     "coveralls": "2.11.15",
     "es6-promise": "4.2.4",
+    "ghooks": "2.0.2",
     "istanbul-instrumenter-loader": "1.2.0",
     "jasmine-core": "2.5.2",
     "karma": "1.3.0",
@@ -58,5 +60,10 @@
     "typescript": "2.5.3",
     "uglifyjs-webpack-plugin": "1.0.1",
     "webpack": "2.6.1"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run validate-build"
+    }
   }
 }
