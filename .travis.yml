@@ -4,5 +4,6 @@ node_js:
   - 6.9.1
 install:
   - npm install
+script: echo ""
 after_success:
   - cat ./coverage/*/lcov.info | ./node_modules/coveralls/bin/coveralls.js
