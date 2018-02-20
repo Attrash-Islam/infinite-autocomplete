@@ -10,7 +10,7 @@
     "build:watch": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.debug.js --output-library-target=\"umd\" --watch",
     "build:umd": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.js --output-library-target=\"umd\" --config webpack.production.config.js",
     "build:umd:debug": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.debug.js --output-library-target=\"umd\"",
-    "prepublish": "npm run tslint && npm run build",
+    "prepublish": "npm run build",
     "test": "karma start karma.conf.js",
     "test:watch": "karma start karma.conf.js --single-run false",
     "tslint": "tslint --fix -c tslint.json 'src/**/*.ts' 'test/**/*.ts'"

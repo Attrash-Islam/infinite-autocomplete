@@ -16,18 +16,6 @@ export interface InfiniteAutocompleteConfig {
    */
   maxHeight?: string;
   /**
-   * on-select event output handler when choosing an option
-   */
-  onSelect?(selectedElement: EventTarget, selectedData: IOption);
-  /**
-   * on-error event output handler when exception thrown
-   */
-  onError?(error: Error);
-  /**
-   * data dynamic api source
-   */
-  getDataFromApi?(text: string, page: number, fetchSize: number): Promise<any[]>;
-  /**
    * Chunk fetch size
    */
   fetchSize?: number;
@@ -39,4 +27,17 @@ export interface InfiniteAutocompleteConfig {
    * Customized options class to override the default input
    */
   customizedOptions?: IOptionsComponentConstructor;
+
+  /**
+   * on-select event output handler when choosing an option
+   */
+  onSelect?(selectedElement: EventTarget, selectedData: IOption);
+  /**
+   * on-error event output handler when exception thrown
+   */
+  onError?(error: Error);
+  /**
+   * data dynamic api source
+   */
+  getDataFromApi?(text: string, page: number, fetchSize: number): Promise<any[]>;
 }
