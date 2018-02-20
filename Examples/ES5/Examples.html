@@ -194,7 +194,7 @@ var test4 = new InfiniteAutocomplete(
         </div>
         <div class="test-box">
             <h3>Example 5 (dynamic data source):</h3>
-            <h4 style="color: #d8400e;">Run "node server.js" in "Examples" folder to see results</h4>
+            <h4 style="color: #d8400e;">Run "node server.js" in "Examples" folder to see results.</h4>
             <div id="test5"></div>
             <div class="test-pre">
               <pre>
@@ -220,6 +220,57 @@ var test5 = new InfiniteAutocomplete(
         });
     }
   }
+);
+          </pre>
+          </div>
+        </div>
+        <div class="test-box">
+          <h3>Example 6 (onError handler):</h3>
+          <div id="test6"></div>
+          <div class="test-pre">
+            <pre>
+// Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
+// with passing the "getDataFromApi" configuration to fetch dynamic data from Server EndPoint.
+
+var test6 = new InfiniteAutocomplete(
+document.getElementById('test6'),
+{
+  onError: function(error) {
+    alert(error.message);
+  },
+  getDataFromApi: function(text, page, fetchSize) {
+      return new Promise(function(resolve, reject) {
+          reject(new Error("Server side exception. Promise rejected"));
+      });
+  }
+}
+);
+        </pre>
+        </div>
+      </div>
+      <div class="test-box">
+        <h3>Example 7 (onLoadingStateChange handler):</h3>
+        <h4 style="color: #d8400e;">Loading duration: 3 seconds.</h4>
+        <div id="test7"></div>
+        <div class="test-pre">
+          <pre>
+// Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
+// with passing the "getDataFromApi" configuration to fetch dynamic data from Server EndPoint.
+
+var test7 = new InfiniteAutocomplete(
+document.getElementById('test7'),
+{
+  onLoadingStateChange: function(loadingState) {
+    alert("loading state: " + loadingState + ".");
+  },
+  getDataFromApi: function(text, page, fetchSize) {
+      return new Promise(function(resolve, reject) {
+          setTimeout(() => {
+            resolve([]);
+          }, 3000);
+      });
+  }
+}
 );
           </pre>
           </div>
@@ -469,7 +520,35 @@ function destroy() {
               }
             );
 
-            var CustomizedInputForAdvancedTest = (function () {
+            var test6 = new InfiniteAutocomplete(
+              document.getElementById('test6'),
+              {
+                onError: function(error) {
+                  alert(error.message);
+                },
+                getDataFromApi: function(text, page, fetchSize) {
+                    return new Promise(function(resolve, reject) {
+                        reject(new Error("Server side exception. Promise rejected"));
+                    });
+                }
+              });
+
+            var test7 = new InfiniteAutocomplete(
+              document.getElementById('test7'),
+              {
+                onLoadingStateChange: function(loadingState) {
+                  alert("loading state: " + loadingState + ".");
+                },
+                getDataFromApi: function(text, page, fetchSize) {
+                    return new Promise(function(resolve, reject) {
+                        setTimeout(() => {
+                          resolve([]);
+                        }, 3000);
+                    });
+                }
+              });
+
+              var CustomizedInputForAdvancedTest = (function () {
                 function CustomizedInputForAdvancedTest() {
                 }
                 CustomizedInputForAdvancedTest.prototype.render = function () {
