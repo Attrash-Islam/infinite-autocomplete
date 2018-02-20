@@ -27,7 +27,7 @@ import { InfiniteAutocomplete } from 'infinite-autocomplete';
 // or <script src="node_modules/infinite-autocomplete/dist/index.js"></script>
 // [dist/index.debug.js is prefered for developement]
 
-//Static data source
+// Static data source
 new InfiniteAutocomplete(document.getElementById('test'), {
             data: [
                 { text: 'Islam Attrash', value: 1},
@@ -37,7 +37,7 @@ new InfiniteAutocomplete(document.getElementById('test'), {
             ]
         });
 
-//Dynamic data source
+// Dynamic data source
 new InfiniteAutocomplete(document.getElementById('test'), {
             getDataFromApi: function(text, page, fetchSize) { //Function return a Promise (http resource)
                return new Promise((resolve, reject) => {
