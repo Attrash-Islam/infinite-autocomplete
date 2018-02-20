@@ -4,23 +4,23 @@ import { InputHandlers } from "./Customization/inputHandlers";
 import { TestUtils } from "../Utils/index";
 import { MissingInput } from "./Customization/missingInput";
 import { ParitalCustomInput } from "./Customization/paritalCustomInput";
+import { MissingInputElementInInputComponentExceptionMsg } from "../../src/Constants/index";
 
 describe(`Customized Input implementation: `, () => {
 
     describe(`template Customization :`, () => {
 
         it(`should throw exception when template not contain input tag`, () => {
-          let expectedException = new Error(`Customized input should contain input element <input />`);
           let infinite = document.createElement("div");
           try {
               new InfiniteAutocomplete(infinite, {
                   customizedInput: MissingInput,
               });
-              throw new Error(`Exception expected.`);
+              expect(true).toBe(false, "Should throw an exception");
           } catch (e) {
             expect(e)
               .toEqual(
-                  expectedException,
+                MissingInputElementInInputComponentExceptionMsg,
               );
           }
       });
@@ -35,7 +35,7 @@ describe(`Customized Input implementation: `, () => {
                 expect(redInput.style.background)
                     .toBe(`red`);
             } else {
-                throw new Error(`Input doesn't exist`);
+                expect(true).toBe(false, `Input doesn't exist`);
             }
         });
 
@@ -53,7 +53,7 @@ describe(`Customized Input implementation: `, () => {
                 expect(inputWrapper.children[2].id)
                     .toBe("after-input");
             } else {
-                throw new Error(`Input wrapper doesn't exist`);
+              expect(true).toBe(false, "Input wrapper doesn't exist");
             }
         });
     });

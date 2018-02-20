@@ -97,7 +97,10 @@ interface InfiniteAutocompleteConfig {
    * Customized options class to override the default input
    */
   customizedOptions?: IOptionsComponentConstructor;
-
+  /**
+   * on-loading-state-change event output handler when choosing an option
+   */
+  onLoadingStateChange?(loadingState: boolean);
   /**
    * on-select event output handler when choosing an option
    */

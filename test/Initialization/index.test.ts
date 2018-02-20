@@ -3,10 +3,11 @@ import { TestUtils } from "../Utils/index";
 import { InputComponent as defaultInput } from "../../src/Components/InputComponent";
 import { OptionsComponent as defaultOptions } from "../../src/Components/OptionsComponent";
 import {Template} from "../Input/Customization/template";
+import { dataSourceMissingExceptionMsg, fetchSizeExceptionMsg } from "../../src/Constants/index";
 
 describe(`Initialization: `, () => {
 
-    it(`should throw exception when trying to type without any static data source
+    it(`should console exception when trying to type without any static data source
       nor dynamic API`, async (done): Promise<any> => {
         spyOn(console, "error").and.returnValue("");
         let infinite = document.createElement("div");
@@ -16,9 +17,69 @@ describe(`Initialization: `, () => {
         await TestUtils.sleep(0);
         expect(console.error)
           .toHaveBeenCalledWith(
-              new Error(`You must pass data or getDataFromApi function via config`),
+            dataSourceMissingExceptionMsg,
           );
         done();
+    });
+
+    it(`should pass the exception when trying to type without any static data source
+      nor dynamic API to onError callback`, async (done): Promise<any> => {
+        spyOn(console, "error").and.returnValue("");
+        let config = {
+          onError: () => {
+            //
+          },
+        };
+        spyOn(config, "onError").and.returnValue("");
+        let infinite = document.createElement("div");
+        new InfiniteAutocomplete(infinite, config);
+        let input = infinite.querySelector("input") as HTMLInputElement;
+        TestUtils.typeLetter(input, `a`);
+        await TestUtils.sleep(0);
+        expect(config.onError)
+          .toHaveBeenCalledWith(
+            dataSourceMissingExceptionMsg,
+          );
+        done();
+    });
+
+    it(`should console exception when trying to type with fetchSize configured as NaN`, async (done): Promise<any> => {
+        spyOn(console, "error").and.returnValue("");
+        let infinite = document.createElement("div");
+        new InfiniteAutocomplete(infinite, {
+          fetchSize: "" as any,
+          data: [],
+        });
+        let input = infinite.querySelector("input") as HTMLInputElement;
+        TestUtils.typeLetter(input, `a`);
+        await TestUtils.sleep(0);
+        expect(console.error)
+          .toHaveBeenCalledWith(
+            fetchSizeExceptionMsg,
+          );
+        done();
+    });
+
+    it(`should pass the exception when trying to type with fetchSize configured as NaN
+    to onError callback`, async (done): Promise<any> => {
+      let config = {
+        data: [],
+        fetchSize: "islam" as any,
+        onError: () => {
+          //
+        },
+      };
+      spyOn(config, "onError").and.returnValue("");
+      let infinite = document.createElement("div");
+      new InfiniteAutocomplete(infinite, config);
+      let input = infinite.querySelector("input") as HTMLInputElement;
+      TestUtils.typeLetter(input, `a`);
+      await TestUtils.sleep(0);
+      expect(config.onError)
+        .toHaveBeenCalledWith(
+          fetchSizeExceptionMsg,
+        );
+      done();
     });
 
     it(`should append 'infinite-autocomplete-wrapper' to the base element className

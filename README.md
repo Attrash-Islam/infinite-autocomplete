@@ -58,9 +58,25 @@ The configuration object will be exposed when initializing the infinite-autocomp
      */
     data?: IOption[];
     /**
+     * Chunk fetch size
+     */
+    fetchSize?: number,
+    /**
+     * Customized input class to override the default input
+     */
+    customizedInput?: IInputCompoenentConstructor;
+    /**
+     * Customized options class to override the default input
+     */
+    customizedOptions?: IOptionsComponentConstructor;
+    /**
      * on-select event output handler when choosing an option
      */
     onSelect?(selectedElement: EventTarget, selectedData: IOption);
+    /**
+     * on-loading-state-change event output handler when choosing an option
+     */
+    onLoadingStateChange?(loadingState: boolean);
     /**
      * on-error event output handler when exception thrown
      */
@@ -73,18 +89,6 @@ The configuration object will be exposed when initializing the infinite-autocomp
      * data dynamic api source
      */
     getDataFromApi?(text: string, page: number, fetchSize: number): Promise<any[]>;
-    /**
-     * Chunk fetch size
-     */
-    fetchSize?: number,
-    /**
-     * Customized input class to override the default input
-     */
-    customizedInput?: IInputCompoenentConstructor;
-    /**
-     * Customized options class to override the default input
-     */
-    customizedOptions?: IOptionsComponentConstructor;
 ```
 
 # customizedInput/customizedOptions Advanced configuration

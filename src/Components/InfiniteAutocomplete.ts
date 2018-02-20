@@ -39,7 +39,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
   private isDestroyed = false;
   private config: InfiniteAutocompleteConfig;
   private preventMoreRequests: boolean = false;
-  private fetchingData: boolean = false;
+  private localFetchingData: boolean = false;
 
   /**
    * Default configuration object
@@ -635,6 +635,17 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
   private setInput(text: string) {
     this.getInputElement()
       .value = text;
+  }
+
+  private get fetchingData() {
+    return this.localFetchingData;
+  }
+
+  private set fetchingData(loadingState) {
+    if (this.config.onLoadingStateChange) {
+      this.config.onLoadingStateChange(loadingState);
+    }
+    this.localFetchingData = loadingState;
   }
 
   /**

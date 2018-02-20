@@ -1,5 +1,6 @@
 import { InfiniteAutocomplete } from "../../src/Components/InfiniteAutocomplete";
 import { TestUtils } from "../Utils/index";
+import { InfiniteAutocompleteConfig } from "../../src/Interfaces/InfiniteAutocompleteConfig";
 
 describe(`Options Default implementation: `, () => {
 
@@ -17,11 +18,56 @@ describe(`Options Default implementation: `, () => {
             expect(optionsListWrapper.className)
                 .toContain(`infinite-autocomplete-hidden-element`);
         } else {
-            throw new Error(`Can't find the options list HTMLElement`);
+            expect(true).toBe(false, "Can't find the options list HTMLElement");
         }
     });
 
     describe(`Options based on dynamic data`, () => {
+
+        it(`should call onLoadingStateChange on loading state change`,
+        async (done): Promise<any> => {
+            let infinite = document.createElement("div");
+            let iniElm = new InfiniteAutocomplete(infinite);
+            let delay = 2000;
+            let config: InfiniteAutocompleteConfig = {
+              onLoadingStateChange: (loadingState: boolean) => {
+                //
+              },
+              getDataFromApi(text, page, fetchSize) {
+                  return new Promise((resolve, reject) => {
+                      setTimeout(() => {
+                          if (text.indexOf(`f`) !== -1) {
+                              resolve([
+                                  { text: "f1", value: "f1" },
+                                  { text: "f2", value: "f2" },
+                                  { text: "f3", value: "f3" },
+                              ]);
+                          } else {
+                              resolve([]);
+                          }
+                      }, delay);
+                  });
+              },
+            };
+            spyOn(config, "onLoadingStateChange").and.returnValue("");
+            iniElm.setConfig(config);
+            let input = infinite.querySelector(`input`) as HTMLInputElement;
+
+            // Type `f` letter
+            TestUtils.typeLetter(input, "f");
+            await TestUtils.sleep(0);
+            expect(
+              config.onLoadingStateChange,
+            ).not.toHaveBeenCalledWith(false);
+            expect(
+              config.onLoadingStateChange,
+            ).toHaveBeenCalledWith(true);
+            await TestUtils.sleep(delay + 1000);
+            expect(
+              config.onLoadingStateChange,
+            ).toHaveBeenCalledWith(false);
+            done();
+        });
 
         it(`should show the items received from the backend mock`,
             async (done): Promise<any> => {
@@ -57,7 +103,7 @@ describe(`Options Default implementation: `, () => {
                 await TestUtils.sleep(0);
                 let options = infinite.querySelectorAll(`li`) as NodeListOf<HTMLElement>;
                 if (options.length === 0) {
-                    throw new Error(`options shouldn't be empty!`);
+                    expect(true).toBe(false, "options shouldn't be empty!");
                 }
                 expect((options[0] as any).data)
                     .toEqual({ text: "f1", value: "f1" });
@@ -71,7 +117,7 @@ describe(`Options Default implementation: `, () => {
                 await TestUtils.sleep(0);
                 let options2 = infinite.querySelectorAll(`li`) as NodeListOf<HTMLElement>;
                 if (options2.length === 0) {
-                    throw new Error(`options2 shouldn't be empty!`);
+                    expect(true).toBe(false, "options2 shouldn't be empty");
                 }
                 expect((options2[0] as any).data)
                     .toEqual({ text: "x1", value: "x1" });
@@ -232,7 +278,7 @@ describe(`Options Default implementation: `, () => {
                 await TestUtils.sleep(0);
                 let options = infinite.querySelectorAll(`li`) as NodeListOf<HTMLElement>;
                 if (options.length === 0) {
-                    throw new Error(`options shouldn't be empty!`);
+                    expect(true).toBe(false, "options shouldn't be empty");
                 }
                 expect((options[0] as any).data.value)
                     .toBe(1);
@@ -360,7 +406,7 @@ describe(`Options Default implementation: `, () => {
             await TestUtils.sleep(0);
             let options = infinite.querySelectorAll(`li`) as NodeListOf<HTMLElement>;
             if (options.length === 0) {
-                throw new Error(`options shouldn't be empty!`);
+                expect(true).toBe(false, "options shouldn't be empty");
             }
             for ( let i = 0; i < options.length; i++) {
                 expect(options[i].innerText)
@@ -375,7 +421,7 @@ describe(`Options Default implementation: `, () => {
             await TestUtils.sleep(0);
             options = infinite.querySelectorAll(`li`) as NodeListOf<HTMLElement>;
             if (options.length === 0) {
-                throw new Error(`options shouldn't be empty!`);
+                expect(true).toBe(false, "options shouldn't be empty");
             }
             for ( let i = 0; i < options.length; i++) {
                 expect(options[i].innerText)
