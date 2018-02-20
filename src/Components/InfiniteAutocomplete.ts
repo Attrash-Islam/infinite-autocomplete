@@ -30,6 +30,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
   private optionsComponent: IOptionsComponent;
   private page: number = 1;
   private searchedText: string = "";
+  private isDestroyed = false;
   private config: InfiniteAutocompleteConfig;
   private preventMoreRequests: boolean = false;
   private fetchingData: boolean = false;
@@ -77,6 +78,10 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
    * Destroy the infinite-autocomplete and unbind all events
    */
   public destroy = () => {
+    if (this.isDestroyed) {
+      return;
+    }
+
     if (!this.isOptionsHidden()) {
       this.clearOptions();
     }
@@ -90,6 +95,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     document.removeEventListener(`click`, this.onDocumentClickHandler);
     document.removeEventListener("keydown", this.onEscapeEventHandler);
     this.element.innerHTML = ``;
+    this.isDestroyed = true;
   }
 
   /**
@@ -103,6 +109,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     this.bindScrollReachBottomEvent();
     this.bindEscapeEvent();
     this.bindOutSideClickEvent();
+    this.isDestroyed = false;
   }
 
   /**

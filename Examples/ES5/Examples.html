@@ -20,49 +20,46 @@
     <body>
       <div id="examples" class="test-container">
         <div class="test-box">
-            <h3>Example 1:</h3>
+            <h3>Example 1 (static data source):</h3>
             <div id="test1"></div>
             <div class="test-pre">
               <pre>
 
 // Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
-// Without any configuration in the second argument -> Defaults values will be applied
+// with passing "data" configuration in the second argument
 
 var test1 = new InfiniteAutocomplete(
   document.getElementById('test1'),
-  {}
+  {data: [
+    { text: 'Islam Attrash', value: 1},
+    { text: 'Shai Reznik', value: 2},
+    { text: 'Uri Shaked', value: 3},
+    { text: 'Salsabel Eawissat', value: 4},
+    { text: 'Mohammed Attrash', value: 5},
+    { text: 'Mike Brocole', value: 6},
+    { text: 'John Stewart', value: 7},
+    { text: 'Stone Cold', value: 8},
+    { text: 'Triple H', value: 9},
+    { text: 'Sting The Stinger', value: 10},
+    { text: 'Superman', value: 11},
+    { text: 'Batman', value: 12},
+    { text: 'The Joker', value: '13'},
+    { text: 'Vanilla Icecream', value: '14'},
+    { text: 'Stephane macmahon', value: '15'},
+    { text: 'infinite autocomplete', value: '16'},
+    { text: 'Barak Obama', value: null},
+    { text: 'Bill Goldberg', value: 17},
+    { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+    { text: 'Saloma', value: [1,2,3]},
+    { text: 'Yosra Eawissat', value: {object: true}},
+    { text: 'Medium Articles', value: 'what'}
+  ]}
 );
-
-// Configure the List static "data" prop
-test1.setConfig({data: [
-  { text: 'Islam Attrash', value: 1},
-  { text: 'Shai Reznik', value: 2},
-  { text: 'Uri Shaked', value: 3},
-  { text: 'Salsabel Eawissat', value: 4},
-  { text: 'Mohammed Attrash', value: 5},
-  { text: 'Mike Brocole', value: 6},
-  { text: 'John Stewart', value: 7},
-  { text: 'Stone Cold', value: 8},
-  { text: 'Triple H', value: 9},
-  { text: 'Sting The Stinger', value: 10},
-  { text: 'Superman', value: 11},
-  { text: 'Batman', value: 12},
-  { text: 'The Joker', value: '13'},
-  { text: 'Vanilla Icecream', value: '14'},
-  { text: 'Stephane macmahon', value: '15'},
-  { text: 'infinite autocomplete', value: '16'},
-  { text: 'Barak Obama', value: null},
-  { text: 'Bill Goldberg', value: 17},
-  { text: 'Inishtanispfl', value: 'whooo? whoo?'},
-  { text: 'Saloma', value: [1,2,3]},
-  { text: 'Yosra Eawissat', value: {object: true}},
-  { text: 'Medium Articles', value: 'what'}
-]});
               </pre>
             </div>
         </div>
         <div class="test-box">
-            <h3>Example 2:</h3>
+            <h3>Example 2 (fetchSize/Chunk size):</h3>
             <div id="test2"></div>
             <div class="test-pre">
               <pre>
@@ -78,6 +75,9 @@ var test2 = new InfiniteAutocomplete(
       fetchSize: 3
     }
 );
+
+// Setting the "data" configuration after creating the instance at some point
+// We can set all configuration at some point in run-time by using "setConfig" Method
 
 test2.setConfig({data:[
     { text: 'Islam Attrash', value: 1},
@@ -107,16 +107,215 @@ test2.setConfig({data:[
             </div>
         </div>
         <div class="test-box">
+            <h3>Example 3 (maxHeight):</h3>
             <div id="test3"></div>
             <div class="test-pre">
+              <pre>
+// Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
+// with passing the "maxHeight" configuration to determine what maxHeight the scrollable area will be.
+// Pay attention to the differences between this example and the example above.
 
+var test3 = new InfiniteAutocomplete(
+    document.getElementById('test3'),
+    {
+      maxHeight: "300px",
+      data:[
+        { text: 'Islam Attrash', value: 1},
+        { text: 'Shai Reznik', value: 2},
+        { text: 'Uri Shaked', value: 3},
+        { text: 'Salsabel Eawissat', value: 4},
+        { text: 'Mohammed Attrash', value: 5},
+        { text: 'Mike Brocole', value: 6},
+        { text: 'John Stewart', value: 7},
+        { text: 'Stone Cold', value: 8},
+        { text: 'Triple H', value: 9},
+        { text: 'Sting The Stinger', value: 10},
+        { text: 'Superman', value: 11},
+        { text: 'Batman', value: 12},
+        { text: 'The Joker', value: '13'},
+        { text: 'Vanilla Icecream', value: '14'},
+        { text: 'Stephane macmahon', value: '15'},
+        { text: 'infinite autocomplete', value: '16'},
+        { text: 'Barak Obama', value: null},
+        { text: 'Bill Goldberg', value: 17},
+        { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+        { text: 'Saloma', value: [1,2,3]},
+        { text: 'Yosra Eawissat', value: {object: true}},
+        { text: 'Medium Articles', value: 'what'}
+      ]
+    }
+);
+              </pre>
             </div>
         </div>
         <div class="test-box">
+            <h3>Example 4 (onSelect handler):</h3>
             <div id="test4"></div>
             <div class="test-pre">
+              <pre>
+// Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
+// with passing the "onSelect" configuration to determine a callback function to be called when selecting a value.
+// Type and Select some values and see Console for results
 
+var test4 = new InfiniteAutocomplete(
+    document.getElementById('test4'),
+    {
+      onSelect: function(targetElement, selectedOption) {
+        console.log("selectedOption", selectedOption);
+      },
+      data:[
+        { text: 'Islam Attrash', value: 1},
+        { text: 'Shai Reznik', value: 2},
+        { text: 'Uri Shaked', value: 3},
+        { text: 'Salsabel Eawissat', value: 4},
+        { text: 'Mohammed Attrash', value: 5},
+        { text: 'Mike Brocole', value: 6},
+        { text: 'John Stewart', value: 7},
+        { text: 'Stone Cold', value: 8},
+        { text: 'Triple H', value: 9},
+        { text: 'Sting The Stinger', value: 10},
+        { text: 'Superman', value: 11},
+        { text: 'Batman', value: 12},
+        { text: 'The Joker', value: '13'},
+        { text: 'Vanilla Icecream', value: '14'},
+        { text: 'Stephane macmahon', value: '15'},
+        { text: 'infinite autocomplete', value: '16'},
+        { text: 'Barak Obama', value: null},
+        { text: 'Bill Goldberg', value: 17},
+        { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+        { text: 'Saloma', value: [1,2,3]},
+        { text: 'Yosra Eawissat', value: {object: true}},
+        { text: 'Medium Articles', value: 'what'}
+      ]
+    }
+);
+              </pre>
             </div>
+        </div>
+        <div class="test-box">
+            <h3>Example 5 (dynamic data source):</h3>
+            <h4 style="color: #d8400e;">Run "node server.js" in "Examples" folder to see results</h4>
+            <div id="test5"></div>
+            <div class="test-pre">
+              <pre>
+// Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
+// with passing the "getDataFromApi" configuration to fetch dynamic data from Server EndPoint.
+
+var test5 = new InfiniteAutocomplete(
+  document.getElementById('test5'),
+  {
+    onSelect: function(targetElement, selectedOption) {
+      console.log("selectedOption", selectedOption);
+    },
+    getDataFromApi: function(text, page, fetchSize) {
+        return new Promise(function(resolve, reject) {
+            function reqListener () {
+                resolve(JSON.parse(this.responseText));
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", reqListener);
+            oReq.open("GET", "http://localhost:5000/data?text="+ text + "&page=" + page + "&fetchSize=" + fetchSize);
+            oReq.send();
+        });
+    }
+  }
+);
+          </pre>
+          </div>
+        </div>
+        <div class="test-box">
+            <h3>Advanced Example:</h3>
+            <div id="advanced-test"></div>
+            <div class="test-pre">
+              <pre>
+var CustomizedInputForAdvancedTest = (function () { // ES5 Class
+  function CustomizedInputForAdvancedTest() {
+  }
+  CustomizedInputForAdvancedTest.prototype.render = function () {
+      return '< div>Start typing!</ div>< input type="text" style="background:red;"/>';
+  };
+  CustomizedInputForAdvancedTest.prototype.onInputChange = function (inputDOMElement, value) {
+      console.log(value);
+  };
+  return CustomizedInputForAdvancedTest;
+}());
+
+
+var OptionsComponentForAdvancedTest = (function () { // ES5 Class
+  function OptionsComponentForAdvancedTest() {
+      this.listElementSelector = ".myList";
+  }
+  OptionsComponentForAdvancedTest.prototype.render = function () {
+      //You can inject template code before
+      return "< div>Options:</ div>< div class='myList'></ div>";
+      //You can inject template code after
+  };
+  OptionsComponentForAdvancedTest.prototype.renderOption = function (option) {
+      return "< li style='font-weight:bold;'>" + option.text + "</ li>";
+  };
+  return OptionsComponentForAdvancedTest;
+}());
+
+var advancedTest = new InfiniteAutocomplete(
+  document.getElementById('advanced-test'),
+  {
+      customizedInput: CustomizedInputForAdvancedTest,
+      customizedOptions: OptionsComponentForAdvancedTest
+  }
+);
+
+advancedTest.setConfig({data:[
+  { text: 'first', value: 1},
+  { text: 'second', value: 2},
+  { text: 'theird', value: 3},
+  { text: 'fourth', value: 4},
+  { text: 'fivth', value: 5}
+]});
+            </pre>
+          </div>
+        </div>
+        <div class="test-box">
+            <h3>Destroy Example:</h3>
+            <button onclick="destroy()">Destroy</button>
+            <div id="destroy-test"></div>
+            <div class="test-pre">
+              <pre>
+// Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
+
+var destroyTest = new InfiniteAutocomplete(
+  document.getElementById('destroy-test'),
+  {data: [
+    { text: 'Islam Attrash', value: 1},
+    { text: 'Shai Reznik', value: 2},
+    { text: 'Uri Shaked', value: 3},
+    { text: 'Salsabel Eawissat', value: 4},
+    { text: 'Mohammed Attrash', value: 5},
+    { text: 'Mike Brocole', value: 6},
+    { text: 'John Stewart', value: 7},
+    { text: 'Stone Cold', value: 8},
+    { text: 'Triple H', value: 9},
+    { text: 'Sting The Stinger', value: 10},
+    { text: 'Superman', value: 11},
+    { text: 'Batman', value: 12},
+    { text: 'The Joker', value: '13'},
+    { text: 'Vanilla Icecream', value: '14'},
+    { text: 'Stephane macmahon', value: '15'},
+    { text: 'infinite autocomplete', value: '16'},
+    { text: 'Barak Obama', value: null},
+    { text: 'Bill Goldberg', value: 17},
+    { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+    { text: 'Saloma', value: [1,2,3]},
+    { text: 'Yosra Eawissat', value: {object: true}},
+    { text: 'Medium Articles', value: 'what'}
+  ]}
+);
+
+function destroy() {
+  destroyTest.destroy();
+}
+                </pre>
+          </div>
         </div>
       </div>
         <script src="../../dist/index.debug.js"></script>
@@ -124,9 +323,7 @@ test2.setConfig({data:[
 
             var test1 = new InfiniteAutocomplete(
                 document.getElementById('test1'),
-                {}
-            );
-            test1.setConfig({data: [
+                {data: [
                 { text: 'Islam Attrash', value: 1},
                 { text: 'Shai Reznik', value: 2},
                 { text: 'Uri Shaked', value: 3},
@@ -149,7 +346,8 @@ test2.setConfig({data:[
                 { text: 'Saloma', value: [1,2,3]},
                 { text: 'Yosra Eawissat', value: {object: true}},
                 { text: 'Medium Articles', value: 'what'}
-            ]});
+            ]}
+            );
 
             var test2 = new InfiniteAutocomplete(
                 document.getElementById('test2'),
@@ -183,53 +381,166 @@ test2.setConfig({data:[
                 { text: 'Medium Articles', value: 'what'}
             ]});
 
-
-            var CustomizedInputForTest3 = (function () {
-                function CustomizedInputForTest3() {
+              var test3 = new InfiniteAutocomplete(
+                document.getElementById('test3'),
+                {
+                  maxHeight: "300px",
+                  data:[
+                    { text: 'Islam Attrash', value: 1},
+                    { text: 'Shai Reznik', value: 2},
+                    { text: 'Uri Shaked', value: 3},
+                    { text: 'Salsabel Eawissat', value: 4},
+                    { text: 'Mohammed Attrash', value: 5},
+                    { text: 'Mike Brocole', value: 6},
+                    { text: 'John Stewart', value: 7},
+                    { text: 'Stone Cold', value: 8},
+                    { text: 'Triple H', value: 9},
+                    { text: 'Sting The Stinger', value: 10},
+                    { text: 'Superman', value: 11},
+                    { text: 'Batman', value: 12},
+                    { text: 'The Joker', value: '13'},
+                    { text: 'Vanilla Icecream', value: '14'},
+                    { text: 'Stephane macmahon', value: '15'},
+                    { text: 'infinite autocomplete', value: '16'},
+                    { text: 'Barak Obama', value: null},
+                    { text: 'Bill Goldberg', value: 17},
+                    { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+                    { text: 'Saloma', value: [1,2,3]},
+                    { text: 'Yosra Eawissat', value: {object: true}},
+                    { text: 'Medium Articles', value: 'what'}
+                  ]
                 }
-                CustomizedInputForTest3.prototype.render = function () {
+            );
+
+            var test4 = new InfiniteAutocomplete(
+              document.getElementById('test4'),
+              {
+                onSelect: function(targetElement, selectedOption) {
+                  console.log("selectedOption", selectedOption);
+                },
+                data:[
+                  { text: 'Islam Attrash', value: 1},
+                  { text: 'Shai Reznik', value: 2},
+                  { text: 'Uri Shaked', value: 3},
+                  { text: 'Salsabel Eawissat', value: 4},
+                  { text: 'Mohammed Attrash', value: 5},
+                  { text: 'Mike Brocole', value: 6},
+                  { text: 'John Stewart', value: 7},
+                  { text: 'Stone Cold', value: 8},
+                  { text: 'Triple H', value: 9},
+                  { text: 'Sting The Stinger', value: 10},
+                  { text: 'Superman', value: 11},
+                  { text: 'Batman', value: 12},
+                  { text: 'The Joker', value: '13'},
+                  { text: 'Vanilla Icecream', value: '14'},
+                  { text: 'Stephane macmahon', value: '15'},
+                  { text: 'infinite autocomplete', value: '16'},
+                  { text: 'Barak Obama', value: null},
+                  { text: 'Bill Goldberg', value: 17},
+                  { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+                  { text: 'Saloma', value: [1,2,3]},
+                  { text: 'Yosra Eawissat', value: {object: true}},
+                  { text: 'Medium Articles', value: 'what'}
+                ]
+              }
+          );
+
+            var test5 = new InfiniteAutocomplete(
+              document.getElementById('test5'),
+              {
+                onSelect: function(targetElement, selectedOption) {
+                  console.log("selectedOption", selectedOption);
+                },
+                getDataFromApi: function(text, page, fetchSize) {
+                    return new Promise(function(resolve, reject) {
+                        function reqListener () {
+                            resolve(JSON.parse(this.responseText));
+                        }
+
+                        var oReq = new XMLHttpRequest();
+                        oReq.addEventListener("load", reqListener);
+                        oReq.open("GET", "http://localhost:5000/data?text="+ text + "&page=" + page + "&fetchSize=" + fetchSize);
+                        oReq.send();
+                    });
+                }
+              }
+            );
+
+            var CustomizedInputForAdvancedTest = (function () {
+                function CustomizedInputForAdvancedTest() {
+                }
+                CustomizedInputForAdvancedTest.prototype.render = function () {
                     return '<div>Start typing!</div><input type="text" style="background:red;"/>';
                 };
-                CustomizedInputForTest3.prototype.onInputChange = function (inputDOMElement, value) {
+                CustomizedInputForAdvancedTest.prototype.onInputChange = function (inputDOMElement, value) {
                     console.log(value);
                 };
-                return CustomizedInputForTest3;
+                return CustomizedInputForAdvancedTest;
             }());
 
 
-            var OptionsComponentForTest3 = (function () {
-                function OptionsComponentForTest3() {
+            var OptionsComponentForAdvancedTest = (function () {
+                function OptionsComponentForAdvancedTest() {
                     this.listElementSelector = ".myList";
                 }
-                OptionsComponentForTest3.prototype.render = function () {
+                OptionsComponentForAdvancedTest.prototype.render = function () {
                     //You can inject template code before
                     return "<div>Options:</div><div class='myList'></div>";
                     //You can inject template code after
                 };
-                OptionsComponentForTest3.prototype.renderOption = function (option) {
+                OptionsComponentForAdvancedTest.prototype.renderOption = function (option) {
                     return "<li style='font-weight:bold;'>" + option.text + "</li>";
                 };
-                return OptionsComponentForTest3;
+                return OptionsComponentForAdvancedTest;
             }());
 
-            var test3 = new InfiniteAutocomplete(
-                document.getElementById('test3'),
+            var advancedTest = new InfiniteAutocomplete(
+                document.getElementById('advanced-test'),
                 {
-                    onSelect: function() {
-                        console.log(arguments);
-                    },
-                    customizedInput: CustomizedInputForTest3,
-                    customizedOptions: OptionsComponentForTest3
+                  customizedInput: CustomizedInputForAdvancedTest,
+                  customizedOptions: OptionsComponentForAdvancedTest
                 }
             );
 
-            test3.setConfig({data:[
-                { text: 'first', value: 1},
-                { text: 'second', value: 2},
-                { text: 'theird', value: 3},
-                { text: 'fourth', value: 4},
-                { text: 'fivth', value: 5}
+            advancedTest.setConfig({data:[
+              { text: 'first', value: 1},
+              { text: 'second', value: 2},
+              { text: 'theird', value: 3},
+              { text: 'fourth', value: 4},
+              { text: 'fivth', value: 5}
             ]});
+
+            var destroyTest = new InfiniteAutocomplete(
+              document.getElementById('destroy-test'),
+              {data: [
+                { text: 'Islam Attrash', value: 1},
+                { text: 'Shai Reznik', value: 2},
+                { text: 'Uri Shaked', value: 3},
+                { text: 'Salsabel Eawissat', value: 4},
+                { text: 'Mohammed Attrash', value: 5},
+                { text: 'Mike Brocole', value: 6},
+                { text: 'John Stewart', value: 7},
+                { text: 'Stone Cold', value: 8},
+                { text: 'Triple H', value: 9},
+                { text: 'Sting The Stinger', value: 10},
+                { text: 'Superman', value: 11},
+                { text: 'Batman', value: 12},
+                { text: 'The Joker', value: '13'},
+                { text: 'Vanilla Icecream', value: '14'},
+                { text: 'Stephane macmahon', value: '15'},
+                { text: 'infinite autocomplete', value: '16'},
+                { text: 'Barak Obama', value: null},
+                { text: 'Bill Goldberg', value: 17},
+                { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+                { text: 'Saloma', value: [1,2,3]},
+                { text: 'Yosra Eawissat', value: {object: true}},
+                { text: 'Medium Articles', value: 'what'}
+              ]}
+            );
+
+            function destroy() {
+              destroyTest.destroy();
+            }
 
         </script>
     </body>
