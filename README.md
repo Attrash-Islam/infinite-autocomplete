@@ -11,25 +11,20 @@ Ease of use, flexable and written with TypeScript following the SOLID principles
 - <a href="https://github.com/Attrash-Islam/ng-infinite-autocomplete">ng-infinite-autocomplete (AngularJS 1.x)</a>
 - <a href="https://github.com/Attrash-Islam/react-infinite-autocomplete">react-infinite-autocomplete</a>
 
+# Live Demo (Default Style)
+
+<img src="https://cdn.rawgit.com/Attrash-Islam/assets/749035d3/infi-basic.gif" />
+
+
 # Install
 ```js
 npm i --save infinite-autocomplete
 ```
-# Developer section
-In the package.json scripts we've 4 basic tasks:
-
-`build` - Build the code once
-
-`build:watch` - Build the code and watch changes
-
-`test` - Run tests once
-
-`test:watch` - Run tests and watch changes
 
 # Basic Usage (Minimum Configuration)
 ```js
 import { InfiniteAutocomplete } from 'infinite-autocomplete';
-// or <script src="node_modules/infinite-autocomplete/dist/index.js"></script>
+// or <script src="node_modules/infinite-autocomplete/dist/index.js"></script> [dist/index.debug.js is prefered for developement]
 
 //Static data source
 new InfiniteAutocomplete(document.getElementById('test'), {
@@ -53,11 +48,41 @@ new InfiniteAutocomplete(document.getElementById('test'), {
         });
 ```
 
-# Live Demo (Default Style)
+# Configurations
+The configuration object will be exposed when initializing the infinite-autocomplete component as the second argument in the type-system typings, so it can help you know what configuration to apply.
 
-<img src="https://cdn.rawgit.com/Attrash-Islam/assets/749035d3/infi-basic.gif" />
+```js
+    /**
+     * data static source
+     */
+    data?: IOption[];
+    /**
+     * on-select event output handler when choosing an option
+     */
+    onSelect?(selectedElement: EventTarget, selectedData: IOption);
+    /**
+     * max height for the options
+     */
+    maxHeight?: string;
+    /**
+     * data dynamic api source
+     */
+    getDataFromApi?(text: string, page: number, fetchSize: number): Promise<any[]>;
+    /**
+     * Chunk fetch size
+     */
+    fetchSize?: number,
+    /**
+     * Customized input class to override the default input
+     */
+    customizedInput?: IInputCompoenentConstructor;
+    /**
+     * Customized options class to override the default input
+     */
+    customizedOptions?: IOptionsComponentConstructor;
+```
 
-# Override Implementations
+# customizedInput/customizedOptions Advanced configuration
 Regards the custom implementations, they're targeting the two main component of this plugin, which is: InputComponent, OptionsComponent (The result)
 
 For that you've two classes exported to help you manage correctly extending with your own classes
@@ -109,104 +134,16 @@ export interface IOptionsComponent {
 }
 ```
 
-# Implementations Override Examples
+# Examples
+See "Examples" folder
 
-```js
+# Developer section
+In the package.json scripts we've 4 basic tasks:
 
-import { InfiniteAutocomplete, InputComponent } from 'infinite-autocomplete';
+`build` - Build the code once
 
-class SpecialInput extends InputComponent {
-    render() {
-        return `<input class="test-input" style="background: red;" />`;
-    }
-}
+`build:watch` - Build the code and watch for changes [developement]
 
-new InfiniteAutocomplete(document.getElementById('test'), {
-            customizedInput: SpecialInput, //We inject Class not instance object
-            //You can also inject "customizedOptions"
-            data: [
-                { text: 'Islam Attrash', value: 1},
-                { text: 'Shai Reznik', value: 2},
-                { text: 'Uri Shaked', value: 3},
-                { text: 'Salsabel Eawissat', value: 4}
-            ]
-        });
-```
+`test` - Run tests once
 
-# Configurations
-The configuration object will be exposed when initializing the infinite-autocomplete component as the second argument in the type-system typings, so it can help you know what configuration to apply.
-
-```js
-    /**
-     * data static source
-     */
-    data?:Array<IOption>;
-    /**
-     * on-select event output handler when choosing an option
-     */
-    onSelect?:Function;
-    /**
-     * max height for the options
-     */
-    maxHeight?:string;
-    /**
-     * data dynamic api source
-     */
-    getDataFromApi?(text:string, page:number, fetchSize:number):Promise<Array<any>>;
-    /**
-     * Chunk fetch size
-     */
-    fetchSize?:number,
-    /**
-     * Customized input class to override the default input
-     */
-    customizedInput?:IInputCompoenentConstructor;
-    /**
-     * Customized options class to override the default input
-     */
-    customizedOptions?:IOptionsComponentConstructor;
-```
-
-# ES5 also works
-```js
-      //This code is the ES6 `class` written in ES5 code
-      var CustomizedInput = (function () {
-          function CustomizedInput() {
-          }
-          CustomizedInput.prototype.render = function () {
-              return '<input type="text" />';
-          };
-          CustomizedInput.prototype.onInputChange = function (inputDOMElement, value) {
-              console.log(value);
-          };
-          return CustomizedInput;
-      }());
-
-      var OptionsComponent = (function () {
-          function OptionsComponent() {
-              this.listElementSelector = ".myList";
-          }
-          OptionsComponent.prototype.render = function () {
-              //You can inject template code before
-              return "<ul class='myList'></ul>";
-              //You can inject template code after
-          };
-          OptionsComponent.prototype.renderOption = function (option) {
-              return "<li style='font-weight:bold;'>" + option.text + "</li>";
-          };
-          return OptionsComponent;
-      }());
-      
-      
-      new InfiniteAutocomplete(document.getElementById('test'), {
-            customizedInput: CustomizedInput, //We pass the function not prototype
-            customizedOptions: OptionsComponent, //We pass the function not prototype
-            data: [
-                { text: 'Islam Attrash', value: 1},
-                { text: 'Shai Reznik', value: 2},
-                { text: 'Uri Shaked', value: 3},
-                { text: 'Salsabel Eawissat', value: 4}
-            ]
-        });
-      
-```
+`test:watch` - Run tests and watch for changes [developement]
