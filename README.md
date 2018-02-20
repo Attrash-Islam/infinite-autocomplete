@@ -136,7 +136,9 @@ export interface IOptionsComponent {
 ```
 
 # Examples
-See "Examples" folder
+- <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/Attrash-Islam/infinite-autocomplete/master/Examples/ES5/Examples.html">
+  See Live Examples
+</a>
 
 # Developer section
 In the package.json scripts we've 4 basic tasks:
