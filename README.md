@@ -24,7 +24,8 @@ npm i --save infinite-autocomplete
 # Basic Usage (Minimum Configuration)
 ```js
 import { InfiniteAutocomplete } from 'infinite-autocomplete';
-// or <script src="node_modules/infinite-autocomplete/dist/index.js"></script> [dist/index.debug.js is prefered for developement]
+// or <script src="node_modules/infinite-autocomplete/dist/index.js"></script>
+// [dist/index.debug.js is prefered for developement]
 
 //Static data source
 new InfiniteAutocomplete(document.getElementById('test'), {
