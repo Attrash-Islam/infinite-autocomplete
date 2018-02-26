@@ -8,6 +8,20 @@ import { MissingInputElementInInputComponentExceptionMsg } from "../../src/Const
 
 describe(`Customized Input implementation: `, () => {
 
+    it(`input value should be set if configured via "value" config`, () => {
+      let infinite = document.createElement("div");
+      new InfiniteAutocomplete(infinite, {
+        value: "custom value",
+        customizedInput: Template,
+      });
+      const infiniteInput = infinite.querySelector("input") as HTMLInputElement;
+      if (infiniteInput) {
+        expect(infiniteInput.value).toBe("custom value");
+      } else {
+        expect(true).toBe(false, "Input doesn't exist");
+      }
+    });
+
     describe(`template Customization :`, () => {
 
         it(`should throw exception when template not contain input tag`, () => {

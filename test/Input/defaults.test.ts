@@ -8,6 +8,19 @@ describe(`Input Default implementation: `, () => {
         expect(infinite.querySelectorAll("input").length).toBe(1);
     });
 
+    it(`input value should be set if configured via "value" config`, () => {
+      let infinite = document.createElement("div");
+      new InfiniteAutocomplete(infinite, {
+        value: "current value",
+      });
+      const infiniteInput = infinite.querySelector("input") as HTMLInputElement;
+      if (infiniteInput) {
+        expect(infiniteInput.value).toBe("current value");
+      } else {
+        expect(true).toBe(false, "Input doesn't exist");
+      }
+    });
+
     describe(`Current page: `, () => {
         it(`should send page as 1 when typings`, () => {
             let infinite = document.createElement("div");

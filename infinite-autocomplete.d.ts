@@ -78,6 +78,10 @@ interface IOptionsComponentConstructor {
  */
 interface InfiniteAutocompleteConfig {
   /**
+   * current value
+   */
+  value?: string;
+  /**
    * data static source
    */
   data?: IOption[];

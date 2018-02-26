@@ -54,6 +54,10 @@ The configuration object will be exposed when initializing the infinite-autocomp
 
 ```js
     /**
+     * current value
+     */
+    value?: string;
+    /**
      * data static source
      */
     data?: IOption[];

@@ -202,7 +202,7 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     let inputWrapperEle = document.createElement(`div`);
     inputWrapperEle.className = `infinite-autocomplete-input-wrapper`;
     inputWrapperEle.innerHTML = this.inputComponent.render();
-    let inputEle = inputWrapperEle.querySelector(`input`) as HTMLElement;
+    let inputEle = inputWrapperEle.querySelector(`input`) as HTMLInputElement;
     if (!inputEle) {
       throw MissingInputElementInInputComponentExceptionMsg;
     }
@@ -213,6 +213,10 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
       .addEventListener(`click`, this.onInputChange);
     inputEle
       .addEventListener(`keydown`, this.onKeyPressed);
+    if (this.config.value) {
+      inputEle.value = this.config.value;
+    }
+
     this.element.appendChild(inputWrapperEle);
   }
 

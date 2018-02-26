@@ -8,6 +8,10 @@ import { IOption } from "./IOption";
  */
 export interface InfiniteAutocompleteConfig {
   /**
+   * current value
+   */
+  value?: string;
+  /**
    * data static source
    */
   data?: IOption[];

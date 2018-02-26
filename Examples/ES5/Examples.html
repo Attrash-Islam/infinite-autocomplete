@@ -19,17 +19,58 @@
     </head>
     <body>
       <div id="examples" class="test-container">
+          <div class="test-box">
+              <h3>Selected (inital) value:</h3>
+              <div id="value-config"></div>
+              <div class="test-pre">
+                <pre>
+  
+  // Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
+  // with passing "data" and "value" configuration in the second argument
+  
+  var valueConfig = new InfiniteAutocomplete(
+    document.getElementById('value-config'),
+    {
+      value: "Salsabel Eawissat",
+      data: [
+      { text: 'Islam Attrash', value: 1},
+      { text: 'Shai Reznik', value: 2},
+      { text: 'Uri Shaked', value: 3},
+      { text: 'Salsabel Eawissat', value: 4},
+      { text: 'Mohammed Attrash', value: 5},
+      { text: 'Mike Brocole', value: 6},
+      { text: 'John Stewart', value: 7},
+      { text: 'Stone Cold', value: 8},
+      { text: 'Triple H', value: 9},
+      { text: 'Sting The Stinger', value: 10},
+      { text: 'Superman', value: 11},
+      { text: 'Batman', value: 12},
+      { text: 'The Joker', value: '13'},
+      { text: 'Vanilla Icecream', value: '14'},
+      { text: 'Stephane macmahon', value: '15'},
+      { text: 'infinite autocomplete', value: '16'},
+      { text: 'Barak Obama', value: null},
+      { text: 'Bill Goldberg', value: 17},
+      { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+      { text: 'Saloma', value: [1,2,3]},
+      { text: 'Yosra Eawissat', value: {object: true}},
+      { text: 'Medium Articles', value: 'what'}
+    ]}
+  );
+                </pre>
+              </div>
+          </div>
         <div class="test-box">
-            <h3>Example 1 (static data source):</h3>
-            <div id="test1"></div>
+            <h3>Static data source:</h3>
+            <div id="data-config"></div>
             <div class="test-pre">
               <pre>
 
 // Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
 // with passing "data" configuration in the second argument
 
-var test1 = new InfiniteAutocomplete(
-  document.getElementById('test1'),
+var dataConfig = new InfiniteAutocomplete(
+  document.getElementById('data-config'),
   {data: [
     { text: 'Islam Attrash', value: 1},
     { text: 'Shai Reznik', value: 2},
@@ -59,8 +100,8 @@ var test1 = new InfiniteAutocomplete(
             </div>
         </div>
         <div class="test-box">
-            <h3>Example 2 (fetchSize/Chunk size):</h3>
-            <div id="test2"></div>
+            <h3>fetchSize/Chunk size:</h3>
+            <div id="fetchSize-config"></div>
             <div class="test-pre">
               <pre>
 // Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
@@ -69,8 +110,8 @@ var test1 = new InfiniteAutocomplete(
 // Pay attention that the chunk size in Example 1 is 10 (default fetchSize) which can be checked by just clicking
 // on the input (First chunk) and the next fetch chunks in scrolling infinitely
 
-var test2 = new InfiniteAutocomplete(
-    document.getElementById('test2'),
+var fetchSizeConfig = new InfiniteAutocomplete(
+    document.getElementById('fetchSize-config'),
     {
       fetchSize: 3
     }
@@ -79,7 +120,7 @@ var test2 = new InfiniteAutocomplete(
 // Setting the "data" configuration after creating the instance at some point
 // We can set all configuration at some point in run-time by using "setConfig" Method
 
-test2.setConfig({data:[
+fetchSizeConfig.setConfig({data:[
     { text: 'Islam Attrash', value: 1},
     { text: 'Shai Reznik', value: 2},
     { text: 'Uri Shaked', value: 3},
@@ -107,16 +148,16 @@ test2.setConfig({data:[
             </div>
         </div>
         <div class="test-box">
-            <h3>Example 3 (maxHeight):</h3>
-            <div id="test3"></div>
+            <h3>maxHeight:</h3>
+            <div id="maxHeight-config"></div>
             <div class="test-pre">
               <pre>
 // Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
 // with passing the "maxHeight" configuration to determine what maxHeight the scrollable area will be.
 // Pay attention to the differences between this example and the example above.
 
-var test3 = new InfiniteAutocomplete(
-    document.getElementById('test3'),
+var maxHeightConfig = new InfiniteAutocomplete(
+    document.getElementById('maxHeight-config'),
     {
       maxHeight: "300px",
       data:[
@@ -149,16 +190,16 @@ var test3 = new InfiniteAutocomplete(
             </div>
         </div>
         <div class="test-box">
-            <h3>Example 4 (onSelect handler):</h3>
-            <div id="test4"></div>
+            <h3>onSelect handler:</h3>
+            <div id="onSelect-config"></div>
             <div class="test-pre">
               <pre>
 // Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
 // with passing the "onSelect" configuration to determine a callback function to be called when selecting a value.
 // Type and Select some values and see Console for results
 
-var test4 = new InfiniteAutocomplete(
-    document.getElementById('test4'),
+var onSelectConfig = new InfiniteAutocomplete(
+    document.getElementById('onSelect-config'),
     {
       onSelect: function(targetElement, selectedOption) {
         console.log("selectedOption", selectedOption);
@@ -193,16 +234,16 @@ var test4 = new InfiniteAutocomplete(
             </div>
         </div>
         <div class="test-box">
-            <h3>Example 5 (dynamic data source):</h3>
+            <h3>Dynamic data source (getDataFromApi):</h3>
             <h4 style="color: #d8400e;">Run "node server.js" in "Examples" folder to see results.</h4>
-            <div id="test5"></div>
+            <div id="getDataFromApi-config"></div>
             <div class="test-pre">
               <pre>
 // Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
 // with passing the "getDataFromApi" configuration to fetch dynamic data from Server EndPoint.
 
-var test5 = new InfiniteAutocomplete(
-  document.getElementById('test5'),
+var getDataFromApiConfig = new InfiniteAutocomplete(
+  document.getElementById('getDataFromApi-config'),
   {
     onSelect: function(targetElement, selectedOption) {
       console.log("selectedOption", selectedOption);
@@ -225,15 +266,15 @@ var test5 = new InfiniteAutocomplete(
           </div>
         </div>
         <div class="test-box">
-          <h3>Example 6 (onError handler):</h3>
-          <div id="test6"></div>
+          <h3>onError handler (& promise rejections):</h3>
+          <div id="onError-config"></div>
           <div class="test-pre">
             <pre>
 // Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
 // with passing the "getDataFromApi" configuration to fetch dynamic data from Server EndPoint.
 
-var test6 = new InfiniteAutocomplete(
-document.getElementById('test6'),
+var onErrorConfig = new InfiniteAutocomplete(
+document.getElementById('onError-config'),
 {
   onError: function(error) {
     alert(error.message);
@@ -249,16 +290,16 @@ document.getElementById('test6'),
         </div>
       </div>
       <div class="test-box">
-        <h3>Example 7 (onLoadingStateChange handler):</h3>
+        <h3>onLoadingStateChange handler:</h3>
         <h4 style="color: #d8400e;">Loading duration: 3 seconds.</h4>
-        <div id="test7"></div>
+        <div id="onLoadingStateChange-config"></div>
         <div class="test-pre">
           <pre>
 // Creating InfiniteAutocomplete instance by passing the Root Element in the first argument
 // with passing the "getDataFromApi" configuration to fetch dynamic data from Server EndPoint.
 
-var test7 = new InfiniteAutocomplete(
-document.getElementById('test7'),
+var onLoadingStateChangeConfig = new InfiniteAutocomplete(
+document.getElementById('onLoadingStateChange-config'),
 {
   onLoadingStateChange: function(loadingState) {
     alert("loading state: " + loadingState + ".");
@@ -372,8 +413,38 @@ function destroy() {
         <script src="../../dist/index.debug.js"></script>
         <script>
 
-            var test1 = new InfiniteAutocomplete(
-                document.getElementById('test1'),
+          var valueConfig = new InfiniteAutocomplete(
+                document.getElementById('value-config'),
+                {
+                  value: "Salsabel Eawissat",
+                data: [
+                { text: 'Islam Attrash', value: 1},
+                { text: 'Shai Reznik', value: 2},
+                { text: 'Uri Shaked', value: 3},
+                { text: 'Salsabel Eawissat', value: 4},
+                { text: 'Mohammed Attrash', value: 5},
+                { text: 'Mike Brocole', value: 6},
+                { text: 'John Stewart', value: 7},
+                { text: 'Stone Cold', value: 8},
+                { text: 'Triple H', value: 9},
+                { text: 'Sting The Stinger', value: 10},
+                { text: 'Superman', value: 11},
+                { text: 'Batman', value: 12},
+                { text: 'The Joker', value: '13'},
+                { text: 'Vanilla Icecream', value: '14'},
+                { text: 'Stephane macmahon', value: '15'},
+                { text: 'infinite autocomplete', value: '16'},
+                { text: 'Barak Obama', value: null},
+                { text: 'Bill Goldberg', value: 17},
+                { text: 'Inishtanispfl', value: 'whooo? whoo?'},
+                { text: 'Saloma', value: [1,2,3]},
+                { text: 'Yosra Eawissat', value: {object: true}},
+                { text: 'Medium Articles', value: 'what'}
+            ]}
+            );
+
+            var dataConfig = new InfiniteAutocomplete(
+                document.getElementById('data-config'),
                 {data: [
                 { text: 'Islam Attrash', value: 1},
                 { text: 'Shai Reznik', value: 2},
@@ -400,14 +471,14 @@ function destroy() {
             ]}
             );
 
-            var test2 = new InfiniteAutocomplete(
-                document.getElementById('test2'),
+            var fetchSizeConfig = new InfiniteAutocomplete(
+                document.getElementById('fetchSize-config'),
                 {
                   fetchSize: 3
                 }
             );
 
-            test2.setConfig({data:[
+            fetchSizeConfig.setConfig({data:[
                 { text: 'Islam Attrash', value: 1},
                 { text: 'Shai Reznik', value: 2},
                 { text: 'Uri Shaked', value: 3},
@@ -432,8 +503,8 @@ function destroy() {
                 { text: 'Medium Articles', value: 'what'}
             ]});
 
-              var test3 = new InfiniteAutocomplete(
-                document.getElementById('test3'),
+              var maxHeightConfig = new InfiniteAutocomplete(
+                document.getElementById('maxHeight-config'),
                 {
                   maxHeight: "300px",
                   data:[
@@ -463,8 +534,8 @@ function destroy() {
                 }
             );
 
-            var test4 = new InfiniteAutocomplete(
-              document.getElementById('test4'),
+            var onSelectConfig = new InfiniteAutocomplete(
+              document.getElementById('onSelect-config'),
               {
                 onSelect: function(targetElement, selectedOption) {
                   console.log("selectedOption", selectedOption);
@@ -496,8 +567,8 @@ function destroy() {
               }
           );
 
-            var test5 = new InfiniteAutocomplete(
-              document.getElementById('test5'),
+            var getDataFromApiConfig = new InfiniteAutocomplete(
+              document.getElementById('getDataFromApi-config'),
               {
                 onSelect: function(targetElement, selectedOption) {
                   console.log("selectedOption", selectedOption);
@@ -520,8 +591,8 @@ function destroy() {
               }
             );
 
-            var test6 = new InfiniteAutocomplete(
-              document.getElementById('test6'),
+            var onErrorConfig = new InfiniteAutocomplete(
+              document.getElementById('onError-config'),
               {
                 onError: function(error) {
                   alert(error.message);
@@ -533,8 +604,8 @@ function destroy() {
                 }
               });
 
-            var test7 = new InfiniteAutocomplete(
-              document.getElementById('test7'),
+            var onLoadingStateChangeConfig = new InfiniteAutocomplete(
+              document.getElementById('onLoadingStateChange-config'),
               {
                 onLoadingStateChange: function(loadingState) {
                   alert("loading state: " + loadingState + ".");
