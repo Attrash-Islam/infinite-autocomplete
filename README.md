@@ -10,6 +10,7 @@ Ease of use, flexable and written with TypeScript following the SOLID principles
 # Popular Frameworks Wrappers
 - <a href="https://github.com/Attrash-Islam/ng-infinite-autocomplete">ng-infinite-autocomplete (AngularJS 1.x)</a>
 - <a href="https://github.com/Attrash-Islam/react-infinite-autocomplete">react-infinite-autocomplete</a>
+- <a href="https://github.com/Attrash-Islam/vue-infinite-autocomplete">vue-infinite-autocomplete</a>
 
 # Live Demo (Default Style)
 
