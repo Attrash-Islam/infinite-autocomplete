@@ -362,6 +362,8 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
     optionsWrapperEle.innerHTML = this.optionsComponent.render();
     let optionsEle = optionsWrapperEle.querySelector(this.optionsComponent.listElementSelector) as HTMLElement;
     this.setElementVisiblity(optionsWrapperEle, false);
+    optionsEle.style.transform = "translateZ(0)";
+    optionsEle.style.webkitTransform = "translateZ(0)";
     optionsEle.style.overflow = `scroll`;
     optionsEle.style.overflowX = `hidden`;
     optionsEle.style.border = `1px solid #bcbcbc`;

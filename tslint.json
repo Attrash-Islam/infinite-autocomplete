@@ -11,6 +11,7 @@
     "no-unused-expression": false,
     "newline-before-return": true,
     "no-duplicate-imports": true,
+    "member-ordering": false,
     "no-require-imports": true,
     "prefer-for-of": false,
     "arrow-return-shorthand": [true, "multiline"],

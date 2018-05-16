@@ -38,7 +38,7 @@ export interface InfiniteAutocompleteConfig {
   /**
    * on-select event output handler when choosing an option
    */
-  onSelect?(selectedElement: EventTarget, selectedData: IOption);
+  onSelect?(selectedElement: EventTarget | null, selectedData: IOption);
   /**
    * on-error event output handler when exception thrown
    */
