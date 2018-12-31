@@ -16,7 +16,8 @@
     "prefer-for-of": false,
     "arrow-return-shorthand": [true, "multiline"],
     "arrow-parens": [true, "ban-single-arg-parens"],
-    "indent": [true, "spaces", 2]
+    "indent": [true, "spaces", 2],
+    "max-line-length": [ false ]
   },
   "defaultSeverity": "error"
 }
