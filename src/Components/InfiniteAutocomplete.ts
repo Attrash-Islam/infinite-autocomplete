@@ -217,6 +217,10 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
       inputEle.value = this.config.value;
     }
 
+    let spinnerEle = document.createElement(`div`);
+    spinnerEle.className = `infinite-autocomplete-spinner`;
+    inputWrapperEle.appendChild(spinnerEle);
+
     this.element.appendChild(inputWrapperEle);
   }
 
@@ -425,6 +429,22 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
               height: 28px;
               border-radius: 8px;
               box-shadow: inset 0px 0px 15px -4px transparent;
+          }
+           .infinite-autocomplete-input-wrapper .infinite-autocomplete-spinner {
+              height: 35px;
+              width: 35px;
+              border-radius: 8px;
+              box-shadow: inset 0px 0px 15px -4px transparent;
+              position: absolute;
+              display: inline-block;
+              top: -3px;
+              right: 0;
+              background-size: 100%;
+              display: none;
+              background-image: url("data:image/svg+xml;charset=utf8,%3Csvg class='lds-spinner' width='200px' height='200px' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 100 100' preserveAspectRatio='xMidYMid' style='background: none;'%3E%3Cg transform='rotate(0 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.9166666666666666s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(30 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.8333333333333334s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(60 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.75s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(90 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.6666666666666666s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(120 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.5833333333333334s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(150 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.5s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(180 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.4166666666666667s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(210 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.3333333333333333s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(240 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.25s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(270 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.16666666666666666s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(300 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='-0.08333333333333333s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3Cg transform='rotate(330 50 50)'%3E%3Crect x='47' y='24' rx='9.4' ry='4.8' width='6' height='12' fill='%231d1b0a'%3E%3Canimate attributeName='opacity' values='1;0' keyTimes='0;1' dur='1s' begin='0s' repeatCount='indefinite'%3E%3C/animate%3E%3C/rect%3E%3C/g%3E%3C/svg%3E");
+          }
+          .infinite-autocomplete-input-wrapper .infinite-autocomplete-spinner.loading {
+            display: inline-block;
           }
           .infinite-autocomplete-options-wrapper .infinite-autocomplete-default-options {
               list-style-type: none;
@@ -652,7 +672,15 @@ export class InfiniteAutocomplete implements IInfiniteAutocomplete {
       this.config.onLoadingStateChange(loadingState);
     }
     this.localFetchingData = loadingState;
+    this.toggleLoadingState(loadingState);
   }
+
+    private toggleLoadingState(loadingState: boolean) {
+        let element =
+            this.element.querySelector(`.infinite-autocomplete-spinner`) as HTMLElement;
+        (loadingState) ?
+            element.classList.add("loading") : element.classList.remove("loading");
+    }
 
   /**
    * Get data based on text, page and fetchSize
