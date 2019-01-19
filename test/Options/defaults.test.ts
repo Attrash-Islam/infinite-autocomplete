@@ -56,16 +56,33 @@ describe(`Options Default implementation: `, () => {
             // Type `f` letter
             TestUtils.typeLetter(input, "f");
             await TestUtils.sleep(0);
-            expect(
-              config.onLoadingStateChange,
-            ).not.toHaveBeenCalledWith(false);
+            const spinnerEle = infinite.querySelector(".infinite-autocomplete-spinner");
+
+            if (spinnerEle) {
+                expect(
+                    spinnerEle.className,
+                ).toContain("loading");
+            } else {
+                expect(true).toBe(false, "Can't find the spinner HTMLElement");
+            }
+
             expect(
               config.onLoadingStateChange,
             ).toHaveBeenCalledWith(true);
+
             await TestUtils.sleep(delay + 1000);
             expect(
               config.onLoadingStateChange,
             ).toHaveBeenCalledWith(false);
+
+            if (spinnerEle) {
+                expect(
+                    spinnerEle.className,
+                ).not.toContain("loading");
+            } else {
+                expect(true).toBe(false, "Can't find the spinner HTMLElement");
+            }
+
             done();
         });
 
