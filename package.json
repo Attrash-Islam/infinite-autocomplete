@@ -7,9 +7,13 @@
     "start": "parcel index.html --open",
     "build": "rimraf dist && parcel build src/index.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.11"
+  },
   "devDependencies": {
     "@babel/core": "7.2.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.15.1",
     "parcel-bundler": "^1.6.1",
     "rimraf": "^2.6.3"
   }
