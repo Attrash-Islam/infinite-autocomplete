@@ -1,0 +1,22 @@
+.infinite-autocomplete-wrapper {
+  position: relative;
+
+  input {
+    height: 28px;
+    border-radius: 8px;
+    width: 100%;
+    text-indent: 3px;
+  }
+
+  ul {
+    display: none;
+    position: absolute;
+    z-index: 1;
+  }
+
+  i.loader {
+    display: none;
+    position: absolute;
+    z-index: 1;
+  }
+}

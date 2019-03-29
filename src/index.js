@@ -1,9 +1,38 @@
-import "./styles.css";
+import { curry, flow, get, debounce } from 'lodash/fp';
+import template from './template';
+import './template/style.scss';
+import { setInnerHTML, setInputValue, setInputChangeHandler, wrapValueInFn } from './utils';
+import onInputChange from './onInputChange';
+import { DEFAULT_FETCH_SIZE } from './constants';
 
-document.getElementById("app").innerHTML = `
-<h1>Hello Vanilla!</h1>
-<div>
-  We use Parcel to bundle this sandbox, you can find more info about Parcel
-  <a href="https://parceljs.org" target="_blank" rel="noopener noreferrer">here</a>.
-</div>
-`;
+const InfiniteAutocomplete = curry((options, containerEle) => {
+
+    let state = {
+        count: get('fetchSize', options) || DEFAULT_FETCH_SIZE,
+        page: 1,
+        data: wrapValueInFn(get('data', options))
+    };
+
+    const setState = (newStateSlice) => {
+        state = {...state, ...newStateSlice};
+    }
+
+    const pipe = flow([
+        template,
+        setInnerHTML(containerEle),
+        setInputValue(
+            get('value', options)
+        ),
+        setInputChangeHandler(
+            debounce(250, onInputChange({ state, setState}))
+        )
+    ]);
+
+    pipe();
+});
+
+export default InfiniteAutocomplete;
+
+InfiniteAutocomplete({
+    value: 'test'
+}, document.getElementById('app'));
