@@ -1,5 +1,5 @@
 
-const template = () => `
+const optionsTemplate = () => `
     <div class="infinite-autocomplete-wrapper">
         <input type="text"></input>
         <i class="loader"></i>
@@ -7,4 +7,4 @@ const template = () => `
     </div>
 `;
 
-export default template;
+export default optionsTemplate;

@@ -14,6 +14,7 @@ export const setInputValue = curry((value, containerEle) => {
 export const setInputChangeHandler = curry((handler, inputEle) => {
     inputEle.addEventListener('input', handler);
     inputEle.addEventListener('click', handler);
+    return inputEle;
 });
 
 export const wrapValueInFn = (value) => {
