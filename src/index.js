@@ -1,14 +1,14 @@
 import { curry, flow, get, debounce } from 'lodash/fp';
-import mainTemplate from './templates/main';
-import './template/style.scss';
-import { setInnerHTML, setInputValue, setInputChangeHandler, wrapValueInFn } from './utils';
+import mainTemplate from './templates/mainTemplate';
+import './templates/style.scss';
+import { setInnerHTML, setInputValue, setInputChangeHandler, wrapValueInFn, buildOptions } from './utils';
 import onInputChange from './onInputChange';
 import { DEFAULT_FETCH_SIZE, DEFAULT_DATA } from './constants';
 
 const InfiniteAutocomplete = curry((options, containerEle) => {
 
     let state = {
-        count: get('fetchSize', options) || DEFAULT_FETCH_SIZE,
+        fetchSize: get('fetchSize', options) || DEFAULT_FETCH_SIZE,
         page: 1,
         data: wrapValueInFn(get('data', options) || DEFAULT_DATA)
     };
@@ -16,7 +16,9 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
     const getState = () => state;
 
     const setState = (newStateSlice) => {
+        const oldState = state;
         state = { ...state, ...newStateSlice };
+        buildOptions(oldState, state, containerEle);
     }
 
     const pipe = flow([

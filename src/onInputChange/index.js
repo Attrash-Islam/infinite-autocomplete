@@ -1,4 +1,4 @@
-import { curry, filter, flow, get, lowerCase, eq } from 'lodash/fp';
+import { curry, filter, flow, get, lowerCase, includes } from 'lodash/fp';
 
 const onInputChange = curry(({ getState, setState }, { target }) => {
     const { value: inputText } = target;
@@ -21,7 +21,7 @@ const onInputChange = curry(({ getState, setState }, { target }) => {
             flow([
                 get('text'),
                 lowerCase,
-                eq(lowerCase(inputText))
+                includes(lowerCase(inputText))
             ]),
             dataReturn
         ).slice(from, to);

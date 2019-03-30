@@ -1,4 +1,5 @@
-import { curry, isFunction, constant } from 'lodash/fp';
+import { curry, isFunction, constant, get, flow, includes } from 'lodash/fp';
+import optionsTemplate from '../templates/optionsTemplate';
 
 export const setInnerHTML = curry((containerEle, htmlTemplate) => {
     containerEle.innerHTML = htmlTemplate;
@@ -23,6 +24,21 @@ export const wrapValueInFn = (value) => {
     }
 
     return value;
+}
+
+export const buildOptions = (oldState, state, containerEle) => {
+    const optionsGetter = get('options');
+    if (optionsGetter(oldState) === optionsGetter(state)) { return; }
+
+    const ulEle = containerEle.querySelector('ul');
+    ulEle.innerHTML = flow([
+        optionsGetter,
+        optionsTemplate
+    ])(state);
+
+    ulEle.innerHTML ?
+        ulEle.style.display = '' :
+        ulEle.style.display = 'none';
 }
 
 export const log = (value) => {

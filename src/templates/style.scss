@@ -9,9 +9,26 @@
   }
 
   ul {
-    display: none;
     position: absolute;
-    z-index: 1;
+    z-index: 10;
+    overflow: hidden scroll;
+    border: 1px solid rgb(188, 188, 188);
+    padding-bottom: 5px;
+    max-height: 160px;
+    list-style-type: none;
+    margin-top: 0;
+    padding-left: 0;
+    margin-bottom: 0;
+    transform: translateY(5px) translateZ(0px);
+
+    li {
+      padding: 5px 10px 10px 10px;
+      cursor: pointer;
+
+      &:hover {
+        background: #d5ebff;
+      }
+    }
   }
 
   i.loader {
