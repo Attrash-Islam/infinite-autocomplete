@@ -1,4 +1,4 @@
-import { curry, isFunction, constant, get, flow, includes } from 'lodash/fp';
+import { curry, isFunction, constant, get, flow } from 'lodash/fp';
 import optionsTemplate from '../templates/optionsTemplate';
 
 export const setInnerHTML = curry((containerEle, htmlTemplate) => {
@@ -14,9 +14,14 @@ export const setInputValue = curry((value, containerEle) => {
 
 export const setInputChangeHandler = curry((handler, inputEle) => {
     inputEle.addEventListener('input', handler);
-    inputEle.addEventListener('click', handler);
+    // inputEle.addEventListener('click', handler);
     return inputEle;
 });
+
+export const setOptionClickHandler = (handler, containerEle) => {
+    const ulEle = containerEle.querySelector('ul');
+    ulEle.addEventListener('click', handler);
+};
 
 export const wrapValueInFn = (value) => {
     if (!isFunction(value)) {
@@ -25,6 +30,16 @@ export const wrapValueInFn = (value) => {
 
     return value;
 }
+
+export const getDomElementAttr = curry((attr, ele) => {
+    ele.getAttribute(attr);
+});
+
+export const updateInputText = (oldState, state, containerEle) => {
+    const valueGetter = get('value');
+    if (valueGetter(oldState) === valueGetter(state)) { return; }
+    setInputValue(valueGetter(state), containerEle);
+};
 
 export const buildOptions = (oldState, state, containerEle) => {
     const optionsGetter = get('options');
@@ -37,8 +52,8 @@ export const buildOptions = (oldState, state, containerEle) => {
     ])(state);
 
     ulEle.innerHTML ?
-        ulEle.style.display = '' :
-        ulEle.style.display = 'none';
+        ulEle.classList.remove('hidden') :
+        ulEle.classList.add('hidden');
 }
 
 export const log = (value) => {

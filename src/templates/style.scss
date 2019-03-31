@@ -21,6 +21,10 @@
     margin-bottom: 0;
     transform: translateY(5px) translateZ(0px);
 
+    &.hidden {
+      display: none;
+    }
+
     li {
       padding: 5px 10px 10px 10px;
       cursor: pointer;
