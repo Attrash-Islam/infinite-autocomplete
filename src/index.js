@@ -7,11 +7,13 @@ import {
     wrapValueInFn,
     buildOptions,
     setOptionClickHandler,
-    updateInputText
+    updateInputText,
+    setDocumentClickHandler
 } from './utils';
 import onInputChange from './onInputChange';
 import { DEFAULT_FETCH_SIZE, DEFAULT_DATA, noop } from './constants';
 import onOptionClick from './onOptionClick';
+import onDocumentClick from './onDocumentClick';
 
 const InfiniteAutocomplete = curry((options, containerEle) => {
 
@@ -28,12 +30,14 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
 
     const inputChangeHandler = debounce(200, onInputChange({ getState, setState }));
     const optionClickHandler = onOptionClick({ getState, setState });
+    const onDocumentClickHandler = onDocumentClick(containerEle, { getState, setState });
 
     const pipe = flow([
         mainTemplate,
         setInnerHTML(containerEle),
         setInputChangeHandler(inputChangeHandler),
-        setOptionClickHandler.bind(null, optionClickHandler, containerEle)
+        setOptionClickHandler.bind(null, optionClickHandler, containerEle),
+        setDocumentClickHandler.bind(null, onDocumentClickHandler)
     ]);
 
     pipe();
@@ -44,14 +48,14 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
         fetchSize: get('fetchSize', options) || DEFAULT_FETCH_SIZE,
         onSelect: get('onSelect', options) || noop,
         page: 1,
-        data: wrapValueInFn(get('data', options) || DEFAULT_DATA)
+        data: wrapValueInFn(get('data', options) || DEFAULT_DATA),
+        options: []
     });
 
     const destory = () => {
-        containerEle.querySelector('input')
-            .removeEventListener('input', inputChangeHandler);
-        containerEle.querySelector('ul')
-            .removeEventListener('click', onOptionClick);
+        containerEle.querySelector('input').removeEventListener('input', inputChangeHandler);
+        containerEle.querySelector('ul').removeEventListener('click', optionClickHandler);
+        document.removeEventListener('click', onDocumentClickHandler);
     };
 
     return {

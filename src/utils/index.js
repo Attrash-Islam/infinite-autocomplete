@@ -23,6 +23,10 @@ export const setOptionClickHandler = (handler, containerEle) => {
     ulEle.addEventListener('click', handler);
 };
 
+export const setDocumentClickHandler = (handler) => {
+    document.addEventListener('click', handler);
+};
+
 export const wrapValueInFn = (value) => {
     if (!isFunction(value)) {
         return constant(value);
