@@ -1,5 +1,4 @@
-<a><img src='https://travis-ci.org/Attrash-Islam/infinite-autocomplete.svg?branch=master' /></a>     <a href='https://coveralls.io/github/Attrash-Islam/infinite-autocomplete'><img src='https://coveralls.io/repos/github/Attrash-Islam/infinite-autocomplete/badge.svg' alt='Coverage Status' /></a>
-
+<a><img src='https://travis-ci.org/Attrash-Islam/infinite-autocomplete.svg?branch=master' /></a>
 
 ### infinite-autocomplete [CORE]
 The infinite-autocomplete component is like all these autocomplete out there, except that he is "Infinite" - which means that scrolling will fetch more data
