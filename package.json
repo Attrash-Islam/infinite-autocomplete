@@ -1,11 +1,13 @@
 {
-  "name": "parcel-sandbox",
-  "version": "1.0.0",
+  "name": "infinite-autocomplete",
+  "version": "4.0.0",
   "description": "Simple Parcel Sandbox",
   "main": "dist/index.js",
   "scripts": {
     "start": "parcel index.html --open",
-    "build": "rimraf dist && parcel build src/index.js"
+    "build": "rimraf dist && parcel build src/index.js",
+    "lint": "eslint src/",
+    "prepublish": "npm run lint && npm run build"
   },
   "dependencies": {
     "lodash": "^4.17.11"
