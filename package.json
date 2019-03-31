@@ -1,7 +1,7 @@
 {
   "name": "infinite-autocomplete",
   "version": "4.0.0",
-  "description": "Simple Parcel Sandbox",
+  "description": "infinite-autocomplete",
   "main": "dist/index.js",
   "scripts": {
     "start": "parcel index.html --open",
