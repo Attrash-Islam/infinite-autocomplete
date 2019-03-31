@@ -1,4 +1,4 @@
-import { isNil, curry } from 'lodash/fp';
+import { isNil, curry, isNumber } from 'lodash/fp';
 import { getDomElementAttr } from '../utils';
 
 const onOptionClick = curry(({ getState, setState }, { target }) => {
@@ -12,7 +12,7 @@ const onOptionClick = curry(({ getState, setState }, { target }) => {
 
     const { onSelect } = getState();
     onSelect({
-        id: optionId,
+        id: isNumber(optionId) ? parseInt(optionId, 10) : optionId,
         text
     });
 
