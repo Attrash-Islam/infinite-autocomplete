@@ -15,6 +15,8 @@ const onOptionClick = curry(({ getState, setState }, { target }) => {
         id: optionId,
         text
     });
+
+    setState({ options: [] });
 });
 
 export default onOptionClick;

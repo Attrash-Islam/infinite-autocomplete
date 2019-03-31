@@ -31,9 +31,7 @@ export const wrapValueInFn = (value) => {
     return value;
 }
 
-export const getDomElementAttr = curry((attr, ele) => {
-    ele.getAttribute(attr);
-});
+export const getDomElementAttr = curry((attr, ele) => ele.getAttribute(attr));
 
 export const updateInputText = (oldState, state, containerEle) => {
     const valueGetter = get('value');

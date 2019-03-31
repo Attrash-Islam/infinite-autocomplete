@@ -50,7 +50,7 @@ The options object will be exposed when initializing the infinite-autocomplete c
 
 ```js
 interface IOption {
-    id: number;
+    id: number | string;
     text: string;
 }
 
