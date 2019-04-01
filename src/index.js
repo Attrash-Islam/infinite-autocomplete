@@ -19,17 +19,26 @@ import onDocumentClick from './onDocumentClick';
 import onOptionsReachedBottom from './onOptionsReachedBottom';
 
 const InfiniteAutocomplete = curry((options, containerEle) => {
-
     let state = {};
     let handlers = [];
 
     const getState = () => state;
 
+    const templateCreationPipeline = flow([
+        mainTemplate,
+        setInnerHTML(containerEle),
+    ]);
+
+    templateCreationPipeline();
+
+    const inputEle = containerEle.querySelector('input');
+    const ulEle = containerEle.querySelector('ul');
+
     const setState = (newStateSlice) => {
         const oldState = state;
         state = { ...state, ...newStateSlice };
-        buildOptions(oldState, state, containerEle);
-        updateInputText(oldState, state, containerEle);
+        buildOptions(oldState, state, ulEle);
+        updateInputText(oldState, state, inputEle);
     }
 
     const inputChangeHandler = debounce(200, onInputChange({ getState, setState }));
@@ -37,20 +46,18 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
     const optionsScrollHandler = onOptionsReachedBottom(containerEle, { getState, setState });
     const onDocumentClickHandler = onDocumentClick(containerEle, { getState, setState });
 
-    const pipe = flow([
-        mainTemplate,
-        setInnerHTML(containerEle),
-        setInputChangeHandler(inputChangeHandler),
+    const eventsPipeline = flow([
+        setInputChangeHandler(inputChangeHandler, inputEle),
         pushToHandlers(handlers),
-        setOptionClickHandler.bind(null, optionClickHandler, containerEle),
+        setOptionClickHandler(optionClickHandler, ulEle),
         pushToHandlers(handlers),
-        setDocumentClickHandler.bind(null, onDocumentClickHandler),
+        setDocumentClickHandler(onDocumentClickHandler),
         pushToHandlers(handlers),
-        setOptionsScrollHandler.bind(null, optionsScrollHandler, containerEle),
+        setOptionsScrollHandler(optionsScrollHandler, ulEle),
         pushToHandlers(handlers)
     ]);
 
-    pipe();
+    eventsPipeline();
 
     // set initial state
     setState({

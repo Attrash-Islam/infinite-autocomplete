@@ -3,25 +3,22 @@ import optionsTemplate from '../templates/optionsTemplate';
 
 export const setInnerHTML = curry((containerEle, htmlTemplate) => {
     containerEle.innerHTML = htmlTemplate;
-    return containerEle;
 });
 
-export const setInputValue = curry((value, containerEle) => {
-    const inputEle = containerEle.querySelector('input');
+export const setInputValue = curry((value, inputEle) => {
     inputEle.value = value;
     return inputEle;
 });
 
-export const setInputChangeHandler = curry((handler, inputEle) => {
+export const setInputChangeHandler = (handler, inputEle) => () => {
     inputEle.addEventListener('input', handler);
 
     return () => {
         inputEle.removeEventListener('input', handler);
     }
-});
+};
 
-const setOptionEventHandler = curry((event, handler, containerEle) => {
-    const ulEle = containerEle.querySelector('ul');
+const setOptionEventHandler = curry((event, handler, ulEle) => () => {
     ulEle.addEventListener(event, handler);
 
     return () => {
@@ -33,7 +30,7 @@ export const setOptionClickHandler = setOptionEventHandler('click');
 
 export const setOptionsScrollHandler = setOptionEventHandler('scroll');
 
-export const setDocumentClickHandler = (handler) => {
+export const setDocumentClickHandler = (handler) => () => {
     document.addEventListener('click', handler);
 
     return () => {
@@ -55,17 +52,16 @@ export const wrapValueInFn = (value) => {
 
 export const getDomElementAttr = curry((attr, ele) => ele.getAttribute(attr));
 
-export const updateInputText = (oldState, state, containerEle) => {
+export const updateInputText = (oldState, state, inputEle) => {
     const valueGetter = get('value');
     if (valueGetter(oldState) === valueGetter(state)) { return; }
-    setInputValue(valueGetter(state), containerEle);
+    setInputValue(valueGetter(state), inputEle);
 };
 
-export const buildOptions = (oldState, state, containerEle) => {
+export const buildOptions = (oldState, state, ulEle) => {
     const optionsGetter = get('options');
     if (optionsGetter(oldState) === optionsGetter(state)) { return; }
 
-    const ulEle = containerEle.querySelector('ul');
     ulEle.innerHTML = flow([
         optionsGetter,
         optionsTemplate
