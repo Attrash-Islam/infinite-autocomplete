@@ -1,4 +1,4 @@
-import { curry, flow, get, debounce, each } from 'lodash/fp';
+import { curry, flow, get, debounce, each, throttle } from 'lodash/fp';
 import mainTemplate from './templates/mainTemplate';
 import './templates/style.scss';
 import {
@@ -44,7 +44,7 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
     const debouncedInputChangeHandler = debounce(200, onInputChange({ getState, setState }));
     const inputChangeHandler = ({ target }) => setState({ value: target.value });
     const optionClickHandler = onOptionClick({ getState, setState });
-    const optionsScrollHandler = onOptionsReachedBottom(ulEle, { getState, setState });
+    const optionsScrollHandler = throttle(200, onOptionsReachedBottom({ getState, setState }));
     const onDocumentClickHandler = onDocumentClick(containerEle, { getState, setState });
 
     const eventsPipeline = flow([

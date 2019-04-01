@@ -2,7 +2,7 @@ import { isNil, curry, isNumber } from 'lodash/fp';
 import { getDomElementAttr } from '../utils';
 
 const onOptionClick = curry(({ getState, setState }, { target }) => {
-    const optionIdGetter = getDomElementAttr('data-option-id');
+    const optionIdGetter = getDomElementAttr('data-id');
     const optionId = optionIdGetter(target);
 
     if (isNil(optionId)) { return; }
