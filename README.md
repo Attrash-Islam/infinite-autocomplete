@@ -24,25 +24,51 @@ npm i -S infinite-autocomplete
 import InfiniteAutocomplete from 'infinite-autocomplete';
 
 // Static data source
-new InfiniteAutocomplete({
+InfiniteAutocomplete({
     data: [
         { text: 'Islam Attrash', value: 1},
         { text: 'Shai Reznik', value: 2},
         { text: 'Uri Shaked', value: 3},
         { text: 'Salsabel Eawissat', value: 4}
     ]
-}, document.getElementById('test'));
+}, document.getElementById('app'));
 
 // Dynamic data source
-new InfiniteAutocomplete({
+InfiniteAutocomplete({
+    value: 'test',
     data: (text, page, fetchSize) => {
-        return new Promise((resolve, reject) => {
-            setTimeout(() => {
-                resolve([ ..... ]);
-            }, 500);
-        })
+        return new Promise(function(resolve) {
+            function reqListener () {
+                resolve(JSON.parse(this.responseText));
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", reqListener);
+            oReq.open("GET", "http://localhost:5000/data?text="+ text + "&page=" + page + "&fetchSize=" + fetchSize);
+            oReq.onerror = function () {
+              // alert('Error!');
+            };
+            oReq.send();
+        });
     }
-}, document.getElementById('test'));
+}, document.getElementById('app'));
+```
+
+InfiniteAutocomplete function is also a curried function! which means that we can set a specific configuration and render the autocomplete with these configurations for multiple DOM nodes!
+
+```js
+const citiesInfinite = InfiniteAutocomplete({
+    data: () => new Promise((resolve) => {
+        ...
+        resolve(cities);
+    })
+});
+
+// Some page
+citiesInfinite(DOM1);
+
+// Another page
+citiesInfinite(DOM2);
 ```
 
 # Options
