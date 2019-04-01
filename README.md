@@ -1,6 +1,6 @@
 <a><img src='https://travis-ci.org/Attrash-Islam/infinite-autocomplete.svg?branch=master' /></a>
 
-### infinite-autocomplete [CORE]
+### infinite-autocomplete
 The infinite-autocomplete component is like all these autocomplete out there, except that he is "Infinite" - which means that scrolling will fetch more data
 
 Ease of use, written totally in Pure Functional Programming mindset! 
@@ -48,26 +48,30 @@ new InfiniteAutocomplete({
 # Options
 The options object will be exposed when initializing the infinite-autocomplete component as the first argument.
 
-```js
+```ts
 interface IOption {
     id: number | string;
     text: string;
 }
+```
 
-/**
- * current value
- */
-value?: string;
-/**
- * data source
- */
-data?: IOption[] | (inputText: string, fetchSize: number, page: number) => Promise<IOption[]>;
-/**
- * Chunk fetch size
- */
-fetchSize?: number,
-/**
- * on-select event output handler when choosing an option
- */
-onSelect?({ id: number, text: string});
+```js
+{
+    /**
+     * current value
+     */
+    value?: string;
+    /**
+     * data source
+     */
+    data?: IOption[] | (inputText: string, fetchSize: number, page: number) => Promise<IOption[]>;
+    /**
+     * Chunk fetch size
+     */
+    fetchSize?: number,
+    /**
+     * on-select event output handler when choosing an option
+     */
+    onSelect?(IOption);
+}
 ```
