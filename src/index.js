@@ -72,13 +72,13 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
         options: []
     });
 
-    const destory = () => {
+    const destroy = () => {
         each((h) => h(), handlers);
         containerEle.innerHTML = '';
     };
 
     return {
-        destory
+        destroy
     };
 });
 
