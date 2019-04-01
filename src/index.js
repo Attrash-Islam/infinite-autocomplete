@@ -9,12 +9,14 @@ import {
     setOptionClickHandler,
     updateInputText,
     setDocumentClickHandler,
-    pushToHandlers
+    pushToHandlers,
+    setOptionsScrollHandler
 } from './utils';
 import onInputChange from './onInputChange';
 import { DEFAULT_FETCH_SIZE, DEFAULT_DATA, noop } from './constants';
 import onOptionClick from './onOptionClick';
 import onDocumentClick from './onDocumentClick';
+import onOptionsReachedBottom from './onOptionsReachedBottom';
 
 const InfiniteAutocomplete = curry((options, containerEle) => {
 
@@ -32,6 +34,7 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
 
     const inputChangeHandler = debounce(200, onInputChange({ getState, setState }));
     const optionClickHandler = onOptionClick({ getState, setState });
+    const optionsScrollHandler = onOptionsReachedBottom(containerEle, { getState, setState });
     const onDocumentClickHandler = onDocumentClick(containerEle, { getState, setState });
 
     const pipe = flow([
@@ -42,6 +45,8 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
         setOptionClickHandler.bind(null, optionClickHandler, containerEle),
         pushToHandlers(handlers),
         setDocumentClickHandler.bind(null, onDocumentClickHandler),
+        pushToHandlers(handlers),
+        setOptionsScrollHandler.bind(null, optionsScrollHandler, containerEle),
         pushToHandlers(handlers)
     ]);
 
@@ -71,13 +76,19 @@ export default InfiniteAutocomplete;
 
 InfiniteAutocomplete({
     value: 'test',
-    data: () => new Promise((resolve) => {
-        setTimeout(() => resolve([
-        { text: 'Islam Attrash', id: 1},
-        { text: 'Shai Reznik', id: 2},
-        { text: 'Uri Shaked', id: 3},
-        { text: 'Salsabel Eawissat', id: 4},
-        { text: 'test', id: 5}
-    ]), 2000)
-    })
+    data: (text, page, fetchSize) => {
+        return new Promise(function(resolve) {
+            function reqListener () {
+                resolve(JSON.parse(this.responseText));
+            }
+
+            var oReq = new XMLHttpRequest();
+            oReq.addEventListener("load", reqListener);
+            oReq.open("GET", "http://localhost:5000/data?text="+ text + "&page=" + page + "&fetchSize=" + fetchSize);
+            oReq.onerror = function () {
+              alert('Error!');
+            };
+            oReq.send();
+        });
+    }
 }, document.getElementById('app'));

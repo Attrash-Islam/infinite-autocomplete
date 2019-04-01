@@ -16,7 +16,7 @@ const onOptionClick = curry(({ getState, setState }, { target }) => {
         text
     });
 
-    setState({ options: [] });
+    setState({ options: [], dismissed: true });
 });
 
 export default onOptionClick;

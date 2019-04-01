@@ -20,14 +20,18 @@ export const setInputChangeHandler = curry((handler, inputEle) => {
     }
 });
 
-export const setOptionClickHandler = (handler, containerEle) => {
+const setOptionEventHandler = curry((event, handler, containerEle) => {
     const ulEle = containerEle.querySelector('ul');
-    ulEle.addEventListener('click', handler);
+    ulEle.addEventListener(event, handler);
 
     return () => {
-        ulEle.removeEventListener('click', handler);
+        ulEle.removeEventListener(event, handler);
     }
-};
+});
+
+export const setOptionClickHandler = setOptionEventHandler('click');
+
+export const setOptionsScrollHandler = setOptionEventHandler('scroll');
 
 export const setDocumentClickHandler = (handler) => {
     document.addEventListener('click', handler);

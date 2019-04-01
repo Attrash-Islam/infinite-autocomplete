@@ -6,7 +6,7 @@ const onInputChange = curry(({ getState, setState }, { target }) => {
     
     const { page, fetchSize, data } = getState();
 
-    const dataReturn = data(inputText, fetchSize, page);
+    const dataReturn = data(inputText, page, fetchSize);
     if (dataReturn instanceof Promise) {
         dataReturn.then((options) => {
             const { dismissed } = getState();
