@@ -41,13 +41,16 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
         updateInputText(oldState, state, inputEle);
     }
 
-    const inputChangeHandler = debounce(200, onInputChange({ getState, setState }));
+    const debouncedInputChangeHandler = debounce(200, onInputChange({ getState, setState }));
+    const inputChangeHandler = ({ target }) => setState({ value: target.value });
     const optionClickHandler = onOptionClick({ getState, setState });
-    const optionsScrollHandler = onOptionsReachedBottom(containerEle, { getState, setState });
+    const optionsScrollHandler = onOptionsReachedBottom(ulEle, { getState, setState });
     const onDocumentClickHandler = onDocumentClick(containerEle, { getState, setState });
 
     const eventsPipeline = flow([
         setInputChangeHandler(inputChangeHandler, inputEle),
+        pushToHandlers(handlers),
+        setInputChangeHandler(debouncedInputChangeHandler, inputEle),
         pushToHandlers(handlers),
         setOptionClickHandler(optionClickHandler, ulEle),
         pushToHandlers(handlers),

@@ -6,7 +6,10 @@ export const setInnerHTML = curry((containerEle, htmlTemplate) => {
 });
 
 export const setInputValue = curry((value, inputEle) => {
-    inputEle.value = value;
+    if (inputEle.value !== value) {
+        inputEle.value = value;
+    }
+
     return inputEle;
 });
 

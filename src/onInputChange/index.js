@@ -1,16 +1,19 @@
-import { curry, filter, flow, get, lowerCase, includes } from 'lodash/fp';
+import { filter, flow, get, lowerCase, includes, pick, matches } from 'lodash/fp';
 
-const onInputChange = curry(({ getState, setState }, { target }) => {
-    const { value: inputText } = target;
+const propsSnapshot = ['page', 'fetchSize', 'value', 'dismissed'];
+
+// Debounced function
+const onInputChange = ({ getState, setState }) => () => {
     setState({ page: 1, dismissed: false });
-    
-    const { page, fetchSize, data } = getState();
+    const { page, fetchSize, data, value: inputText } = getState();
+    const preStateSnapshot = pick(propsSnapshot, getState());
 
     const dataReturn = data(inputText, page, fetchSize);
+
     if (dataReturn instanceof Promise) {
         dataReturn.then((options) => {
-            const { dismissed } = getState();
-            if (target.value === inputText && !dismissed) {
+            const postStateSnapshot = pick(propsSnapshot, getState());
+            if (matches(postStateSnapshot, preStateSnapshot)) {
                 setState({ options });
             }
         });
@@ -29,6 +32,6 @@ const onInputChange = curry(({ getState, setState }, { target }) => {
 
         setState({ options });
     }
-});
+};
 
 export default onInputChange;
