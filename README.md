@@ -30,7 +30,10 @@ InfiniteAutocomplete({
         { text: 'Shai Reznik', value: 2},
         { text: 'Uri Shaked', value: 3},
         { text: 'Salsabel Eawissat', value: 4}
-    ]
+    ],
+    onSelect: ({ id, text }) => {
+        // do something useful!
+    }
 }, document.getElementById('app'));
 
 // Dynamic data source
