@@ -93,7 +93,7 @@ citiesInfinite(DOM2);
 }
 ```
 
-Where IOption stands for =>
+Where `IOption` stands for =>
 ```ts
 interface IOption {
     id: number | string;
