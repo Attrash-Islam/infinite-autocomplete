@@ -35,7 +35,7 @@ InfiniteAutocomplete({
 
 // Dynamic data source
 InfiniteAutocomplete({
-    value: 'test',
+    value: 'test', // input initial value
     data: (text, page, fetchSize) => {
         return new Promise(function(resolve) {
             function reqListener () {
@@ -54,7 +54,7 @@ InfiniteAutocomplete({
 }, document.getElementById('app'));
 ```
 
-InfiniteAutocomplete function is also a curried function! which means that we can set a specific configuration and render the autocomplete with these configurations for multiple DOM nodes!
+**InfiniteAutocomplete** function is also a curried function! which means that we can set a specific configuration and render the autocomplete with these configurations for multiple DOM nodes!
 
 ```js
 const citiesInfinite = InfiniteAutocomplete({
