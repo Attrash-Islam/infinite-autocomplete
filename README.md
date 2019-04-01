@@ -19,7 +19,7 @@ Ease of use, written totally in Pure Functional Programming mindset!
 npm i -S infinite-autocomplete
 ```
 
-# Basic Usage (Minimum Configuration)
+# Usage
 ```js
 import InfiniteAutocomplete from 'infinite-autocomplete';
 
@@ -72,15 +72,6 @@ citiesInfinite(DOM2);
 ```
 
 # Options
-The options object will be exposed when initializing the infinite-autocomplete component as the first argument.
-
-```ts
-interface IOption {
-    id: number | string;
-    text: string;
-}
-```
-
 ```js
 {
     /**
@@ -99,5 +90,13 @@ interface IOption {
      * on-select event output handler when choosing an option
      */
     onSelect?(IOption);
+}
+```
+
+Where IOption stands for =>
+```ts
+interface IOption {
+    id: number | string;
+    text: string;
 }
 ```
