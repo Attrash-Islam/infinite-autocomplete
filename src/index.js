@@ -1,4 +1,4 @@
-import { curry, flow, get, debounce } from 'lodash/fp';
+import { curry, flow, get, debounce, each } from 'lodash/fp';
 import mainTemplate from './templates/mainTemplate';
 import './templates/style.scss';
 import {
@@ -8,7 +8,8 @@ import {
     buildOptions,
     setOptionClickHandler,
     updateInputText,
-    setDocumentClickHandler
+    setDocumentClickHandler,
+    pushToHandlers
 } from './utils';
 import onInputChange from './onInputChange';
 import { DEFAULT_FETCH_SIZE, DEFAULT_DATA, noop } from './constants';
@@ -18,6 +19,7 @@ import onDocumentClick from './onDocumentClick';
 const InfiniteAutocomplete = curry((options, containerEle) => {
 
     let state = {};
+    let handlers = [];
 
     const getState = () => state;
 
@@ -36,8 +38,11 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
         mainTemplate,
         setInnerHTML(containerEle),
         setInputChangeHandler(inputChangeHandler),
+        pushToHandlers(handlers),
         setOptionClickHandler.bind(null, optionClickHandler, containerEle),
-        setDocumentClickHandler.bind(null, onDocumentClickHandler)
+        pushToHandlers(handlers),
+        setDocumentClickHandler.bind(null, onDocumentClickHandler),
+        pushToHandlers(handlers)
     ]);
 
     pipe();
@@ -53,9 +58,8 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
     });
 
     const destory = () => {
-        containerEle.querySelector('input').removeEventListener('input', inputChangeHandler);
-        containerEle.querySelector('ul').removeEventListener('click', optionClickHandler);
-        document.removeEventListener('click', onDocumentClickHandler);
+        each((h) => h(), handlers);
+        containerEle.innerHTML = '';
     };
 
     return {

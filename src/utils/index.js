@@ -14,18 +14,32 @@ export const setInputValue = curry((value, containerEle) => {
 
 export const setInputChangeHandler = curry((handler, inputEle) => {
     inputEle.addEventListener('input', handler);
-    // inputEle.addEventListener('click', handler);
-    return inputEle;
+
+    return () => {
+        inputEle.removeEventListener('input', handler);
+    }
 });
 
 export const setOptionClickHandler = (handler, containerEle) => {
     const ulEle = containerEle.querySelector('ul');
     ulEle.addEventListener('click', handler);
+
+    return () => {
+        ulEle.removeEventListener('click', handler);
+    }
 };
 
 export const setDocumentClickHandler = (handler) => {
     document.addEventListener('click', handler);
+
+    return () => {
+        document.removeEventListener('click', handler);
+    }
 };
+
+export const pushToHandlers = curry((handlers, handler) => {
+    handlers.push(handler);
+});
 
 export const wrapValueInFn = (value) => {
     if (!isFunction(value)) {
