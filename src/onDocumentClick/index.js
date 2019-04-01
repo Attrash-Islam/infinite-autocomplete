@@ -13,7 +13,7 @@ const checkIfClickedOutSideContainer = (containerEle, element) => {
 const onDocumentClick = curry((containerEle, { getState, setState }, { target }) => {
     const { options } = getState();
     if (options.length && checkIfClickedOutSideContainer(containerEle, target)) {
-        setState({ options: [] });
+        setState({ options: [], dismissed: true });
     }
 });
 

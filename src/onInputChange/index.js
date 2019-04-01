@@ -2,14 +2,15 @@ import { curry, filter, flow, get, lowerCase, includes } from 'lodash/fp';
 
 const onInputChange = curry(({ getState, setState }, { target }) => {
     const { value: inputText } = target;
-    setState({ page: 1 });
+    setState({ page: 1, dismissed: false });
     
     const { page, fetchSize, data } = getState();
 
     const dataReturn = data(inputText, fetchSize, page);
     if (dataReturn instanceof Promise) {
         dataReturn.then((options) => {
-            if (target.value === inputText) {
+            const { dismissed } = getState();
+            if (target.value === inputText && !dismissed) {
                 setState({ options });
             }
         });

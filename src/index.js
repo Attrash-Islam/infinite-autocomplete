@@ -67,11 +67,13 @@ export default InfiniteAutocomplete;
 
 InfiniteAutocomplete({
     value: 'test',
-    data: [
+    data: () => new Promise((resolve) => {
+        setTimeout(() => resolve([
         { text: 'Islam Attrash', id: 1},
         { text: 'Shai Reznik', id: 2},
         { text: 'Uri Shaked', id: 3},
         { text: 'Salsabel Eawissat', id: 4},
         { text: 'test', id: 5}
-    ]
+    ]), 2000)
+    })
 }, document.getElementById('app'));
