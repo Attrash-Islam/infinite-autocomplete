@@ -60,10 +60,13 @@ const citiesInfinite = InfiniteAutocomplete({
 });
 
 // Some page
-citiesInfinite(DOM1);
+const firstCities = citiesInfinite(DOM1);
 
 // Another page
 citiesInfinite(DOM2);
+
+// You can destroy the component by calling destroy
+firstCities.destroy();
 ```
 
 # Options
