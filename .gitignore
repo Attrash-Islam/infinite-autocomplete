@@ -1,4 +1,4 @@
+dist
+.cache
 node_modules
-.history
-coverage
-npm-debug.log
+.DS_Store

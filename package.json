@@ -1,69 +1,29 @@
 {
   "name": "infinite-autocomplete",
-  "version": "3.2.2",
-  "description": "lightweight-infinite-autocomplete",
-  "main": "./index.js",
+  "version": "4.0.0",
+  "description": "infinite-autocomplete",
+  "main": "dist/index.js",
   "scripts": {
-    "clean": "rimraf ./dist",
-    "build": "npm run clean && npm run build:umd && npm run build:umd:debug",
-    "watch": "npm run clean && npm run build:watch",
-    "build:watch": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.debug.js --output-library-target=\"umd\" --watch",
-    "build:umd": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.js --output-library-target=\"umd\" --config webpack.production.config.js",
-    "build:umd:debug": "webpack ./src/Components/InfiniteAutocomplete.ts ./dist/index.debug.js --output-library-target=\"umd\"",
-    "prepublish": "npm run validate-build",
-    "validate-build": "npm run tslint && npm run build && npm run test",
-    "test": "karma start karma.conf.js",
-    "test:watch": "karma start karma.conf.js --single-run false",
-    "tslint": "tslint --fix -c tslint.json 'src/**/*.ts' 'test/**/*.ts'"
+    "start": "parcel storybook/story.html --open",
+    "stub": "node storybook/server.js",
+    "build": "rimraf dist && parcel build src/index.js --target node --bundle-node-modules --global InfiniteAutocomplete",
+    "lint": "eslint src/",
+    "prepublish": "npm run lint && npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Attrash-Islam/infinite-autocomplete.git"
-  },
-  "files": [
-    "dist/",
-    "infinite-autocomplete.d.ts"
-  ],
-  "typings": "infinite-autocomplete.d.ts",
-  "keywords": [
-    "infinite-autocomplete",
-    "autocomplete",
-    "input",
-    "web",
-    "component",
-    "select",
-    "infinite autocomplete",
-    "typescript"
-  ],
-  "author": "Islam Attrash",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Attrash-Islam/infinite-autocomplete/issues"
-  },
-  "homepage": "https://github.com/Attrash-Islam/infinite-autocomplete#readme",
+  "dependencies": {},
   "devDependencies": {
-    "@types/jasmine": "2.5.40",
-    "coveralls": "2.11.15",
-    "es6-promise": "4.2.4",
-    "ghooks": "2.0.2",
-    "istanbul-instrumenter-loader": "1.2.0",
-    "jasmine-core": "2.5.2",
-    "karma": "1.3.0",
-    "karma-coverage": "1.1.1",
-    "karma-jasmine": "1.1.0",
-    "karma-phantomjs-launcher": "1.0.2",
-    "karma-source-map-support": "1.2.0",
-    "karma-webpack": "2.0.1",
-    "rimraf": "2.5.4",
-    "ts-loader": "3.1.1",
-    "tslint": "5.9.1",
-    "typescript": "2.5.3",
-    "uglifyjs-webpack-plugin": "1.0.1",
-    "webpack": "2.6.1"
+    "@babel/core": "7.2.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.15.1",
+    "express": "^4.16.4",
+    "ghooks": "^2.0.4",
+    "lodash": "^4.17.11",
+    "parcel-bundler": "^1.6.1",
+    "rimraf": "^2.6.3"
   },
   "config": {
     "ghooks": {
-      "pre-commit": "npm run validate-build"
+      "pre-commit": "npm run prepublish"
     }
   }
 }

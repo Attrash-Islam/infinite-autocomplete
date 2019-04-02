@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Infinite Autocompelete Storybook</title>
+	<meta charset="UTF-8" />
+	<style>
+		body {
+			display: flex;
+			align-items: center;
+			flex-direction: column;
+			justify-content: space-between;
+			height: 50vh;
+		}
+
+		section {
+			width: 100%;
+		}
+
+		section > div {
+			width: 100%;
+		}
+
+		section > button {
+			width: 15%;
+		}
+	</style>
+</head>
+
+<body>
+	<section>
+		<div id="app"></div>
+		<button type="button" onclick="appInfi.destroy()">Destroy</button>
+	</section>
+	<section>
+		<div id="app2"></div>
+		<button type="button" onclick="appInfi2.destroy()">Destroy</button>
+	</section>
+	<script src="./index.js"></script>
+</body>
+
+</html>
