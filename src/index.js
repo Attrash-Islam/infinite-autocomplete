@@ -81,7 +81,7 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
     };
 
     return {
-        setState,
+        __unsafeSetState: setState,
         destroy
     };
 });
