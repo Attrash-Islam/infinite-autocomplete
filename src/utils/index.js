@@ -1,5 +1,6 @@
 import { curry, isFunction, constant, get, flow } from 'lodash/fp';
 import optionsTemplate from '../templates/optionsTemplate';
+import { STYLES_ID } from '../constants';
 
 export const setInnerHTML = curry((containerEle, htmlTemplate) => {
     containerEle.innerHTML = htmlTemplate;
@@ -12,6 +13,16 @@ export const setInputValue = curry((value, inputEle) => {
 
     return inputEle;
 });
+
+export const applyStyles = (styles) => {
+    const isMainWrapperStyleApplied = document.head.querySelector(`#${STYLES_ID}`);
+    if (!isMainWrapperStyleApplied) {
+      const mainWrapperStyle = document.createElement('style');
+      mainWrapperStyle.id = STYLES_ID;
+      mainWrapperStyle.innerHTML = styles;
+      document.head.appendChild(mainWrapperStyle);
+    }
+};
 
 export const setInputChangeHandler = (handler, inputEle) => () => {
     inputEle.addEventListener('input', handler);

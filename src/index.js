@@ -1,6 +1,6 @@
 import { curry, flow, get, debounce, each, throttle } from 'lodash/fp';
 import mainTemplate from './templates/mainTemplate';
-import './templates/style.scss';
+import styles from './templates/styles';
 import {
     setInnerHTML,
     setInputChangeHandler,
@@ -10,7 +10,8 @@ import {
     updateInputText,
     setDocumentClickHandler,
     pushToHandlers,
-    setOptionsScrollHandler
+    setOptionsScrollHandler,
+    applyStyles
 } from './utils';
 import onInputChange from './onInputChange';
 import { DEFAULT_FETCH_SIZE, DEFAULT_DATA, noop } from './constants';
@@ -23,6 +24,8 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
     let handlers = [];
 
     const getState = () => state;
+
+    applyStyles(styles);
 
     const templateCreationPipeline = flow([
         mainTemplate,
