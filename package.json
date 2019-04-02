@@ -1,6 +1,6 @@
 {
   "name": "infinite-autocomplete",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "infinite-autocomplete",
   "main": "dist/index.js",
   "scripts": {
