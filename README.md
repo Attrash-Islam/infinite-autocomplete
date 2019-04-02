@@ -41,17 +41,9 @@ InfiniteAutocomplete({
     value: 'test', // input initial value
     data: (text, page, fetchSize) => {
         return new Promise(function(resolve) {
-            function reqListener () {
-                resolve(JSON.parse(this.responseText));
-            }
-
-            var oReq = new XMLHttpRequest();
-            oReq.addEventListener("load", reqListener);
-            oReq.open("GET", "http://localhost:5000/data?text="+ text + "&page=" + page + "&fetchSize=" + fetchSize);
-            oReq.onerror = function () {
-              // alert('Error!');
-            };
-            oReq.send();
+            fetch(`http://localhost:5000/data?text=${text}&page=${page}&fetchSize=${fetchSize}`)
+            .then((response) => response.json())
+            .then((options) => resolve(options))
         });
     }
 }, document.getElementById('app'));
