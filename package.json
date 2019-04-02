@@ -4,16 +4,15 @@
   "description": "infinite-autocomplete",
   "main": "dist/index.js",
   "scripts": {
-    "start": "parcel story/index.html --open",
-    "stub": "node story/server.js",
-    "build": "rimraf dist && parcel build src/index.js",
+    "start": "parcel storybook/story.html --open",
+    "stub": "node storybook/server.js",
+    "build": "rimraf dist && parcel build src/index.js --target node --bundle-node-modules --global InfiniteAutocomplete",
     "lint": "eslint src/",
     "prepublish": "npm run lint && npm run build"
   },
-  "dependencies": {
-    "lodash": "^4.17.11"
-  },
+  "dependencies": {},
   "devDependencies": {
+    "lodash": "^4.17.11",
     "@babel/core": "7.2.0",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.15.1",

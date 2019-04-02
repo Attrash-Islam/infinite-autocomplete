@@ -22,6 +22,7 @@ npm i -S infinite-autocomplete
 # Usage
 ```js
 import InfiniteAutocomplete from 'infinite-autocomplete';
+import 'infinite-autocomplete/dist/index.css';
 
 // Static data source
 InfiniteAutocomplete({
