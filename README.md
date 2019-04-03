@@ -65,6 +65,9 @@ const firstCities = citiesInfinite(DOM1);
 // Another page
 citiesInfinite(DOM2);
 
+// You can update the options by passing the new slice into setState
+firstCities.setState({ fetchSize: 15 });
+
 // You can destroy the component by calling destroy
 firstCities.destroy();
 ```

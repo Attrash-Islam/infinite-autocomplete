@@ -1,4 +1,4 @@
-import { curry, flow, get, debounce, each, throttle } from 'lodash/fp';
+import { curry, flow, get, debounce, each, throttle, pick } from 'lodash/fp';
 import mainTemplate from './templates/mainTemplate';
 import styles from './templates/styles';
 import {
@@ -81,7 +81,10 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
     };
 
     return {
-        __unsafeSetState: setState,
+        setState: flow([
+            pick(['value', 'fetchSize', 'onSelect', 'data']),
+            setState
+        ]),
         destroy
     };
 });
