@@ -4,7 +4,6 @@ import styles from './templates/styles';
 import {
     setInnerHTML,
     setInputChangeHandler,
-    wrapValueInFn,
     buildOptions,
     setOptionClickHandler,
     updateInputText,
@@ -71,7 +70,7 @@ const InfiniteAutocomplete = curry((options, containerEle) => {
         fetchSize: get('fetchSize', options) || DEFAULT_FETCH_SIZE,
         onSelect: get('onSelect', options) || noop,
         page: 1,
-        data: wrapValueInFn(get('data', options) || DEFAULT_DATA),
+        data: get('data', options) || DEFAULT_DATA,
         options: []
     });
 
