@@ -1,4 +1,5 @@
 import { filter, flow, get, lowerCase, includes, pick, matches, concat } from 'lodash/fp';
+import { wrapValueInFn } from '../utils';
 
 const propsSnapshot = ['page', 'fetchSize', 'value', 'dismissed'];
 
@@ -7,7 +8,7 @@ const fetchData = ({ getState, setState }) => {
     const preStateSnapshot = pick(propsSnapshot, getState());
 
     setState({ isLoading: true });
-    const dataReturn = data(inputText, page, fetchSize);
+    const dataReturn = wrapValueInFn(data)(inputText, page, fetchSize);
 
     if (dataReturn instanceof Promise) {
         dataReturn.then((options) => {
